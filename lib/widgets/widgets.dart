@@ -109,7 +109,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             : Container(),
       ],
       elevation: 0,
-      toolbarHeight: 70,
+      toolbarHeight: 100,
       centerTitle: true,
       backgroundColor: Colors.black87,
       title: Text(
@@ -223,109 +223,4 @@ class _CalenderWidgetState extends State<CalenderWidget> {
 
 String? mainDescriptionText;
 
-class DescriptionInputWidget extends StatefulWidget {
-  const DescriptionInputWidget({
-    super.key,
-    required this.size,
-    required this.descriptionText,
-  });
-  final String descriptionText;
-
-  final Size size;
-
-  @override
-  State<DescriptionInputWidget> createState() => _DescriptionInputWidgetState();
-}
-
-class _DescriptionInputWidgetState extends State<DescriptionInputWidget> {
-  @override
-  void initState() {
-    setState(() {
-      mainDescriptionText = widget.descriptionText;
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.size.width - 30,
-      child: TextFormField(
-        initialValue: mainDescriptionText,
-        onChanged: (value) {
-          setState(() {
-            mainDescriptionText = value;
-          });
-        },
-        maxLines: 3,
-        style: const TextStyle(color: Colors.white),
-        cursorColor: Colors.white,
-        decoration: InputDecoration(
-          hintStyle: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w300,
-          ),
-          hintText: 'description',
-          prefixText: '  ',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 String? mainTitleText;
-
-class TitleInputWidget extends StatefulWidget {
-  const TitleInputWidget({
-    super.key,
-    required this.size,
-    required this.titleText,
-  });
-
-  final String titleText;
-  final Size size;
-
-  @override
-  State<TitleInputWidget> createState() => _TitleInputWidgetState();
-}
-
-class _TitleInputWidgetState extends State<TitleInputWidget> {
-  @override
-  void initState() {
-    setState(() {
-      mainTitleText = widget.titleText;
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.size.width - 30,
-      child: TextFormField(
-        initialValue: mainTitleText,
-        onChanged: (value) {
-          setState(() {
-            mainTitleText = value;
-          });
-        },
-        style: const TextStyle(color: Colors.white),
-        cursorColor: Colors.white,
-        decoration: InputDecoration(
-          hintStyle: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w300,
-          ),
-          hintText: 'title',
-          prefixText: '  ',
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-      ),
-    );
-  }
-}

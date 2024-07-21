@@ -1,4 +1,8 @@
+import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({
@@ -41,75 +45,114 @@ class DrawerWidget extends StatelessWidget {
             ),
           ),
           const Divider(
-            indent: 10,
-            endIndent: 10,
+            indent: 20,
+            endIndent: 20,
           ),
           ListTile(
+            visualDensity: const VisualDensity(vertical: -2),
             onTap: () {},
             leading: const Icon(
-              Icons.circle,
-              color: Colors.red,
+              Icons.bar_chart_rounded,
+              color: Colors.black,
               size: 30,
             ),
-            title: const Text('title'),
+            title: const Text('Review Tasks'),
           ),
           ListTile(
+            visualDensity: const VisualDensity(vertical: -2),
             onTap: () {},
             leading: const Icon(
-              Icons.circle,
-              color: Colors.red,
+              Icons.beach_access_rounded,
+              color: Colors.black,
               size: 30,
             ),
-            title: const Text('title'),
+            title: const Text('Premium V.'),
           ),
           ListTile(
+            visualDensity: const VisualDensity(vertical: -2),
             onTap: () {},
             leading: const Icon(
-              Icons.circle,
-              color: Colors.red,
+              Icons.category_outlined,
+              color: Colors.black,
               size: 30,
             ),
-            title: const Text('title'),
+            title: const Text('Category Set'),
           ),
           ListTile(
+            visualDensity: const VisualDensity(vertical: -2),
             onTap: () {},
             leading: const Icon(
-              Icons.circle,
-              color: Colors.red,
+              Icons.cake_sharp,
+              color: Colors.black,
               size: 30,
             ),
-            title: const Text('title'),
+            title: const Text('Birthday Set'),
           ),
           ListTile(
+            visualDensity: const VisualDensity(vertical: -2),
             onTap: () {},
             leading: const Icon(
-              Icons.circle,
-              color: Colors.red,
+              Icons.coffee_rounded,
+              color: Colors.black,
               size: 30,
             ),
-            title: const Text('title'),
+            title: const Text('Buy me a Coffee'),
           ),
           ListTile(
-            onTap: () {},
+            visualDensity: const VisualDensity(vertical: -2),
+            onTap: () {
+              Get.to(() => SettingsScreen());
+            },
             leading: const Icon(
-              Icons.circle,
-              color: Colors.red,
+              Icons.settings,
+              color: Colors.black,
               size: 30,
             ),
-            title: const Text('title'),
+            title: const Text('Settings'),
           ),
-          const Spacer(),
           ListTile(
-            onTap: () {},
+            visualDensity: const VisualDensity(vertical: -2),
+            onTap: () async {
+              await Share.share('Check Out This App');
+            },
             leading: const Icon(
-              Icons.circle,
-              color: Colors.red,
+              Icons.person_add,
+              color: Colors.black,
               size: 30,
             ),
-            title: const Text('title'),
-          )
+            title: const Text('Invite Friends'),
+          ),
+          ListTile(
+            visualDensity: const VisualDensity(vertical: -2),
+            onTap: () {
+              _openUrl();
+            },
+            leading: const Icon(
+              Icons.bubble_chart_rounded,
+              color: Colors.black,
+              size: 30,
+            ),
+            title: const Text('Contact Us'),
+          ),
         ],
       ),
     );
+  }
+}
+
+Future<void> _openUrl() async {
+  final Uri params = Uri(
+    scheme: 'mailto',
+    path: 'unclegenson@gmail.com',
+    query:
+        'subject=App Feedback&body=App Version 1.0:\n\nThe problem is ', //add subject and body here
+  );
+
+  // var url = params.toString();
+
+  if (await canLaunchUrl(params)) {
+    await launchUrl(params);
+  } else {
+    Get.snackbar('error', 'error while emailing unclegenson@gmail.com');
   }
 }

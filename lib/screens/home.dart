@@ -1,6 +1,7 @@
 import 'package:daily_tasks_getx/screens/drawer_screen.dart';
+import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Home extends StatelessWidget {
@@ -9,6 +10,11 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      floatingActionButton: SizedBox(
+        height: 65,
+        width: 65,
+        child: FAB(),
+      ),
       drawer: SafeArea(
         child: DrawerWidget(),
       ),
@@ -18,69 +24,92 @@ class Home extends StatelessWidget {
         svgIcon: 'assets/ham3.svg',
         fontSize: 46,
       ),
+      body: HomeBody(),
     );
   }
 }
 
-class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarWidget({
+class HomeBody extends StatelessWidget {
+  const HomeBody({
     super.key,
-    required this.titleText,
-    required this.fontSize,
-    required this.svgIcon,
   });
-  final String titleText;
-  final double fontSize;
-  final String svgIcon;
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      systemOverlayStyle: const SystemUiOverlayStyle(
-        systemNavigationBarColor: Colors.black,
-        statusBarColor: Colors.black,
-      ),
-      titleSpacing: 10,
-      leading: Builder(
-        builder: (context) {
-          return InkWell(
-            onTap: () {
-              Scaffold.of(context).openDrawer();
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 0),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey[800],
+    return Center(
+      child: true
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  'assets/ast.svg',
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcATop),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset(
-                    svgIcon,
-                    colorFilter: const ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.srcATop,
+                const Text(
+                  'Add New Task!',
+                  style: TextStyle(color: Colors.white, fontSize: 30),
+                )
+              ],
+            )
+          : Padding(
+              padding: const EdgeInsets.only(top: 8, left: 16, right: 16),
+              child: CustomScrollView(
+                slivers: [
+                  SliverGrid(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        );
+                      },
+                      childCount: 10,
+                    ),
+                    gridDelegate: SliverQuiltedGridDelegate(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 7,
+                      crossAxisSpacing: 7,
+                      repeatPattern: QuiltedGridRepeatPattern.inverted,
+                      pattern: const [
+                        QuiltedGridTile(1, 1),
+                        QuiltedGridTile(1, 1),
+                        QuiltedGridTile(1, 2),
+                        QuiltedGridTile(2, 1),
+                        QuiltedGridTile(1, 1),
+                        QuiltedGridTile(1, 1),
+                      ],
                     ),
                   ),
-                ),
+                ],
               ),
             ),
-          );
-        },
-      ),
-      elevation: 0,
-      toolbarHeight: 70,
-      centerTitle: true,
-      backgroundColor: Colors.black87,
-      title: Text(
-        titleText,
-        style: TextStyle(
-            fontSize: fontSize, fontFamily: 'title', color: Colors.white),
+    );
+  }
+}
+
+class FAB extends StatelessWidget {
+  const FAB({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      shape: const CircleBorder(),
+      onPressed: () {},
+      backgroundColor: Colors.grey[800],
+      child: const SizedBox(
+        height: 35,
+        width: 35,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 30,
+        ),
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

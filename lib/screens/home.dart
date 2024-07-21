@@ -1,8 +1,10 @@
+import 'package:daily_tasks_getx/screens/add_task.dart';
 import 'package:daily_tasks_getx/screens/drawer_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -20,6 +22,8 @@ class Home extends StatelessWidget {
       ),
       backgroundColor: Colors.black87,
       appBar: AppBarWidget(
+        action: false,
+        back: false,
         titleText: "Daily Tasks",
         svgIcon: 'assets/ham3.svg',
         fontSize: 46,
@@ -99,7 +103,9 @@ class FAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       shape: const CircleBorder(),
-      onPressed: () {},
+      onPressed: () {
+        Get.to(() => AddTaskScreen());
+      },
       backgroundColor: Colors.grey[800],
       child: const SizedBox(
         height: 35,

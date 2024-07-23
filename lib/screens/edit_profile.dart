@@ -61,7 +61,7 @@ Future showOptions() async {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.indigo[400],
           ),
           child: const Text(
             'Photo Gallery',
@@ -82,7 +82,7 @@ Future showOptions() async {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.indigo[400],
           ),
           child: const Text(
             'Camera',
@@ -154,16 +154,16 @@ class EditProfileScreen extends StatelessWidget {
                   children: [
                     imageController == ''
                         ? CircleAvatar(
-                            backgroundColor: Colors.orange,
+                            backgroundColor: Colors.indigo[400],
                             radius: Get.width / 2 - 30,
                             child: Icon(
                               Icons.person,
-                              color: Colors.black,
+                              color: Colors.white,
                               size: Get.width / 2,
                             ),
                           )
                         : CircleAvatar(
-                            backgroundColor: Colors.orange,
+                            backgroundColor: Colors.indigo[400],
                             backgroundImage: FileImage(File(imageController)),
                             radius: Get.width / 2 - 30,
                           ),
@@ -246,7 +246,7 @@ class EditProfileScreen extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
+                    backgroundColor: Colors.indigo[400],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -278,7 +278,7 @@ Your profile data will be unreachable for others.'''),
                   },
                   child: const Text(
                     'Done',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+                    style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
               )

@@ -4,6 +4,7 @@
 // import 'package:daily_tasks/widgets/app_widgets.dart';
 import 'package:daily_tasks_getx/screens/edit_profile.dart';
 import 'package:daily_tasks_getx/screens/language_screen.dart';
+import 'package:daily_tasks_getx/screens/notifications_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -71,14 +72,7 @@ class SettingsScreen extends StatelessWidget {
             if (index == 1) {
               return GestureDetector(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) {
-                  //       return const NotificationsScreen();
-                  //     },
-                  //   ),
-                  // );
+                  Get.to(() => NotificationScreen());
                 },
                 child: Container(
                   width: Get.width / 2,
@@ -163,8 +157,9 @@ class SettingsScreen extends StatelessWidget {
                 onTap: () {
                   PanaraConfirmDialog.showAnimatedGrow(
                     context,
-                    title: 'deleteAllTasks',
-                    message: 'pressDeleteIf',
+                    title: 'Delete All Tasks',
+                    message:
+                        "Tap delete if you're sure you wanna delete all tasks",
                     confirmButtonText: 'delete',
                     cancelButtonText: 'cancel',
                     onTapCancel: () {

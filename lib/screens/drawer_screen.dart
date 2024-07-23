@@ -1,6 +1,7 @@
 import 'package:daily_tasks_getx/screens/add_birthdat_screen.dart';
 import 'package:daily_tasks_getx/screens/add_category.dart';
 import 'package:daily_tasks_getx/screens/go_premium.dart';
+import 'package:daily_tasks_getx/screens/review_tasks_screen.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -56,7 +57,9 @@ class DrawerWidget extends StatelessWidget {
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
-            onTap: () {},
+            onTap: () {
+              Get.to(() => ReviewScreen());
+            },
             leading: const Icon(
               Icons.bar_chart_rounded,
               color: Colors.black,

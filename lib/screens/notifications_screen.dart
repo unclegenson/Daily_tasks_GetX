@@ -2,7 +2,6 @@ import 'package:bottom_picker/bottom_picker.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

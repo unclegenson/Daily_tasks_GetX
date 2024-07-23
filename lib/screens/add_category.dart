@@ -2,7 +2,6 @@ import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 
 String? newCategory = '';
 TextEditingController con = TextEditingController();

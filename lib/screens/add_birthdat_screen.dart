@@ -1,14 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:math';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 
 Color? selectedColor2;
 

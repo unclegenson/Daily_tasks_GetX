@@ -1,3 +1,5 @@
+import 'package:daily_tasks_getx/screens/add_birthdat_screen.dart';
+import 'package:daily_tasks_getx/screens/add_category.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,33 +15,36 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Container(
-              height: 150,
-              width: 150,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.red,
-              ),
-            ),
-          ),
-          const SizedBox(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
               children: [
-                Column(
-                  children: [
-                    Text(
-                      'Name',
-                      style: TextStyle(fontSize: 20),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    height: 100,
+                    width: 100,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
                     ),
-                    Text(
-                      'Number',
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    'Uncle Gen Son',
+                    style: TextStyle(fontSize: 28, fontFamily: 'title'),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(
+                    '+98 910 063 9128',
+                    style: TextStyle(fontSize: 14),
+                  ),
                 ),
               ],
             ),
@@ -54,7 +59,6 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(
               Icons.bar_chart_rounded,
               color: Colors.black,
-              size: 30,
             ),
             title: const Text('Review Tasks'),
           ),
@@ -64,29 +68,30 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(
               Icons.beach_access_rounded,
               color: Colors.black,
-              size: 30,
             ),
             title: const Text('Premium V.'),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
-            onTap: () {},
+            onTap: () {
+              Get.to(() => AddCategoryScreen());
+            },
             leading: const Icon(
-              Icons.category_outlined,
+              Icons.category_rounded,
               color: Colors.black,
-              size: 30,
             ),
-            title: const Text('Category Set'),
+            title: const Text('Set Categories'),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
-            onTap: () {},
+            onTap: () {
+              Get.to(() => AddBirthdayScreen());
+            },
             leading: const Icon(
               Icons.cake_sharp,
               color: Colors.black,
-              size: 30,
             ),
-            title: const Text('Birthday Set'),
+            title: const Text('Set Birthdays'),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
@@ -94,7 +99,6 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(
               Icons.coffee_rounded,
               color: Colors.black,
-              size: 30,
             ),
             title: const Text('Buy me a Coffee'),
           ),
@@ -106,7 +110,6 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(
               Icons.settings,
               color: Colors.black,
-              size: 30,
             ),
             title: const Text('Settings'),
           ),
@@ -118,7 +121,6 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(
               Icons.person_add,
               color: Colors.black,
-              size: 30,
             ),
             title: const Text('Invite Friends'),
           ),
@@ -130,7 +132,6 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(
               Icons.bubble_chart_rounded,
               color: Colors.black,
-              size: 30,
             ),
             title: const Text('Contact Us'),
           ),

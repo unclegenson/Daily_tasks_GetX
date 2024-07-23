@@ -3,6 +3,7 @@
 // import 'package:daily_tasks/screens/notitfications.dart';
 // import 'package:daily_tasks/widgets/app_widgets.dart';
 import 'package:daily_tasks_getx/screens/edit_profile.dart';
+import 'package:daily_tasks_getx/screens/language_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -119,14 +120,7 @@ class SettingsScreen extends StatelessWidget {
             if (index == 2) {
               return GestureDetector(
                 onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) {
-                  //       return const LanguageScreen();
-                  //     },
-                  //   ),
-                  // );
+                  Get.to(() => LanguageScreen());
                 },
                 child: Container(
                   width: Get.width / 2,

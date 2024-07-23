@@ -19,9 +19,9 @@ void _openDialog(String title, Widget content) {
       onPressed: () {
         Get.back();
       },
-      child: Text(
+      child: const Text(
         'cancel',
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.black,
         ),
       ),
@@ -30,9 +30,9 @@ void _openDialog(String title, Widget content) {
       onPressed: () {
         Get.back();
       },
-      child: Text(
+      child: const Text(
         'sumbit',
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.black,
         ),
       ),
@@ -43,10 +43,12 @@ void _openDialog(String title, Widget content) {
 Future showOptions() async {
   // SharedPreferences premium = await SharedPreferences.getInstance();
   // if (premium.getBool('purchase')!) {
-  Get.showSnackbar(GetSnackBar(
-    message: 'youAreNotAPremiumContact',
-    duration: const Duration(milliseconds: 2500),
-  ));
+  Get.showSnackbar(
+    const GetSnackBar(
+      message: 'youAreNotAPremiumContact',
+      duration: Duration(milliseconds: 2500),
+    ),
+  );
   // } else {
   Get.defaultDialog(
     content: Row(
@@ -59,9 +61,9 @@ Future showOptions() async {
             ),
             backgroundColor: Colors.orange,
           ),
-          child: Text(
+          child: const Text(
             'gallery',
-            style: const TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black),
           ),
           onPressed: () {
             // close the options modal
@@ -80,9 +82,9 @@ Future showOptions() async {
             ),
             backgroundColor: Colors.orange,
           ),
-          child: Text(
+          child: const Text(
             'camera',
-            style: const TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black),
           ),
           onPressed: () {
             // close the options modal
@@ -109,7 +111,7 @@ Future getImageFromCamera() async {
 void _openColorPicker() async {
   _openDialog(
     'colorPicker',
-    MaterialColorPicker(
+    const MaterialColorPicker(
         // selectedColor: _shadeColor,
         // onColorChange: (color) => setState(() => selectedColor = color),
         ),
@@ -155,7 +157,7 @@ class AddTaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      appBar: AppBarWidget(
+      appBar: const AppBarWidget(
         action: true,
         back: true,
         titleText: "Add Task",
@@ -213,10 +215,10 @@ class AddTaskScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20),
                               ),
                             ),
-                            hint: Text(
+                            hint: const Text(
                               // anythingToShow && widget.note.voice == ''
                               true ? 'note category' : 'category',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w400,
                               ),

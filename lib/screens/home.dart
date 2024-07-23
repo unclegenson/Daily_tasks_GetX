@@ -41,7 +41,7 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: true
+      child: false
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -17,8 +17,8 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      appBar: AppBarWidget(
-        action: true,
+      appBar: const AppBarWidget(
+        action: false,
         back: true,
         titleText: "Settings",
         svgIcon: 'assets/back2.svg',

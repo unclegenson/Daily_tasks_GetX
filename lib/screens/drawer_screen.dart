@@ -17,7 +17,6 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -34,19 +33,25 @@ class DrawerWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    'Uncle Gen Son',
-                    style: TextStyle(fontSize: 28, fontFamily: 'title'),
-                  ),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Uncle Gen Son',
+                      style: TextStyle(fontSize: 28, fontFamily: 'title'),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Icon(
+                      Icons.star_rounded,
+                      color: Colors.amber,
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(
-                    '+98 910 063 9128',
-                    style: TextStyle(fontSize: 14),
-                  ),
+                const Text(
+                  '+98 910 063 9128',
+                  style: TextStyle(fontSize: 14),
                 ),
               ],
             ),
@@ -118,6 +123,10 @@ class DrawerWidget extends StatelessWidget {
               color: Colors.black,
             ),
             title: const Text('Settings'),
+          ),
+          const Divider(
+            indent: 20,
+            endIndent: 20,
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),

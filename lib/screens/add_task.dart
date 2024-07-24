@@ -1,6 +1,7 @@
-import 'dart:io';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:daily_tasks_getx/controllers/task_controllers.dart';
+import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
+import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,9 @@ import 'package:image_picker/image_picker.dart';
 int selectedTaskIndex = 0;
 List categoryItems = ['1', '2', '3'];
 final picker = ImagePicker();
+
+bool micOn = false;
+
 void _openDialog(String title, Widget content) {
   Get.defaultDialog(
     title: title,
@@ -157,10 +161,12 @@ class AddTaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      appBar: const AppBarWidget(
+      appBar: AppBarWidget(
         action: true,
         back: true,
-        titleText: "Add Task",
+        titleText: Get.find<TaskController>().isEditing.value
+            ? "Edit Task"
+            : "Add Task",
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
@@ -173,13 +179,14 @@ class AddTaskScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // !micOn
-                true
+                !micOn
                     ? Column(
                         children: [
                           SizedBox(
                             width: Get.width - 30,
                             child: TextFormField(
+                              controller:
+                                  Get.find<TextFieldController>().taskTitle,
                               initialValue: mainTitleText,
                               onChanged: (value) {
                                 // setState(() {
@@ -244,7 +251,6 @@ class AddTaskScreen extends StatelessWidget {
                               //   selectedCategory = value.toString();
                               // });
                             },
-                            onSaved: (value) {},
                             buttonStyleData: const ButtonStyleData(
                               padding: EdgeInsets.only(right: 8),
                             ),
@@ -272,6 +278,8 @@ class AddTaskScreen extends StatelessWidget {
                             width: Get.width - 30,
                             child: TextFormField(
                               initialValue: mainDescriptionText,
+                              controller:
+                                  Get.find<TextFieldController>().taskDesc,
                               onChanged: (value) {
                                 // setState(() {
                                 //   mainDescriptionText = value;
@@ -546,136 +554,48 @@ class AddTaskScreen extends StatelessWidget {
                   ],
                 ),
                 GestureDetector(
-                  onTap: () async {
-                    if (mainTitleText == '') {
-                      if (
-                          // pathOfVoice == '' && micOn
-                          true) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            duration: const Duration(milliseconds: 1500),
-                            behavior: SnackBarBehavior.fixed,
-                            content: Text('thereIsNoVoiceOrTitle'),
-                          ),
-                        );
-                      }
-                      if (
-                          // !micOn && mainDescriptionText == ''
-                          true) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            duration: const Duration(milliseconds: 1500),
-                            behavior: SnackBarBehavior.fixed,
-                            content: Text('thereIsNoTitleOrDescription'),
-                          ),
-                        );
-                      }
+                  onTap: () {
+                    if (Get.find<TaskController>().isEditing.value) {
+                      var task = Get.find<TaskController>()
+                          .tasks[Get.find<TaskController>().index.toInt()];
+
+                      task.title =
+                          Get.find<TextFieldController>().taskTitle!.text;
+
+                      task.description =
+                          Get.find<TextFieldController>().taskDesc!.text;
+
+                      Get.find<TaskController>()
+                              .tasks[Get.find<TaskController>().index.toInt()] =
+                          task;
                     } else {
-                      if (
-                          // anythingToShow
-                          false) {
-                        //   await Hive.box<Notes>('notesBox').putAt(
-                        //     int.parse(widget.note.id!),
-                        //     Notes(
-                        //       voice: pathOfVoice,
-                        //       image: imageString,
-                        //       category: selectedCategory,
-                        //       colorAlpha: selectedColor?.alpha,
-                        //       colorRed: selectedColor?.red,
-                        //       colorBlue: selectedColor?.blue,
-                        //       colorGreen: selectedColor?.green,
-                        //       day: time.day,
-                        //       description: mainDescriptionText,
-                        //       done: false,
-                        //       hour: time.hour,
-                        //       id: time.toString(),
-                        //       minute: time.minute,
-                        //       month: time.month,
-                        //       title: mainTitleText,
-                        //       weekDay: time.weekday,
-                        //       year: time.year,
-                        //     ),
-                        //   );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            duration: const Duration(milliseconds: 1500),
-                            behavior: SnackBarBehavior.fixed,
-                            content: Text('taskEdited'),
-                          ),
-                        );
-                      } else {
-                        // await Hive.box<Notes>('notesBox').add(
-                        //   Notes(
-                        //     voice: pathOfVoice,
-                        //     image: imageString,
-                        //     category: selectedCategory,
-                        //     colorAlpha: selectedColor?.alpha,
-                        //     colorRed: selectedColor?.red,
-                        //     colorBlue: selectedColor?.blue,
-                        //     colorGreen: selectedColor?.green,
-                        //     day: time.day,
-                        //     description: mainDescriptionText,
-                        //     done: false,
-                        //     hour: time.hour,
-                        //     id: time.toString(),
-                        //     minute: time.minute,
-                        //     month: time.month,
-                        //     title: mainTitleText,
-                        //     weekDay: time.weekday,
-                        //     year: time.year,
-                        //   ),
-                        // );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            duration: const Duration(milliseconds: 1500),
-                            behavior: SnackBarBehavior.fixed,
-                            content: Text('taskEditedSuccessfully'),
-                          ),
-                        );
-                        if (
-                            // imageString != ''
-                            true) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              duration: const Duration(milliseconds: 3500),
-                              behavior: SnackBarBehavior.fixed,
-                              content: Text(
-                                'longPressTo',
-                              ),
+                      Get.find<TaskController>().tasks.add(
+                            Tasks(
+                              category: '1',
+                              colorAlpha: 100,
+                              day: 1,
+                              description: Get.find<TextFieldController>()
+                                  .taskDesc!
+                                  .text,
+                              done: false,
+                              hour: 1,
+                              id: '1',
+                              minute: 1,
+                              month: 1,
+                              title: Get.find<TextFieldController>()
+                                  .taskDesc!
+                                  .text,
+                              weekDay: 1,
+                              year: 1,
+                              colorRed: 200,
+                              colorBlue: 100,
+                              colorGreen: 300,
+                              image: null,
+                              voice: 'voice',
                             ),
                           );
-                        }
-                      }
-
-                      Navigator.pop(context);
-                      //!send notif here ->
-                      AwesomeNotifications().createNotification(
-                        schedule: NotificationCalendar(
-                          day: time.day,
-                          hour: time.hour,
-                          minute: time.minute - 1,
-                          month: time.month,
-                          year: time.year,
-                        ),
-                        content: NotificationContent(
-                          category: NotificationCategory.Reminder,
-                          wakeUpScreen: true,
-                          color: Colors.orange,
-                          id: 10,
-                          channelKey: 'chanel',
-                          title: 'Daily Tasks', //add this to localization
-                          body:
-                              'time of $mainTitleText is now!', //add this to localization
-                        ),
-                      );
-                      //! -------------------
-                      // selectedCategory = '';
-                      // mainDescriptionText = '';
-                      // imageString = '';
-                      // mainTitleText = '';
-                      // _image = null;
-                      // pathOfVoice = '';
                     }
+                    Get.back();
                   },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 1500),
@@ -687,7 +607,9 @@ class AddTaskScreen extends StatelessWidget {
                     height: 60,
                     child: Center(
                       child: Text(
-                        true ? 'editTask' : 'createTask',
+                        Get.find<TaskController>().isEditing.value
+                            ? 'Edit Task'
+                            : 'Create Task',
                         style:
                             const TextStyle(color: Colors.black, fontSize: 20),
                       ),
@@ -702,3 +624,137 @@ class AddTaskScreen extends StatelessWidget {
     );
   }
 }
+
+
+// line 554 
+// onTap: () async {
+//                     if (mainTitleText == '') {
+//                       if (
+//                           // pathOfVoice == '' && micOn
+//                           true) {
+//                         ScaffoldMessenger.of(context).showSnackBar(
+//                           SnackBar(
+//                             duration: const Duration(milliseconds: 1500),
+//                             behavior: SnackBarBehavior.fixed,
+//                             content: Text('thereIsNoVoiceOrTitle'),
+//                           ),
+//                         );
+//                       }
+//                       if (
+//                           // !micOn && mainDescriptionText == ''
+//                           true) {
+//                         ScaffoldMessenger.of(context).showSnackBar(
+//                           SnackBar(
+//                             duration: const Duration(milliseconds: 1500),
+//                             behavior: SnackBarBehavior.fixed,
+//                             content: Text('thereIsNoTitleOrDescription'),
+//                           ),
+//                         );
+//                       }
+//                     } else {
+//                       if (
+//                           // anythingToShow
+//                           false) {
+//                         //   await Hive.box<Notes>('notesBox').putAt(
+//                         //     int.parse(widget.note.id!),
+//                         //     Notes(
+//                         //       voice: pathOfVoice,
+//                         //       image: imageString,
+//                         //       category: selectedCategory,
+//                         //       colorAlpha: selectedColor?.alpha,
+//                         //       colorRed: selectedColor?.red,
+//                         //       colorBlue: selectedColor?.blue,
+//                         //       colorGreen: selectedColor?.green,
+//                         //       day: time.day,
+//                         //       description: mainDescriptionText,
+//                         //       done: false,
+//                         //       hour: time.hour,
+//                         //       id: time.toString(),
+//                         //       minute: time.minute,
+//                         //       month: time.month,
+//                         //       title: mainTitleText,
+//                         //       weekDay: time.weekday,
+//                         //       year: time.year,
+//                         //     ),
+//                         //   );
+//                         ScaffoldMessenger.of(context).showSnackBar(
+//                           SnackBar(
+//                             duration: const Duration(milliseconds: 1500),
+//                             behavior: SnackBarBehavior.fixed,
+//                             content: Text('taskEdited'),
+//                           ),
+//                         );
+//                       } else {
+//                         // await Hive.box<Notes>('notesBox').add(
+//                         //   Notes(
+//                         //     voice: pathOfVoice,
+//                         //     image: imageString,
+//                         //     category: selectedCategory,
+//                         //     colorAlpha: selectedColor?.alpha,
+//                         //     colorRed: selectedColor?.red,
+//                         //     colorBlue: selectedColor?.blue,
+//                         //     colorGreen: selectedColor?.green,
+//                         //     day: time.day,
+//                         //     description: mainDescriptionText,
+//                         //     done: false,
+//                         //     hour: time.hour,
+//                         //     id: time.toString(),
+//                         //     minute: time.minute,
+//                         //     month: time.month,
+//                         //     title: mainTitleText,
+//                         //     weekDay: time.weekday,
+//                         //     year: time.year,
+//                         //   ),
+//                         // );
+//                         ScaffoldMessenger.of(context).showSnackBar(
+//                           SnackBar(
+//                             duration: const Duration(milliseconds: 1500),
+//                             behavior: SnackBarBehavior.fixed,
+//                             content: Text('taskEditedSuccessfully'),
+//                           ),
+//                         );
+//                         if (
+//                             // imageString != ''
+//                             true) {
+//                           ScaffoldMessenger.of(context).showSnackBar(
+//                             SnackBar(
+//                               duration: const Duration(milliseconds: 3500),
+//                               behavior: SnackBarBehavior.fixed,
+//                               content: Text(
+//                                 'longPressTo',
+//                               ),
+//                             ),
+//                           );
+//                         }
+//                       }
+
+//                       Navigator.pop(context);
+//                       //!send notif here ->
+//                       AwesomeNotifications().createNotification(
+//                         schedule: NotificationCalendar(
+//                           day: time.day,
+//                           hour: time.hour,
+//                           minute: time.minute - 1,
+//                           month: time.month,
+//                           year: time.year,
+//                         ),
+//                         content: NotificationContent(
+//                           category: NotificationCategory.Reminder,
+//                           wakeUpScreen: true,
+//                           color: Colors.orange,
+//                           id: 10,
+//                           channelKey: 'chanel',
+//                           title: 'Daily Tasks', //add this to localization
+//                           body:
+//                               'time of $mainTitleText is now!', //add this to localization
+//                         ),
+//                       );
+//                       //! -------------------
+//                       // selectedCategory = '';
+//                       // mainDescriptionText = '';
+//                       // imageString = '';
+//                       // mainTitleText = '';
+//                       // _image = null;
+//                       // pathOfVoice = '';
+//                     }
+//                   },

@@ -1,6 +1,9 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:daily_tasks_getx/controllers/task_controllers.dart';
+import 'package:daily_tasks_getx/controllers/image_controller.dart';
+import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
+import 'package:daily_tasks_getx/models/general_models.dart';
 import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -8,11 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 
 int selectedTaskIndex = 0;
 List categoryItems = ['1', '2', '3'];
 final picker = ImagePicker();
+final recorder = FlutterSoundRecorder();
+final audioPlayer = AudioPlayer();
 
+String pathOfVoice = '';
 bool micOn = false;
 
 void _openDialog(String title, Widget content) {
@@ -73,7 +81,7 @@ Future showOptions() async {
             // close the options modal
             Get.back();
             // get image from gallery
-            getImageFromCamera();
+            Get.find<ImageController>().getImage(ImageSource.camera);
           },
         ),
         const SizedBox(
@@ -94,7 +102,7 @@ Future showOptions() async {
             // close the options modal
             Get.back();
             // get image from camera
-            getImageFromCamera();
+            Get.find<ImageController>().getImage(ImageSource.camera);
           },
         ),
       ],
@@ -102,60 +110,44 @@ Future showOptions() async {
   );
 }
 
-Future getImageFromCamera() async {
-  final pickedFile = await picker.pickImage(source: ImageSource.camera);
-  // setState(() {
-  //   if (pickedFile != null) {
-  //     _image = File(pickedFile.path); // for showing image
-  //     imageString = pickedFile.path; // for hive
-  //   }
-  // });
-}
+Color? _shadeColor = Colors.blue[800];
+Color? selectedColor;
 
 void _openColorPicker() async {
   _openDialog(
-    'colorPicker',
-    const MaterialColorPicker(
-        // selectedColor: _shadeColor,
-        // onColorChange: (color) => setState(() => selectedColor = color),
-        ),
+    'Color Picker',
+    MaterialColorPicker(
+      selectedColor: _shadeColor,
+      onColorChange: (color) {
+        selectedColor = color;
+        var task = Get.find<TaskController>()
+            .tasks[Get.find<TaskController>().index.toInt()];
+
+        task.colorAlpha = Get.find<TaskController>().colorAlpha.value;
+        task.colorBlue = Get.find<TaskController>().colorBlue.value;
+        task.colorGreen = Get.find<TaskController>().colorGreen.value;
+        task.colorRed = Get.find<TaskController>().colorRed.value;
+
+        Get.find<TaskController>()
+            .tasks[Get.find<TaskController>().index.toInt()] = task;
+      },
+    ),
   );
+}
+
+Future setAudio() async {
+  audioPlayer.setSourceDeviceFile(pathOfVoice);
+}
+
+Future<void> initRecorder() async {
+  final status = await Permission.microphone.request();
+
+  await recorder.openRecorder();
+  recorder.setSubscriptionDuration(const Duration(milliseconds: 200));
 }
 
 class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({super.key});
-
-  //Image Picker function to get image from gallery
-  Future getImageFromGallery() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    // setState(() {
-    //   if (pickedFile != null) {
-    //     _image = File(pickedFile.path);
-    //     imageString = pickedFile.path;
-    //   }
-    // });
-  }
-
-  // Future<void> initRecorder() async {
-  //   final status = await Permission.microphone.request();
-
-  //   await recorder.openRecorder();
-  //   recorder.setSubscriptionDuration(const Duration(milliseconds: 200));
-  // }
-
-  // Future setAudio() async {
-  //   audioPlayer.setSourceDeviceFile(pathOfVoice!);
-  // }
-  //   void _openColorPicker() async {
-  //   _openDialog(
-  //     AppLocalizations.of(context)!.colorPicker,
-  //     MaterialColorPicker(
-  //       selectedColor: _shadeColor,
-  //       onColorChange: (color) => setState(() => selectedColor = color),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -164,9 +156,8 @@ class AddTaskScreen extends StatelessWidget {
       appBar: AppBarWidget(
         action: true,
         back: true,
-        titleText: Get.find<TaskController>().isEditing.value
-            ? "Edit Task"
-            : "Add Task",
+        titleText:
+            Get.find<TaskController>().isEditing ? "Edit Task" : "Add Task",
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
@@ -180,136 +171,26 @@ class AddTaskScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 !micOn
-                    ? Column(
+                    ? const Column(
                         children: [
+                          TitleWidget(),
                           SizedBox(
-                            width: Get.width - 30,
-                            child: TextFormField(
-                              controller:
-                                  Get.find<TextFieldController>().taskTitle,
-                              initialValue: mainTitleText,
-                              onChanged: (value) {
-                                // setState(() {
-                                //   mainTitleText = value;
-                                // });
-                              },
-                              style: const TextStyle(color: Colors.white),
-                              cursorColor: Colors.white,
-                              decoration: InputDecoration(
-                                hintStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                hintText: 'title',
-                                prefixText: '  ',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
                             height: 14,
                           ),
-                          DropdownButtonFormField2(
-                            style: const TextStyle(color: Colors.white),
-                            isExpanded: true,
-                            decoration: InputDecoration(
-                              iconColor: Colors.white,
-                              contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 16),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            hint: const Text(
-                              // anythingToShow && widget.note.voice == ''
-                              true ? 'note category' : 'category',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            items: categoryItems
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ))
-                                .toList(),
-                            validator: (value) {
-                              if (value == null) {
-                                return 'pleaseSelectACategory';
-                              }
-                              return null;
-                            },
-                            onChanged: (value) {
-                              // setState(() {
-                              //   selectedCategory = value.toString();
-                              // });
-                            },
-                            buttonStyleData: const ButtonStyleData(
-                              padding: EdgeInsets.only(right: 8),
-                            ),
-                            iconStyleData: const IconStyleData(
-                              icon: Icon(
-                                Icons.keyboard_arrow_down_rounded,
-                                color: Colors.white,
-                              ),
-                              iconSize: 24,
-                            ),
-                            dropdownStyleData: DropdownStyleData(
-                              decoration: BoxDecoration(
-                                color: Colors.grey[800],
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            menuItemStyleData: const MenuItemStyleData(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
-                            ),
-                          ),
-                          const SizedBox(
+                          CategoryWidget(),
+                          SizedBox(
                             height: 14,
                           ),
-                          SizedBox(
-                            width: Get.width - 30,
-                            child: TextFormField(
-                              initialValue: mainDescriptionText,
-                              controller:
-                                  Get.find<TextFieldController>().taskDesc,
-                              onChanged: (value) {
-                                // setState(() {
-                                //   mainDescriptionText = value;
-                                // });
-                              },
-                              maxLines: 3,
-                              style: const TextStyle(color: Colors.white),
-                              cursorColor: Colors.white,
-                              decoration: InputDecoration(
-                                hintStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                hintText: 'description',
-                                prefixText: '  ',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                            ),
-                          ),
+                          DescriptionWidget(),
                         ],
                       )
-                    : Column(
+                    : const Column(
                         children: [
                           Text(
                             true ? 'recordeing' : 'clickTheButtons',
                             style: TextStyle(color: Colors.orange),
                           ),
-                          const SizedBox(
+                          SizedBox(
                             height: 8,
                           ),
                           // StreamBuilder(
@@ -344,280 +225,468 @@ class AddTaskScreen extends StatelessWidget {
                           //   min: 0,
                           //   max: durationOfAudio.inSeconds.toDouble(),
                           // ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 22),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  // position.inSeconds.toString(),
-                                  'start',
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                                Text(
-                                  // durationOfAudio.inSeconds.toString(),
-                                  "end",
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          ),
+                          AudioPositionsWidget(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              IconButton(
-                                onPressed: () async {
-                                  // if (recorder.isRecording) {
-                                  //   await stop();
-                                  //   setState(() {
-                                  //     isRecording = false;
-                                  //   });
-                                  // } else {
-                                  //   await record();
-                                  //   setState(() {
-                                  //     isRecording = true;
-                                  //   });
-                                  // }
-                                },
-                                icon: Container(
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  width: 40,
-                                  height: 40,
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white,
-                                    ),
-                                    width: 40,
-                                    height: 40,
-                                    child: true
-                                        ? const Icon(
-                                            Icons.mic,
-                                            color: Colors.black,
-                                          )
-                                        : const Icon(
-                                            Icons.square,
-                                            color: Colors.black,
-                                          ),
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  // if (pathOfVoice != '') {
-                                  //   setAudio();
-                                  //   audioPlayer.resume();
-                                  // }
-                                },
-                                icon: Container(
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  width: 40,
-                                  height: 40,
-                                  child: const Icon(
-                                    Icons.play_arrow,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  // audioPlayer.pause();
-                                },
-                                icon: Container(
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                  ),
-                                  width: 40,
-                                  height: 40,
-                                  child: const Icon(
-                                    Icons.pause,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              )
+                              RecordIconButton(),
+                              ResumeIconButtion(),
+                              PauseIconButton()
                             ],
-                          ),
-                          const SizedBox(
-                            height: 14,
                           ),
                           SizedBox(
-                            width: Get.width - 30,
-                            child: TextFormField(
-                              initialValue: mainTitleText,
-                              onChanged: (value) {
-                                // setState(() {
-                                //   mainTitleText = value;
-                                // });
-                              },
-                              style: const TextStyle(color: Colors.white),
-                              cursorColor: Colors.white,
-                              decoration: InputDecoration(
-                                hintStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                                hintText: 'title',
-                                prefixText: '  ',
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                              ),
-                            ),
+                            height: 14,
                           ),
+                          TitleWidget(),
                         ],
                       ),
-                GestureDetector(
-                  onTap: () {
-                    // showOptions();
-                  },
-                  child: Container(
-                    height: 160,
-                    width: Get.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white70, width: 0.4),
-                    ),
-                    child: Stack(
-                      children: [
-                        // _image == null
-                        true
-                            ? const SizedBox()
-                            : Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    // child: Image.file(
-                                    //   _image!,
-                                    // ),
-                                  ),
-                                ),
-                              ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 18, top: 18),
-                          child: Text(
-                            'attachAnImage',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Row(
+                const ImagePickerWidget(),
+                const Row(
                   children: [
-                    GestureDetector(
-                      onTap: _openColorPicker,
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 1500),
-                        decoration: BoxDecoration(
-                          color: Colors.orange,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        width: Get.width / 2 - 20,
-                        height: 100,
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'pickAColor',
-                                style: const TextStyle(fontSize: 17),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              const Icon(
-                                Icons.imagesearch_roller_rounded,
-                                size: 18,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
+                    ColorPickerWidget(),
+                    Spacer(),
                     CalenderWidget(),
                   ],
                 ),
-                GestureDetector(
-                  onTap: () {
-                    if (Get.find<TaskController>().isEditing.value) {
-                      var task = Get.find<TaskController>()
-                          .tasks[Get.find<TaskController>().index.toInt()];
+                const CreateTaskWidget(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-                      task.title =
-                          Get.find<TextFieldController>().taskTitle!.text;
+class AudioPositionsWidget extends StatelessWidget {
+  const AudioPositionsWidget({
+    super.key,
+  });
 
-                      task.description =
-                          Get.find<TextFieldController>().taskDesc!.text;
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 22),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            // position.inSeconds.toString(),
+            'start',
+            style: TextStyle(color: Colors.white),
+          ),
+          Text(
+            // durationOfAudio.inSeconds.toString(),
+            "end",
+            style: TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-                      Get.find<TaskController>()
-                              .tasks[Get.find<TaskController>().index.toInt()] =
-                          task;
-                    } else {
-                      Get.find<TaskController>().tasks.add(
-                            Tasks(
-                              category: '1',
-                              colorAlpha: 100,
-                              day: 1,
-                              description: Get.find<TextFieldController>()
-                                  .taskDesc!
-                                  .text,
-                              done: false,
-                              hour: 1,
-                              id: '1',
-                              minute: 1,
-                              month: 1,
-                              title: Get.find<TextFieldController>()
-                                  .taskDesc!
-                                  .text,
-                              weekDay: 1,
-                              year: 1,
-                              colorRed: 200,
-                              colorBlue: 100,
-                              colorGreen: 300,
-                              image: null,
-                              voice: 'voice',
-                            ),
-                          );
-                    }
-                    Get.back();
-                  },
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 1500),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      color: Colors.orange,
-                    ),
-                    width: Get.width - 30,
-                    height: 60,
-                    child: Center(
-                      child: Text(
-                        Get.find<TaskController>().isEditing.value
-                            ? 'Edit Task'
-                            : 'Create Task',
-                        style:
-                            const TextStyle(color: Colors.black, fontSize: 20),
+class CreateTaskWidget extends StatelessWidget {
+  const CreateTaskWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (Get.find<TaskController>().isEditing) {
+          var task = Get.find<TaskController>()
+              .tasks[Get.find<TaskController>().index.toInt()];
+          //
+          task.title = Get.find<TextFieldController>().taskTitle!.text;
+          task.description = Get.find<TextFieldController>().taskDesc!.text;
+          task.category = Get.find<TextFieldController>().cat;
+          task.colorAlpha = Get.find<TaskController>().colorAlpha.value;
+          task.colorBlue = Get.find<TaskController>().colorBlue.value;
+          task.colorGreen = Get.find<TaskController>().colorGreen.value;
+          task.colorRed = Get.find<TaskController>().colorRed.value;
+          task.image = Get.find<TaskController>().image.value;
+          task.voice = Get.find<TaskController>().voice.value;
+          //
+          task.year = Get.find<TaskController>().year.value;
+          task.month = Get.find<TaskController>().month.value;
+          task.day = Get.find<TaskController>().day.value;
+          task.hour = Get.find<TaskController>().hour.value;
+          task.minute = Get.find<TaskController>().minute.value;
+          task.weekDay = Get.find<TaskController>().weekDay.value;
+          //
+          Get.find<TaskController>()
+              .tasks[Get.find<TaskController>().index.toInt()] = task;
+          //
+        } else {
+          final now = DateTime.now();
+          Get.find<TaskController>().tasks.add(
+                TasksModel(
+                  category: Get.find<TextFieldController>().cat,
+                  colorAlpha: Get.find<TaskController>().colorAlpha.value,
+                  day: now.day,
+                  description: Get.find<TextFieldController>().taskDesc!.text,
+                  done: false,
+                  hour: now.hour,
+                  minute: now.minute,
+                  month: now.month,
+                  title: Get.find<TextFieldController>().taskDesc!.text,
+                  weekDay: now.weekday,
+                  year: now.year,
+                  colorRed: Get.find<TaskController>().colorRed.value,
+                  colorBlue: Get.find<TaskController>().colorBlue.value,
+                  colorGreen: Get.find<TaskController>().colorGreen.value,
+                  image: Get.find<ImageController>().imagePath.value,
+                  voice: Get.find<TaskController>().voice.value,
+                ),
+              );
+        }
+
+        Get.back();
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 1500),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          color: Colors.orange,
+        ),
+        width: Get.width - 30,
+        height: 60,
+        child: Center(
+          child: Text(
+            Get.find<TaskController>().isEditing ? 'Edit Task' : 'Create Task',
+            style: const TextStyle(color: Colors.black, fontSize: 20),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ColorPickerWidget extends StatelessWidget {
+  const ColorPickerWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _openColorPicker,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 1500),
+        decoration: BoxDecoration(
+          color: Colors.orange,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        width: Get.width / 2 - 20,
+        height: 100,
+        child: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'pickAColor',
+                style: TextStyle(fontSize: 17),
+              ),
+              SizedBox(
+                width: 6,
+              ),
+              Icon(
+                Icons.imagesearch_roller_rounded,
+                size: 18,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ImagePickerWidget extends StatelessWidget {
+  const ImagePickerWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // showOptions();
+      },
+      child: Container(
+        height: 160,
+        width: Get.width,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.white70, width: 0.4),
+        ),
+        child: Stack(
+          children: [
+            // _image == null
+            true
+                ? const SizedBox()
+                : Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        // child: Image.file(
+                        //   _image!,
+                        // ),
                       ),
                     ),
                   ),
+            const Padding(
+              padding: const EdgeInsets.only(left: 18, top: 18),
+              child: Text(
+                'attachAnImage',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
                 ),
-              ],
+              ),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RecordIconButton extends StatelessWidget {
+  const RecordIconButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () async {
+        // if (recorder.isRecording) {
+        //   await stop();
+        //   setState(() {
+        //     isRecording = false;
+        //   });
+        // } else {
+        //   await record();
+        //   setState(() {
+        //     isRecording = true;
+        //   });
+        // }
+      },
+      icon: Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+        width: 40,
+        height: 40,
+        child: Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+          ),
+          width: 40,
+          height: 40,
+          child: true
+              ? const Icon(
+                  Icons.mic,
+                  color: Colors.black,
+                )
+              : const Icon(
+                  Icons.square,
+                  color: Colors.black,
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+class PauseIconButton extends StatelessWidget {
+  const PauseIconButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        // audioPlayer.pause();
+      },
+      icon: Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+        width: 40,
+        height: 40,
+        child: const Icon(
+          Icons.pause,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+}
+
+class ResumeIconButtion extends StatelessWidget {
+  const ResumeIconButtion({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        // if (pathOfVoice != '') {
+        //   setAudio();
+        //   audioPlayer.resume();
+        // }
+      },
+      icon: Container(
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.white,
+        ),
+        width: 40,
+        height: 40,
+        child: const Icon(
+          Icons.play_arrow,
+          color: Colors.black,
+        ),
+      ),
+    );
+  }
+}
+
+class DescriptionWidget extends StatelessWidget {
+  const DescriptionWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: Get.width - 30,
+      child: TextFormField(
+        initialValue: mainDescriptionText,
+        controller: Get.find<TextFieldController>().taskDesc,
+        onChanged: (value) {
+          Get.find<TextFieldController>().taskDesc!.text = value;
+        },
+        maxLines: 3,
+        style: const TextStyle(color: Colors.white),
+        cursorColor: Colors.white,
+        decoration: InputDecoration(
+          hintStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w300,
+          ),
+          hintText: 'description',
+          prefixText: '  ',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CategoryWidget extends StatelessWidget {
+  const CategoryWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField2(
+      style: const TextStyle(color: Colors.white),
+      isExpanded: true,
+      decoration: InputDecoration(
+        iconColor: Colors.white,
+        contentPadding: const EdgeInsets.symmetric(vertical: 16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      hint: const Text(
+        // anythingToShow && widget.note.voice == ''
+        true ? 'Task category' : 'category',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      items: categoryItems
+          .map((item) => DropdownMenuItem<String>(
+                value: item,
+                child: Text(
+                  item,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              ))
+          .toList(),
+      onChanged: (value) {
+        // setState(() {
+        //   selectedCategory = value.toString();
+        // });
+      },
+      buttonStyleData: const ButtonStyleData(
+        padding: EdgeInsets.only(right: 8),
+      ),
+      iconStyleData: const IconStyleData(
+        icon: Icon(
+          Icons.keyboard_arrow_down_rounded,
+          color: Colors.white,
+        ),
+        iconSize: 24,
+      ),
+      dropdownStyleData: DropdownStyleData(
+        decoration: BoxDecoration(
+          color: Colors.grey[800],
+          borderRadius: BorderRadius.circular(20),
+        ),
+      ),
+      menuItemStyleData: const MenuItemStyleData(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+      ),
+    );
+  }
+}
+
+class TitleWidget extends StatelessWidget {
+  const TitleWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: Get.width - 30,
+      child: TextFormField(
+        controller: Get.find<TextFieldController>().taskTitle,
+        initialValue: mainTitleText,
+        onChanged: (value) {
+          Get.find<TextFieldController>().taskTitle!.text = value;
+        },
+        style: const TextStyle(color: Colors.white),
+        cursorColor: Colors.white,
+        decoration: InputDecoration(
+          hintStyle: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w300,
+          ),
+          hintText: 'title',
+          prefixText: '  ',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
           ),
         ),
       ),

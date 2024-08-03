@@ -1,4 +1,4 @@
-import 'package:daily_tasks_getx/screens/add_birthdat_screen.dart';
+import 'package:daily_tasks_getx/screens/add_birthday_screen.dart';
 import 'package:daily_tasks_getx/screens/add_category.dart';
 import 'package:daily_tasks_getx/screens/go_premium.dart';
 import 'package:daily_tasks_getx/screens/review_tasks_screen.dart';
@@ -16,6 +16,7 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: Colors.grey[300],
       child: Column(
         children: [
           Padding(
@@ -38,7 +39,11 @@ class DrawerWidget extends StatelessWidget {
                   children: [
                     Text(
                       'Uncle Gen Son',
-                      style: TextStyle(fontSize: 28, fontFamily: 'title'),
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontFamily: 'title',
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     SizedBox(
                       width: 4,
@@ -51,7 +56,7 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 const Text(
                   '+98 910 063 9128',
-                  style: TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
               ],
             ),

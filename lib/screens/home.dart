@@ -2,10 +2,8 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
-import 'package:daily_tasks_getx/controllers/image_controller.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
-// import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/screens/add_task.dart';
 import 'package:daily_tasks_getx/screens/drawer_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
@@ -20,20 +18,20 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      floatingActionButton: SizedBox(
+    return Scaffold(
+      floatingActionButton: const SizedBox(
         height: 65,
         width: 65,
         child: FAB(),
       ),
-      drawer: SafeArea(
+      drawer: const SafeArea(
         child: DrawerWidget(),
       ),
       backgroundColor: Colors.black87,
       appBar: AppBarWidget(
         action: false,
         back: false,
-        titleText: "Daily Tasks",
+        titleText: "Daily Tasks".tr,
         svgIcon: 'assets/ham3.svg',
         fontSize: 46,
       ),
@@ -61,22 +59,10 @@ List colorItems = const [
   Color.fromARGB(255, 220, 255, 251),
   Color.fromARGB(255, 193, 231, 227),
 ];
-List voiceList = [];
 
 List weekDays = ['Mon', 'Tue', 'Wed', 'Tur', 'Fri', 'Sat', 'Sun'];
-List titles = [];
-
-List descriptions = [];
-
-List dateTimes = [];
-
-List containerColors = [];
-
-List categories = [];
 
 bool done = false;
-
-List boxImages = [];
 
 class HomeBody extends StatelessWidget {
   const HomeBody({
@@ -113,7 +99,7 @@ class HomeBody extends StatelessWidget {
                                   padding: const EdgeInsets.all(1.0),
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
+                                      borderRadius: BorderRadius.circular(20),
                                       color: Color.fromARGB(
                                         Get.find<TaskController>()
                                             .tasks[index]
@@ -135,7 +121,7 @@ class HomeBody extends StatelessWidget {
                                       children: [
                                         Get.find<TaskController>()
                                                     .tasks[index]
-                                                    .title! ==
+                                                    .voice! ==
                                                 ''
                                             ? Column(
                                                 children: [
@@ -162,12 +148,10 @@ class HomeBody extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                // Get.find<TaskController>()
-                                //             .tasks[index]
-                                //             .image !=
-                                //         null
-                                //     ? ShowImageWidget(index: index)
-                                //     : const SizedBox(),
+                                Get.find<TaskController>().tasks[index].image !=
+                                        ''
+                                    ? ShowImageWidget(index: index)
+                                    : const SizedBox(),
                               ],
                             ),
                           );
@@ -209,7 +193,7 @@ class HomeBody extends StatelessWidget {
   }
 
   void longPressEachTask(int index, BuildContext context) {
-    boxImages[index] != null
+    Get.find<TaskController>().tasks[index].image != null
         ? showGeneralDialog(
             barrierColor: Colors.black.withOpacity(0.5),
             transitionBuilder: (context, a1, a2, widget) {
@@ -233,7 +217,9 @@ class HomeBody extends StatelessWidget {
                             image: DecorationImage(
                               image: FileImage(
                                 File(
-                                  boxImages[index],
+                                  Get.find<TaskController>()
+                                      .tasks[index]
+                                      .image!,
                                 ),
                               ),
                             ),
@@ -269,12 +255,12 @@ class ShowImageWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: SizedBox(
-        height: 30,
-        width: 30,
+        height: 36,
+        width: 36,
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           child: Image.file(
-            File(Get.find<ImageController>().imagePath.value),
+            File(Get.find<TaskController>().tasks[index].image!),
             filterQuality: FilterQuality.high,
             fit: BoxFit.cover,
           ),
@@ -712,7 +698,18 @@ class FAB extends StatelessWidget {
       shape: const CircleBorder(),
       onPressed: () {
         Get.find<TaskController>().isEditing = false;
-
+        Get.find<TaskController>().category.value = '';
+        Get.find<TaskController>().colorAlpha.value = 0;
+        Get.find<TaskController>().colorBlue.value = 0;
+        Get.find<TaskController>().colorGreen.value = 0;
+        Get.find<TaskController>().colorRed.value = 0;
+        Get.find<TaskController>().day.value = 0;
+        Get.find<TaskController>().hour.value = 0;
+        Get.find<TaskController>().minute.value = 0;
+        Get.find<TaskController>().month.value = 0;
+        Get.find<TaskController>().year.value = 0;
+        Get.find<TaskController>().weekDay.value = 0;
+        Get.find<TaskController>().image.value = '';
         Get.find<TextFieldController>().taskTitle!.text = '';
         Get.find<TextFieldController>().taskDesc!.text = '';
 

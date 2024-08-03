@@ -1,5 +1,9 @@
 import 'package:bottom_picker/bottom_picker.dart';
+import 'package:daily_tasks_getx/controllers/task_controller.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
+import 'package:daily_tasks_getx/screens/add_task.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -98,7 +102,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                         // }
                       },
                       child: Icon(
-                        true ? Icons.mic : Icons.mic_off_rounded,
+                        micOn ? Icons.mic : Icons.mic_off_rounded,
                         size: 30,
                         color: Colors.white,
                       ),
@@ -124,75 +128,72 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class CalenderWidget extends StatefulWidget {
-  const CalenderWidget({
-    super.key,
-  });
-
-  @override
-  State<CalenderWidget> createState() => _CalenderWidgetState();
-}
-
 bool showTime = false;
 DateTime time = DateTime.now();
+void openDateTimePicker(BuildContext context) {
+  BottomPicker.dateTime(
+    pickerTitle: Text(
+      'choose Task Date',
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+        color: Get.find<UserInfoController>().buttonColor,
+      ),
+    ),
+    gradientColors: [Get.find<UserInfoController>().buttonColor!, Colors.blue],
+    backgroundColor: Colors.black87,
+    closeIconColor: Get.find<UserInfoController>().buttonColor!,
+    initialDateTime: DateTime.now(),
+    maxDateTime: DateTime(2030),
+    minDateTime: DateTime(DateTime.now().year),
+    pickerTextStyle: const TextStyle(
+      color: Colors.blue,
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    ),
+    onSubmit: (p0) {
+      var day = DateTime(time.year, time.month, time.day)
+          .difference(DateTime.now())
+          .inDays;
+      int hour = DateTime(time.year, time.month, time.day, time.hour).hour -
+          DateTime.now().hour;
+      int minute =
+          DateTime(time.year, time.month, time.day, time.hour, time.minute)
+                  .minute -
+              DateTime.now().minute;
+      Get.snackbar(
+        'Task Notification will be in: ',
+        '${day != 0 ? '$day days' : ''} ${hour.toString().length > 1 ? '$hour' : '0$hour'} hours ${minute.toString().length > 1 ? '$minute' : '0$minute'} minutes from now!',
+        snackPosition: SnackPosition.BOTTOM,
+        margin: EdgeInsets.all(15),
+        colorText: Colors.white,
+        duration: Duration(seconds: 6),
+      );
+    },
+    onChange: (p0) {
+      var task = Get.find<TaskController>();
+      time = p0;
+      task.day.value = time.day;
+      task.hour.value = time.hour;
+      task.minute.value = time.minute;
+      task.month.value = time.month;
+      task.weekDay.value = time.weekday;
+      task.year.value = time.year;
+    },
+  ).show(context);
+}
 
-class _CalenderWidgetState extends State<CalenderWidget> {
+class CalenderWidget extends StatelessWidget {
+  const CalenderWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
-    void openDateTimePicker(BuildContext context) {
-      BottomPicker.dateTime(
-        pickerTitle: Text(
-          'choose Task Date',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: Colors.orange,
-          ),
-        ),
-        gradientColors: [Colors.orange, Colors.blue],
-        backgroundColor: Colors.black87,
-        closeIconColor: Colors.orange,
-        initialDateTime: DateTime.now(),
-        maxDateTime: DateTime(2030),
-        minDateTime: DateTime(DateTime.now().year),
-        pickerTextStyle: const TextStyle(
-          color: Colors.blue,
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
-        onSubmit: (p0) {
-          var day = DateTime(time.year, time.month, time.day)
-              .difference(DateTime.now())
-              .inDays;
-          int hour = DateTime(time.year, time.month, time.day, time.hour).hour -
-              DateTime.now().hour;
-          int minute =
-              DateTime(time.year, time.month, time.day, time.hour, time.minute)
-                      .minute -
-                  DateTime.now().minute;
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                  '${day != 0 ? '$day days' : ''} ${hour.toString().length > 1 ? '$hour' : '0$hour'} hours ${minute.toString().length > 1 ? '$minute' : '0$minute'} minutes from now!'),
-            ),
-          );
-        },
-        onChange: (p0) {
-          setState(() {
-            time = p0;
-            showTime = true;
-          });
-        },
-      ).show(context);
-    }
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 1500),
+    return Container(
       decoration: BoxDecoration(
-        color: Colors.orange,
+        color: Get.find<UserInfoController>().buttonColor,
         borderRadius: BorderRadius.circular(20),
       ),
-      width: Get.width / 2 - 20,
+      width: Get.width / 2 - 25,
       height: 100,
       child: InkWell(
         onTap: () {

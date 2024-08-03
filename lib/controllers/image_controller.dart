@@ -9,6 +9,7 @@ class ImageController extends GetxController {
     final pickedFile = await ImagePicker().pickImage(source: imageSource);
     if (pickedFile != null) {
       imagePath.value = pickedFile.path;
+      Get.back();
     } else {
       Get.snackbar(
         'خطا',

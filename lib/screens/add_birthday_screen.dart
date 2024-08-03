@@ -2,6 +2,7 @@
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bottom_picker/bottom_picker.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ void openDateTimePicker2(BuildContext context) {
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18,
-        color: Colors.orange,
+        color: Get.find<UserInfoController>().buttonColor,
       ),
     ),
     gradientColors: [selectedColor2!, Colors.blue],
@@ -80,7 +81,7 @@ class AddBirthdayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      appBar: AppBarWidget(
+      appBar: const AppBarWidget(
         action: false,
         back: true,
         titleText: "Set Birtdays",
@@ -229,7 +230,8 @@ class AddBirthdayScreen extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
+                      backgroundColor:
+                          Get.find<UserInfoController>().buttonColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -269,7 +271,7 @@ class AddBirthdayScreen extends StatelessWidget {
                             content: NotificationContent(
                               category: NotificationCategory.Reminder,
                               wakeUpScreen: true,
-                              color: Colors.orange,
+                              color: Get.find<UserInfoController>().buttonColor,
                               id: 10,
                               channelKey: 'chanel',
                               title: 'Daily Tasks',
@@ -311,7 +313,7 @@ class AddBirthdayScreen extends StatelessWidget {
                             content: NotificationContent(
                               category: NotificationCategory.Reminder,
                               wakeUpScreen: true,
-                              color: Colors.orange,
+                              color: Get.find<UserInfoController>().buttonColor,
                               id: 10,
                               channelKey: 'chanel',
                               title: 'Daily Tasks',

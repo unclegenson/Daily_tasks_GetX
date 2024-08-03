@@ -39,7 +39,6 @@ class TaskController extends GetxController {
     ever(tasks, (callback) {
       box.write('tasks', tasks.toJson());
     });
-
     super.onInit();
   }
 }

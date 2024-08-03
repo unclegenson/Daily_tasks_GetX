@@ -1,10 +1,12 @@
+import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daily_tasks_getx/controllers/image_controller.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/models/general_models.dart';
-import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -55,14 +57,15 @@ void _openDialog(String title, Widget content) {
 Future showOptions() async {
   // SharedPreferences premium = await SharedPreferences.getInstance();
   // if (premium.getBool('purchase')!) {
-  Get.showSnackbar(
-    const GetSnackBar(
-      message: 'youAreNotAPremiumContact',
-      duration: Duration(milliseconds: 2500),
-    ),
-  );
+  // Get.showSnackbar(
+  //   const GetSnackBar(
+  //     message: 'Tou Are Not a Premium Contact',
+  //     duration: Duration(milliseconds: 2500),
+  //   ),
+  // );
   // } else {
   Get.defaultDialog(
+    backgroundColor: Colors.transparent,
     content: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -71,17 +74,19 @@ Future showOptions() async {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            backgroundColor: Colors.orange,
+            backgroundColor: Color.fromARGB(
+              Get.find<UserInfoController>().selectedColorAlpha.value,
+              Get.find<UserInfoController>().selectedColorRed.value,
+              Get.find<UserInfoController>().selectedColorGreen.value,
+              Get.find<UserInfoController>().selectedColorBlue.value,
+            ),
           ),
           child: const Text(
-            'gallery',
+            'Gallery',
             style: TextStyle(color: Colors.black),
           ),
           onPressed: () {
-            // close the options modal
-            Get.back();
-            // get image from gallery
-            Get.find<ImageController>().getImage(ImageSource.camera);
+            Get.find<ImageController>().getImage(ImageSource.gallery);
           },
         ),
         const SizedBox(
@@ -92,16 +97,13 @@ Future showOptions() async {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
-            backgroundColor: Colors.orange,
+            backgroundColor: Get.find<UserInfoController>().buttonColor,
           ),
           child: const Text(
-            'camera',
+            'Camera',
             style: TextStyle(color: Colors.black),
           ),
           onPressed: () {
-            // close the options modal
-            Get.back();
-            // get image from camera
             Get.find<ImageController>().getImage(ImageSource.camera);
           },
         ),
@@ -115,21 +117,17 @@ Color? selectedColor;
 
 void _openColorPicker() async {
   _openDialog(
-    'Color Picker',
+    '',
     MaterialColorPicker(
       selectedColor: _shadeColor,
       onColorChange: (color) {
         selectedColor = color;
-        var task = Get.find<TaskController>()
-            .tasks[Get.find<TaskController>().index.toInt()];
+        var task = Get.find<TaskController>();
 
-        task.colorAlpha = Get.find<TaskController>().colorAlpha.value;
-        task.colorBlue = Get.find<TaskController>().colorBlue.value;
-        task.colorGreen = Get.find<TaskController>().colorGreen.value;
-        task.colorRed = Get.find<TaskController>().colorRed.value;
-
-        Get.find<TaskController>()
-            .tasks[Get.find<TaskController>().index.toInt()] = task;
+        task.colorAlpha.value = selectedColor!.alpha;
+        task.colorBlue.value = selectedColor!.blue;
+        task.colorGreen.value = selectedColor!.green;
+        task.colorRed.value = selectedColor!.red;
       },
     ),
   );
@@ -184,11 +182,13 @@ class AddTaskScreen extends StatelessWidget {
                           DescriptionWidget(),
                         ],
                       )
-                    : const Column(
+                    : Column(
                         children: [
                           Text(
                             true ? 'recordeing' : 'clickTheButtons',
-                            style: TextStyle(color: Colors.orange),
+                            style: TextStyle(
+                                color:
+                                    Get.find<UserInfoController>().buttonColor),
                           ),
                           SizedBox(
                             height: 8,
@@ -296,6 +296,7 @@ class CreateTaskWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (Get.find<TaskController>().isEditing) {
+          print('edit');
           var task = Get.find<TaskController>()
               .tasks[Get.find<TaskController>().index.toInt()];
           //
@@ -320,6 +321,8 @@ class CreateTaskWidget extends StatelessWidget {
               .tasks[Get.find<TaskController>().index.toInt()] = task;
           //
         } else {
+          print('add');
+
           final now = DateTime.now();
           Get.find<TaskController>().tasks.add(
                 TasksModel(
@@ -331,7 +334,7 @@ class CreateTaskWidget extends StatelessWidget {
                   hour: now.hour,
                   minute: now.minute,
                   month: now.month,
-                  title: Get.find<TextFieldController>().taskDesc!.text,
+                  title: Get.find<TextFieldController>().taskTitle!.text,
                   weekDay: now.weekday,
                   year: now.year,
                   colorRed: Get.find<TaskController>().colorRed.value,
@@ -342,14 +345,13 @@ class CreateTaskWidget extends StatelessWidget {
                 ),
               );
         }
-
+        Get.find<ImageController>().imagePath.value = '';
         Get.back();
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 1500),
-        decoration: const BoxDecoration(
+      child: Container(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          color: Colors.orange,
+          color: Get.find<UserInfoController>().buttonColor,
         ),
         width: Get.width - 30,
         height: 60,
@@ -373,20 +375,19 @@ class ColorPickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _openColorPicker,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 1500),
+      child: Container(
         decoration: BoxDecoration(
-          color: Colors.orange,
+          color: Get.find<UserInfoController>().buttonColor,
           borderRadius: BorderRadius.circular(20),
         ),
-        width: Get.width / 2 - 20,
+        width: Get.width / 2 - 25,
         height: 100,
         child: const Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'pickAColor',
+                'Pick a Color',
                 style: TextStyle(fontSize: 17),
               ),
               SizedBox(
@@ -413,47 +414,51 @@ class ImagePickerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // showOptions();
+        showOptions();
       },
       child: Container(
-        height: 160,
-        width: Get.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white70, width: 0.4),
-        ),
-        child: Stack(
-          children: [
-            // _image == null
-            true
-                ? const SizedBox()
-                : Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
+          height: 160,
+          width: Get.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: Colors.white70, width: 0.4),
+          ),
+          child: Obx(
+            () {
+              return Stack(
+                children: [
+                  Get.find<ImageController>().imagePath.value == ''
+                      ? const SizedBox()
+                      : Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Image.file(
+                                File(Get.find<ImageController>()
+                                    .imagePath
+                                    .value),
+                              ),
+                            ),
+                          ),
                         ),
-                        // child: Image.file(
-                        //   _image!,
-                        // ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 18, top: 18),
+                    child: Text(
+                      'Attach an Image',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                   ),
-            const Padding(
-              padding: const EdgeInsets.only(left: 18, top: 18),
-              child: Text(
-                'attachAnImage',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w300,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+                ],
+              );
+            },
+          )),
     );
   }
 }

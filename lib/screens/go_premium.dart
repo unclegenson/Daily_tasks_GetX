@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 List premiumOptions = [
-  'Notifications',
-  'Birthday messages - sms',
-  'Attach image for each task',
-  'voice tasks',
-  'sharing review table',
-  'special themes',
+  'Task Notifications'.tr.tr,
+  'Reminder Birthday Dates'.tr,
+  'Task Image Selector'.tr,
+  'Voice Tasks'.tr,
+  'Daily Motivational Quotes'.tr,
 ];
 
 class GoPremiumScreen extends StatelessWidget {
@@ -21,10 +20,10 @@ class GoPremiumScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.black87,
-        appBar: const AppBarWidget(
+        appBar: AppBarWidget(
           action: false,
           back: true,
-          titleText: "Go Premium",
+          titleText: "Go Premium".tr,
           svgIcon: 'assets/back2.svg',
           fontSize: 46,
         ),
@@ -36,10 +35,10 @@ class GoPremiumScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8, left: 8, right: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                     child: SettingsCategoryWidget(
-                        color: Colors.white, text: 'Premium Options :'),
+                        color: Colors.white, text: 'Premium Options'.tr),
                   ),
                   SizedBox(
                     height: Get.height * 6 / 10,
@@ -66,8 +65,8 @@ class GoPremiumScreen extends StatelessWidget {
                   const Divider(
                     thickness: 3,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8, left: 8, right: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                     child: Row(
                       children: [
                         Column(
@@ -75,22 +74,22 @@ class GoPremiumScreen extends StatelessWidget {
                           children: [
                             SettingsCategoryWidget(
                               color: Colors.white,
-                              text: 'Premium version price :',
+                              text: 'Premium Version Price'.tr,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 4,
                             ),
                             Text(
-                              'for each month',
-                              style: TextStyle(
+                              'for each month'.tr,
+                              style: const TextStyle(
                                 fontSize: 13,
                                 color: Colors.white,
                               ),
                             )
                           ],
                         ),
-                        Spacer(),
-                        Column(
+                        const Spacer(),
+                        const Column(
                           children: [
                             Row(
                               children: [
@@ -137,9 +136,10 @@ class GoPremiumScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {},
-                      child: const Text(
-                        'Purchase',
-                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      child: Text(
+                        'Purchase'.tr,
+                        style:
+                            const TextStyle(color: Colors.black, fontSize: 20),
                       ),
                     ),
                   )

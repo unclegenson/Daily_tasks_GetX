@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daily_tasks_getx/bindings/bindings.dart';
+import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/models/translate.dart';
 import 'package:daily_tasks_getx/screens/home.dart';
@@ -10,6 +11,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   var box = GetStorage();
+
   await AwesomeNotifications().initialize(
     debug: true,
     null,
@@ -50,7 +52,10 @@ class DailyTasksApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var user = Hive.box<UserInfo>('user').values.first;
+
     return GetMaterialApp(
+      locale: Locale(user.language!),
       translations: Translate(),
       initialBinding: MyBindings(),
       title: 'Daily Tasks',
@@ -61,3 +66,4 @@ class DailyTasksApp extends StatelessWidget {
 }
 
 //todo: open user screen for the first time app opens
+//todo: edit all snackbar duration text color and translate

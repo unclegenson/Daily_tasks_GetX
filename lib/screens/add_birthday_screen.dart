@@ -23,31 +23,11 @@ String? newName;
 String? newPhone;
 int indexx = 0;
 TextEditingController numberCon = TextEditingController();
-// @override
-// void initState() {
-//   // selectedColor2 = colorItems[Random().nextInt(colorItems.length)];
-//   wantToChange = false;
-//   nameCon.clear();
-//   numberCon.clear();
-
-//   newName = '';
-//   newPhone = '';
-
-//   birthDayList.clear();
-//   nameList.clear();
-//   // Hive.box<Birthdays>('birthdayBox').values.forEach((element) {
-//   //   nameList.add(element.name);
-//   //   numberList.add(element.number);
-//   //   birthDayList.add(element.date);
-//   // });
-
-//   super.initState();
-// }
 
 void openDateTimePicker2(BuildContext context) {
   BottomPicker.date(
     pickerTitle: Text(
-      'add Birthday Date',
+      'add Birthday Date'.tr,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18,
@@ -81,10 +61,10 @@ class AddBirthdayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      appBar: const AppBarWidget(
+      appBar: AppBarWidget(
         action: false,
         back: true,
-        titleText: "Set Birtdays",
+        titleText: "Set Birthdays".tr,
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
@@ -143,7 +123,7 @@ class AddBirthdayScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                   child: SettingsCategoryWidget(
                     color: Colors.white,
-                    text: !wantToChange ? 'addName' : 'editName',
+                    text: !wantToChange ? 'Add Name'.tr : 'Edit Name'.tr,
                   ),
                 ),
                 Padding(
@@ -164,8 +144,8 @@ class AddBirthdayScreen extends StatelessWidget {
                   child: SettingsCategoryWidget(
                     color: Colors.white,
                     text: !wantToChange
-                        ? 'add Birthday Date'
-                        : 'edit Birthday Date',
+                        ? 'Add Birthday Date'.tr
+                        : 'Edit Birthday Date'.tr,
                   ),
                 ),
                 AnimatedContainer(
@@ -207,8 +187,8 @@ class AddBirthdayScreen extends StatelessWidget {
                   child: SettingsCategoryWidget(
                     color: Colors.white,
                     text: !wantToChange
-                        ? 'add Phone Number'
-                        : 'edit Phone Number',
+                        ? 'Add Phone Number'.tr
+                        : 'Edit Phone Number'.tr,
                   ),
                 ),
                 Padding(
@@ -256,10 +236,15 @@ class AddBirthdayScreen extends StatelessWidget {
                           //   ),
                           // );
                           Get.snackbar(
-                            'Good!',
-                            'We will let you know at $time!',
+                            'Good!'.tr,
+                            'We will let you know at $time!'.tr,
                             margin: EdgeInsets.all(20),
                             snackPosition: SnackPosition.BOTTOM,
+                            colorText: Colors.white,
+                            icon: Icon(
+                              Icons.cake_sharp,
+                              color: Colors.white,
+                            ),
                           );
 
                           await AwesomeNotifications().createNotification(
@@ -274,17 +259,18 @@ class AddBirthdayScreen extends StatelessWidget {
                               color: Get.find<UserInfoController>().buttonColor,
                               id: 10,
                               channelKey: 'chanel',
-                              title: 'Daily Tasks',
+                              title: 'Daily Tasks'.tr,
                               body:
-                                  "$nameCon's birthday is next week on ${time.day}!", // add this to localization
+                                  "$nameCon's birthday is next week on ${time.day}!"
+                                      .tr, // add this to localization
                             ),
                           );
 
                           Navigator.pop(context);
                         } else {
                           Get.snackbar(
-                            'Ok!',
-                            'Birthday Item edited!',
+                            'Ok!'.tr,
+                            'Birthday Item edited!'.tr,
                             margin: EdgeInsets.all(20),
                             snackPosition: SnackPosition.BOTTOM,
                           );
@@ -316,23 +302,25 @@ class AddBirthdayScreen extends StatelessWidget {
                               color: Get.find<UserInfoController>().buttonColor,
                               id: 10,
                               channelKey: 'chanel',
-                              title: 'Daily Tasks',
+                              title: 'Daily Tasks'.tr,
                               body:
-                                  "$nameCon's birthday is next week on ${time.day}!", // add this to localization
+                                  "$nameCon's birthday is next week on ${time.day}!"
+                                      .tr, // add this to localization
                             ),
                           );
                           Get.snackbar(
-                            'Good!',
-                            'We will let you know at $time!',
+                            'Good!'.tr,
+                            'We will let you know at $time!'.tr,
                             margin: EdgeInsets.all(20),
                             snackPosition: SnackPosition.BOTTOM,
+                            colorText: Colors.white,
                           );
 
                           Get.back();
                         } else {
                           Get.snackbar(
-                            'error!',
-                            'nothingAdded',
+                            'error!'.tr,
+                            'Nothing Added'.tr,
                             margin: EdgeInsets.all(20),
                             snackPosition: SnackPosition.BOTTOM,
                           );
@@ -340,7 +328,7 @@ class AddBirthdayScreen extends StatelessWidget {
                       }
                     },
                     child: Text(
-                      'save',
+                      'Save'.tr,
                       style: const TextStyle(color: Colors.black, fontSize: 20),
                     ),
                   ),
@@ -353,3 +341,6 @@ class AddBirthdayScreen extends StatelessWidget {
     );
   }
 }
+
+
+//todo: backend of this screen

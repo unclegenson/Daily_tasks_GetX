@@ -13,7 +13,7 @@ void openDateTimePicker(BuildContext context) {
   BottomPicker.time(
     initialTime: Time.now(),
     pickerTitle: Text(
-      'reminder Time',
+      'reminder Time'.tr,
       style: const TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 18,
@@ -43,10 +43,10 @@ void openDateTimePicker(BuildContext context) {
 // }
 
 Future<void> getReminderTime() async {
-  SharedPreferences prefDailyReminderHour =
-      await SharedPreferences.getInstance();
-  SharedPreferences prefDailyReminderMin =
-      await SharedPreferences.getInstance();
+  // SharedPreferences prefDailyReminderHour =
+  //     await SharedPreferences.getInstance();
+  // SharedPreferences prefDailyReminderMin =
+  //     await SharedPreferences.getInstance();
 
   // setState(() {
   //   reminderMin = prefDailyReminderMin.getInt('reminderMin')!;
@@ -55,13 +55,13 @@ Future<void> getReminderTime() async {
 }
 
 Future<void> setReminderTime() async {
-  SharedPreferences prefDailyReminderHour =
-      await SharedPreferences.getInstance();
-  SharedPreferences prefDailyReminderMin =
-      await SharedPreferences.getInstance();
+  // SharedPreferences prefDailyReminderHour =
+  //     await SharedPreferences.getInstance();
+  // SharedPreferences prefDailyReminderMin =
+  //     await SharedPreferences.getInstance();
 
-  prefDailyReminderMin.setInt('reminderMin', reminderMin);
-  prefDailyReminderHour.setInt('reminderHour', reminderHour);
+  // prefDailyReminderMin.setInt('reminderMin', reminderMin);
+  // prefDailyReminderHour.setInt('reminderHour', reminderHour);
 }
 
 class NotificationScreen extends StatelessWidget {
@@ -71,10 +71,10 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      appBar: const AppBarWidget(
+      appBar: AppBarWidget(
         action: false,
         back: true,
-        titleText: "Notification Settings",
+        titleText: "Notification Settings".tr,
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
@@ -86,11 +86,11 @@ class NotificationScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 8, left: 8, right: 8),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                   child: SettingsCategoryWidget(
                     color: Colors.white,
-                    text: 'Choose best daily reminder time',
+                    text: 'Choose best daily reminder time'.tr,
                   ),
                 ),
                 const SizedBox(
@@ -111,7 +111,7 @@ class NotificationScreen extends StatelessWidget {
                       return openDateTimePicker(context);
                     },
                     child: Text(
-                      'choose',
+                      'choose'.tr,
                       style: const TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
@@ -131,7 +131,7 @@ class NotificationScreen extends StatelessWidget {
                     children: [
                       SettingsCategoryWidget(
                         color: Colors.white,
-                        text: 'your best daily reminder',
+                        text: 'your best daily reminder'.tr,
                       ),
                       const Spacer(),
                       Text(
@@ -159,11 +159,13 @@ class NotificationScreen extends StatelessWidget {
                     onPressed: () {
                       setReminderTime();
                       Get.back();
-                      Get.snackbar('Good!',
-                          'Daily reminder set at ${reminderHour.toString().length > 1 ? '$reminderHour' : '0$reminderHour'} : ${reminderMin.toString().length > 1 ? '$reminderMin' : '0$reminderMin'}');
+                      Get.snackbar(
+                          'Good!'.tr,
+                          'Daily reminder set at ${reminderHour.toString().length > 1 ? '$reminderHour' : '0$reminderHour'} : ${reminderMin.toString().length > 1 ? '$reminderMin' : '0$reminderMin'}'
+                              .tr);
                     },
                     child: Text(
-                      'save',
+                      'save'.tr,
                       style: const TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),

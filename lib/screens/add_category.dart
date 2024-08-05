@@ -11,20 +11,6 @@ bool wantToChange = false;
 int indexx = 0;
 List categoryItems = [];
 
-// @override
-// void initState() {
-//   wantToChange = false;
-//   con.clear();
-//   newCategory = '';
-//   categoryItems.clear();
-
-//   // Hive.box<Categories>('categoryBox').values.forEach((element) {
-//   //   categoryItems.add(element.name);
-//   // });
-
-//   super.initState();
-// }
-
 class AddCategoryScreen extends StatelessWidget {
   const AddCategoryScreen({super.key});
 
@@ -32,10 +18,10 @@ class AddCategoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      appBar: const AppBarWidget(
+      appBar: AppBarWidget(
         action: false,
         back: true,
-        titleText: "Set Categories",
+        titleText: "Set Categories".tr,
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
@@ -85,7 +71,8 @@ class AddCategoryScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                   child: SettingsCategoryWidget(
                     color: Colors.white,
-                    text: !wantToChange ? 'add Category' : 'edit Category',
+                    text:
+                        !wantToChange ? 'Add Category'.tr : 'Edit Category'.tr,
                   ),
                 ),
                 Padding(
@@ -125,8 +112,8 @@ class AddCategoryScreen extends StatelessWidget {
                           Get.back();
                         } else {
                           Get.snackbar(
-                            'error!',
-                            'Edit the Task please',
+                            'error!'.tr,
+                            'Edit the Task please'.tr,
                             margin: EdgeInsets.all(20),
                             snackPosition: SnackPosition.BOTTOM,
                           );
@@ -141,8 +128,8 @@ class AddCategoryScreen extends StatelessWidget {
                           Get.back();
                         } else {
                           Get.snackbar(
-                            'error!',
-                            'nothing Added',
+                            'error!'.tr,
+                            'nothing Added'.tr,
                             margin: EdgeInsets.all(20),
                             snackPosition: SnackPosition.BOTTOM,
                           );
@@ -150,7 +137,7 @@ class AddCategoryScreen extends StatelessWidget {
                       }
                     },
                     child: Text(
-                      'save',
+                      'Save'.tr,
                       style: const TextStyle(color: Colors.black, fontSize: 20),
                     ),
                   ),

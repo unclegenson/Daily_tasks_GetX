@@ -14,8 +14,8 @@ class Translate extends Translations {
           "Add Category": "Add Category",
           "Done": "Done",
           "Review": "Review",
-          "PremiumV": "Premium V.",
-          "Buy Me A Coffee": "Buy me a coffee",
+          "Premium V.": "Premium V.",
+          "Buy me A Coffee": "Buy me a coffee",
           "Settings": "Settings",
           "Invite Friends": "Invite Friends",
           "Contact Us": "Contact Us",
@@ -27,13 +27,13 @@ class Translate extends Translations {
           "Delete All Tasks": "Delete All Tasks",
           "Language": "Language",
           "Add Tasks": "Add Tasks",
-          "Title": "Title",
-          "Description": "description",
-          "Attach An Image": "Attach an image",
+          "title": "title",
+          "description": "description",
+          "Attach an Image": "Attach an image",
           "Pick a Color": "Pick a Color",
           "Create Task": "Create Task",
-          "Click the mic button to start recording...":
-              "Click the mic button to start recording...",
+          "Click the mic button to start recording":
+              "Click the mic button to start recording",
           "recordeing...": "recordeing...",
           "English": "English",
           "Persian": "Persian",
@@ -54,7 +54,7 @@ class Translate extends Translations {
           "Color picker": "Color picker",
           "Edit Task": "Edit Task",
           "Add Task": "Add Task",
-          "Category": "Category",
+          "category": "category",
           "Please select a category.": "Please select a category.",
           "There is no voice or title to create a task!":
               "There is no voice or title to create a task!",
@@ -90,9 +90,47 @@ class Translate extends Translations {
           "Delete": "Delete",
           "Press Delete if you want to delete all the available tasks.":
               "Press Delete if you want to delete all the available tasks.",
-          "Choose Task Date": "Choose Task Date"
+          "Choose Task Date": "Choose Task Date",
+          'More Settings': 'More Settings',
+          "recording...": "recording...",
+          "error while emailing unclegenson@gmail.com":
+              "error while emailing unclegenson@gmail.com",
+          '''You must add your profile data to use the app
+Your profile data will be unreachable for others.''':
+              '''You must add your profile data to use the app
+Your profile data will be unreachable for others.''',
+          'Name :': 'Name :',
+          'Number :': 'Number :',
+          "Set Categories": "Set Categories",
+          'Set Birthdays': 'Set Birthdays',
+          'Set Language:': 'Set Language',
+          'َApp Theme': 'App Theme',
+          'SuccessFul': 'SuccessFul',
+          'App Theme SuccessFully Updated': 'App Theme SuccessFully Updated',
+          'Task Notifications': 'Task Notifications',
+          "Reminder Birthday Dates": "Reminder Birthday Dates",
+          'Task Image Selector': 'Task Image Selector',
+          'Voice Tasks': 'Voice Tasks',
+          'Daily Motivational Quotes': 'Daily Motivational Quotes',
+          'Go Premium': 'Go Premium',
+          'Premium Version Price': 'Premium Version Price',
+          'for each month': 'for each month',
+          'App Feedback': 'App Feedback',
+          'subject=App Feedback&body=App Version 1.0:\n\nThe problem is ':
+              'subject=App Feedback&body=App Version 1.0:\n\nThe problem is '
         },
         'fa': {
+          'subject=App Feedback&body=App Version 1.0:\n\nThe problem is ':
+              'subject=پیشنهاد برای آپدیت اپلیکیشن&body=ورژن 1.0:\n\n پیشنهاد من ',
+          'App Feedback': 'پیشنهاد برای آپدیت اپلیکیشن:',
+          'for each month': 'برای هر ماه',
+          'Premium Version Price': 'قیمت نسخه پرمیوم',
+          'Go Premium': 'نسخه پرمیموم',
+          'Daily Motivational Quotes': 'جملات انگیزشی روزانه',
+          'Voice Tasks': "وظیفه صوتی",
+          'Task Image Selector': 'قابلیت انتخاب عکس برای هر وظیفه',
+          "Reminder Birthday Dates": 'یادآور تاریخ های تولد',
+          'Task Notifications': 'اعلان وظایف',
           "Edit Profile": "ویرایش نمایه",
           "Daily Tasks": "وظایف روزانه",
           "Review Last Tasks": "مرور آخرین وظایف",
@@ -103,11 +141,11 @@ class Translate extends Translations {
           "Add Category": "افزودن دسته بندی",
           "Done": "انجام",
           "Review": "مرور وظایف قبلی",
-          "PremiumV": "نسخه پریمیوم",
-          "Buy Me a Coffee": "برای من قهوه بخر",
+          "Premium V.": "نسخه پریمیوم",
+          "Buy me a Coffee": "برای من قهوه بخر",
           "Settings": "تنظیمات",
           "Invite Friends": "دعوت از دوستان",
-          "ContactUs": "تماس با ما",
+          "Contact Us": "تماس با ما",
           "Add Name": "اضافه کردن نام",
           "Add Birthday Date": "اضافه کردن تاریخ تولد",
           "Add Phone Number": "اضافه کردن شماره تلفن",
@@ -116,13 +154,14 @@ class Translate extends Translations {
           "Delete All Tasks": "حذف همه وظایف",
           "Language": "زبان",
           "Add Tasks": "وظایف را اضافه کنید",
-          "Title": "عنوان",
-          "Description": "توضیحات",
-          "Attach An Image": "یک تصویر را ضمیمه کنید",
+          "title": "عنوان",
+          "description": "توضیحات",
+          "Attach an Image": "یک تصویر را ضمیمه کنید",
           "Pick a Color": "یک رنگ را انتخاب کنید",
           "Create Task": "ایجاد وظیفه",
-          "Click The Buttons": "...برای شروع ضبط، روی دکمه میکروفون کلیک کنید",
-          "recordeing": "ضبط کردندر حال",
+          "Click the mic button to start recording":
+              "برای شروع ضبط، روی دکمه میکروفون کلیک کنید",
+          "recording...": "در حال ضبط کردن صدا",
           "English": "انگلیسی",
           "Persian": "فارسی",
           "Birthday List": "لیست تولد ها",
@@ -142,7 +181,7 @@ class Translate extends Translations {
           "Color Picker": "انتخاب رنگ",
           "Edit Task": "ویرایش وظیفه",
           "Add Task": "اضافه کردن وظیفه",
-          "Category": "دسته بندی",
+          "category": "دسته بندی",
           "Please Select a Category": ".لطفا یک دسته بندی را انتخاب کنید",
           "There is no voice or title to create a task!":
               "!هیچ صدا یا عنوانی برای ایجاد یک وظیفه وجود ندارد",
@@ -163,11 +202,11 @@ class Translate extends Translations {
           "Done?": "انجام شد؟",
           "Press Yes if you'he done this task.":
               ".اگر این کار را انجام داده اید، بله را فشار دهید",
-          "Yes": "بله",
-          "No": "خیر",
+          "Yes": "آره",
+          "No": "نه",
           "Delete This Task": "این وظیفه پاک شود؟",
           "Are you sure you want to delete this Task?":
-              "مطمئنی میخوای این وظیفه پاک بشه؟?",
+              "مطمئنی میخوای این وظیفه پاک بشه؟",
           "Language Settings": "تنظیمات زبان",
           "Reminder Time": ": زمان یادآوری",
           "Notification Settings": "تنظیمات اعلان ها",
@@ -178,7 +217,22 @@ class Translate extends Translations {
           "Delete": "حذف",
           "Press Delete if you want to delete all the available tasks.":
               ".اگر می خواهید تمام وظایف موجود را حذف کنید، حذف را فشار دهید",
-          "Choose Task Date": "تاریخ وظیفه را انتخاب کنید"
+          "Choose Task Date": "تاریخ وظیفه را انتخاب کنید",
+          "error while emailing unclegenson@gmail.com":
+              "!رخ داد unclegenson@gmail.com خطایی هنگام ایمیل به",
+          '''You must add your profile data to use the app
+Your profile data will be unreachable for others.''':
+              '''وارد کردن عکس نام و شماره تلفن الزامی است 
+این اطلاعات کاملا خارج از دسترس دیگران است''',
+          'Name :': 'نام :',
+          'Number :': 'شماره تلفن : ',
+          'More Settings': 'تنظیمات بیشتر',
+          "Set Categories": "تنظیم دسته بندی ها",
+          'Set Birthdays': "تنظیم تاریخ های تولد",
+          'Set Language:': 'تنظیم زبان',
+          'َApp Theme': 'تم اپلیکیشن',
+          'SuccessFul': 'موفق بود',
+          'App Theme SuccessFully Updated': 'تم اپلیکیشن با موفقیت تغییر کرد'
         }
       };
 }

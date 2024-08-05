@@ -1,9 +1,7 @@
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
-import 'package:daily_tasks_getx/screens/add_task.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -30,28 +28,26 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         systemNavigationBarColor: Colors.black,
         statusBarColor: Colors.black,
       ),
-      titleSpacing: 10,
+      leadingWidth: 65,
       leading: Builder(
         builder: (context) {
           return InkWell(
             onTap: () {
               back ? Get.back() : Scaffold.of(context).openDrawer();
             },
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 0),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey[800],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SvgPicture.asset(
-                    svgIcon,
-                    colorFilter: const ColorFilter.mode(
-                      Colors.white,
-                      BlendMode.srcATop,
-                    ),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey[800],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: SvgPicture.asset(
+                  svgIcon,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.white,
+                    BlendMode.srcATop,
                   ),
                 ),
               ),
@@ -62,9 +58,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         action
             ? Padding(
-                padding: const EdgeInsets.only(
-                  right: 8,
-                ),
+                padding: const EdgeInsets.only(right: 8, left: 8, top: 4),
                 child: Container(
                   width: 55,
                   height: 55,
@@ -73,47 +67,31 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                     color: Colors.grey[800],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: InkWell(
-                      onTap: () async {
-                        // SharedPreferences premium =
-                        //     await SharedPreferences.getInstance();
-                        // if (premium.getBool('purchase')!) {
-                        //   //todo: ! here
-                        //   ScaffoldMessenger.of(context).showSnackBar(
-                        //     SnackBar(
-                        //       content: Text(
-                        //         AppLocalizations.of(context)!
-                        //             .youAreNotAPremiumContact,
-                        //       ),
-                        //       duration: const Duration(milliseconds: 2500),
-                        //     ),
-                        //   );
-                        // } else {
-                        //   if (micOn == true) {
-                        //     setState(() {
-                        //       micOn = false;
-                        //     });
-                        //   } else {
-                        //     setState(() {
-                        //       micOn = true;
-                        //     });
-                        //   }
-                        // }
-                      },
-                      child: Icon(
-                        micOn ? Icons.mic : Icons.mic_off_rounded,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                      padding: const EdgeInsets.all(10.0),
+                      child: Obx(() {
+                        return InkWell(
+                          onTap: () async {
+                            var micOn = Get.find<TaskController>().micOn;
+                            if (micOn.value == true) {
+                              micOn.value = false;
+                            } else {
+                              micOn.value = true;
+                            }
+                          },
+                          child: Icon(
+                            Get.find<TaskController>().micOn.value
+                                ? Icons.mic
+                                : Icons.mic_off_rounded,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                        );
+                      })),
                 ),
               )
             : Container(),
       ],
       elevation: 0,
-      toolbarHeight: 100,
       centerTitle: true,
       backgroundColor: Colors.black87,
       title: Text(
@@ -133,7 +111,7 @@ DateTime time = DateTime.now();
 void openDateTimePicker(BuildContext context) {
   BottomPicker.dateTime(
     pickerTitle: Text(
-      'choose Task Date',
+      'choose Task Date'.tr,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18,
@@ -162,8 +140,9 @@ void openDateTimePicker(BuildContext context) {
                   .minute -
               DateTime.now().minute;
       Get.snackbar(
-        'Task Notification will be in: ',
-        '${day != 0 ? '$day days' : ''} ${hour.toString().length > 1 ? '$hour' : '0$hour'} hours ${minute.toString().length > 1 ? '$minute' : '0$minute'} minutes from now!',
+        'Task Notification will be in: '.tr,
+        '${day != 0 ? '$day days' : ''} ${hour.toString().length > 1 ? '$hour' : '0$hour'} hours ${minute.toString().length > 1 ? '$minute' : '0$minute'} minutes from now!'
+            .tr,
         snackPosition: SnackPosition.BOTTOM,
         margin: EdgeInsets.all(15),
         colorText: Colors.white,
@@ -179,6 +158,7 @@ void openDateTimePicker(BuildContext context) {
       task.month.value = time.month;
       task.weekDay.value = time.weekday;
       task.year.value = time.year;
+      print(time);
     },
   ).show(context);
 }

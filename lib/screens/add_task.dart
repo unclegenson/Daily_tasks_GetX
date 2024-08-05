@@ -23,7 +23,6 @@ final recorder = FlutterSoundRecorder();
 final audioPlayer = AudioPlayer();
 
 String pathOfVoice = '';
-bool micOn = false;
 
 void _openDialog(String title, Widget content) {
   Get.defaultDialog(
@@ -33,9 +32,9 @@ void _openDialog(String title, Widget content) {
       onPressed: () {
         Get.back();
       },
-      child: const Text(
-        'cancel',
-        style: TextStyle(
+      child: Text(
+        'cancel'.tr,
+        style: const TextStyle(
           color: Colors.black,
         ),
       ),
@@ -44,9 +43,9 @@ void _openDialog(String title, Widget content) {
       onPressed: () {
         Get.back();
       },
-      child: const Text(
-        'sumbit',
-        style: TextStyle(
+      child: Text(
+        'sumbit'.tr,
+        style: const TextStyle(
           color: Colors.black,
         ),
       ),
@@ -81,9 +80,9 @@ Future showOptions() async {
               Get.find<UserInfoController>().selectedColorBlue.value,
             ),
           ),
-          child: const Text(
-            'Gallery',
-            style: TextStyle(color: Colors.black),
+          child: Text(
+            'Gallery'.tr,
+            style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
             Get.find<ImageController>().getImage(ImageSource.gallery);
@@ -99,9 +98,9 @@ Future showOptions() async {
             ),
             backgroundColor: Get.find<UserInfoController>().buttonColor,
           ),
-          child: const Text(
-            'Camera',
-            style: TextStyle(color: Colors.black),
+          child: Text(
+            'Camera'.tr,
+            style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
             Get.find<ImageController>().getImage(ImageSource.camera);
@@ -154,8 +153,9 @@ class AddTaskScreen extends StatelessWidget {
       appBar: AppBarWidget(
         action: true,
         back: true,
-        titleText:
-            Get.find<TaskController>().isEditing ? "Edit Task" : "Add Task",
+        titleText: Get.find<TaskController>().isEditing
+            ? "Edit Task".tr
+            : "Add Task".tr,
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
@@ -165,92 +165,98 @@ class AddTaskScreen extends StatelessWidget {
           child: SizedBox(
             width: Get.width,
             height: Get.height - 130, //todo: fix this 130
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                !micOn
-                    ? const Column(
-                        children: [
-                          TitleWidget(),
-                          SizedBox(
-                            height: 14,
-                          ),
-                          CategoryWidget(),
-                          SizedBox(
-                            height: 14,
-                          ),
-                          DescriptionWidget(),
-                        ],
-                      )
-                    : Column(
-                        children: [
-                          Text(
-                            true ? 'recordeing' : 'clickTheButtons',
-                            style: TextStyle(
-                                color:
-                                    Get.find<UserInfoController>().buttonColor),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          // StreamBuilder(
-                          //   stream: recorder.onProgress,
-                          //   builder: (_, snapshot) {
-                          //     final duration = snapshot.hasData
-                          //         ? snapshot.data!.duration
-                          //         : Duration.zero;
+            child: Obx(() {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  !Get.find<TaskController>().micOn.value
+                      ? const Column(
+                          children: [
+                            TitleWidget(),
+                            SizedBox(
+                              height: 14,
+                            ),
+                            CategoryWidget(),
+                            SizedBox(
+                              height: 14,
+                            ),
+                            DescriptionWidget(),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            //todo: fix the structure of this column
+                            Text(
+                              Get.find<TaskController>().isRecording.value
+                                  ? 'recordeing...'.tr
+                                  : 'Click the mic button to start recording...'
+                                      .tr,
+                              style: TextStyle(
+                                  color: Get.find<UserInfoController>()
+                                      .buttonColor),
+                            ),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            // StreamBuilder(
+                            //   stream: recorder.onProgress,
+                            //   builder: (_, snapshot) {
+                            //     final duration = snapshot.hasData
+                            //         ? snapshot.data!.duration
+                            //         : Duration.zero;
 
-                          //     String twoDigits(int n) =>
-                          //         n.toString().padLeft(2);
-                          //     final twoDigitMinutes =
-                          //         twoDigits(duration.inMinutes.remainder(60));
-                          //     final twoDigitSeconds =
-                          //         twoDigits(duration.inSeconds.remainder(60));
+                            //     String twoDigits(int n) =>
+                            //         n.toString().padLeft(2);
+                            //     final twoDigitMinutes =
+                            //         twoDigits(duration.inMinutes.remainder(60));
+                            //     final twoDigitSeconds =
+                            //         twoDigits(duration.inSeconds.remainder(60));
 
-                          //     return Text(
-                          //       '$twoDigitMinutes :$twoDigitSeconds',
-                          //       style: const TextStyle(
-                          //           color: Colors.white, fontSize: 26),
-                          //     );
-                          //   },
-                          // ),
-                          // Slider(
-                          //   activeColor: Colors.orange,
-                          //   divisions: 20,
-                          //   value: position.inSeconds.toDouble(),
-                          //   onChanged: (value) async {
-                          //     final position = Duration(seconds: value.toInt());
-                          //     await audioPlayer.seek(position);
-                          //   },
-                          //   min: 0,
-                          //   max: durationOfAudio.inSeconds.toDouble(),
-                          // ),
-                          AudioPositionsWidget(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              RecordIconButton(),
-                              ResumeIconButtion(),
-                              PauseIconButton()
-                            ],
-                          ),
-                          SizedBox(
-                            height: 14,
-                          ),
-                          TitleWidget(),
-                        ],
-                      ),
-                const ImagePickerWidget(),
-                const Row(
-                  children: [
-                    ColorPickerWidget(),
-                    Spacer(),
-                    CalenderWidget(),
-                  ],
-                ),
-                const CreateTaskWidget(),
-              ],
-            ),
+                            //     return Text(
+                            //       '$twoDigitMinutes :$twoDigitSeconds',
+                            //       style: const TextStyle(
+                            //           color: Colors.white, fontSize: 26),
+                            //     );
+                            //   },
+                            // ),
+                            // Slider(
+                            //   activeColor: Colors.orange,
+                            //   divisions: 20,
+                            //   value: position.inSeconds.toDouble(),
+                            //   onChanged: (value) async {
+                            //     final position = Duration(seconds: value.toInt());
+                            //     await audioPlayer.seek(position);
+                            //   },
+                            //   min: 0,
+                            //   max: durationOfAudio.inSeconds.toDouble(),
+                            // ),
+                            AudioPositionsWidget(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                RecordIconButton(),
+                                ResumeIconButtion(),
+                                PauseIconButton()
+                              ],
+                            ),
+                            SizedBox(
+                              height: 14,
+                            ),
+                            TitleWidget(),
+                          ],
+                        ),
+                  const ImagePickerWidget(),
+                  const Row(
+                    children: [
+                      ColorPickerWidget(),
+                      Spacer(),
+                      CalenderWidget(),
+                    ],
+                  ),
+                  const CreateTaskWidget(),
+                ],
+              );
+            }),
           ),
         ),
       ),
@@ -265,20 +271,20 @@ class AudioPositionsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 22),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 22),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             // position.inSeconds.toString(),
-            'start',
-            style: TextStyle(color: Colors.white),
+            'start'.tr,
+            style: const TextStyle(color: Colors.white),
           ),
           Text(
             // durationOfAudio.inSeconds.toString(),
-            "end",
-            style: TextStyle(color: Colors.white),
+            "end".tr,
+            style: const TextStyle(color: Colors.white),
           ),
         ],
       ),
@@ -357,7 +363,9 @@ class CreateTaskWidget extends StatelessWidget {
         height: 60,
         child: Center(
           child: Text(
-            Get.find<TaskController>().isEditing ? 'Edit Task' : 'Create Task',
+            Get.find<TaskController>().isEditing
+                ? 'Edit Task'.tr
+                : 'Create Task'.tr,
             style: const TextStyle(color: Colors.black, fontSize: 20),
           ),
         ),
@@ -382,18 +390,18 @@ class ColorPickerWidget extends StatelessWidget {
         ),
         width: Get.width / 2 - 25,
         height: 100,
-        child: const Center(
+        child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Pick a Color',
-                style: TextStyle(fontSize: 17),
+                'Pick a Color'.tr,
+                style: const TextStyle(fontSize: 17),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 6,
               ),
-              Icon(
+              const Icon(
                 Icons.imagesearch_roller_rounded,
                 size: 18,
               )
@@ -444,11 +452,12 @@ class ImagePickerWidget extends StatelessWidget {
                             ),
                           ),
                         ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 18, top: 18),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 18, top: 18, right: 18),
                     child: Text(
-                      'Attach an Image',
-                      style: TextStyle(
+                      'Attach an Image'.tr,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.w300,
@@ -593,7 +602,7 @@ class DescriptionWidget extends StatelessWidget {
             color: Colors.white,
             fontWeight: FontWeight.w300,
           ),
-          hintText: 'description',
+          hintText: 'description'.tr,
           prefixText: '  ',
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
@@ -621,10 +630,10 @@ class CategoryWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
       ),
-      hint: const Text(
+      hint: Text(
         // anythingToShow && widget.note.voice == ''
-        true ? 'Task category' : 'category',
-        style: TextStyle(
+        'category'.tr,
+        style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w400,
         ),
@@ -644,14 +653,17 @@ class CategoryWidget extends StatelessWidget {
         // });
       },
       buttonStyleData: const ButtonStyleData(
-        padding: EdgeInsets.only(right: 8),
+        padding: EdgeInsets.only(right: 4, left: 4),
       ),
       iconStyleData: const IconStyleData(
-        icon: Icon(
-          Icons.keyboard_arrow_down_rounded,
-          color: Colors.white,
+        icon: Padding(
+          padding: EdgeInsets.only(left: 8, right: 8, top: 3),
+          child: Icon(
+            Icons.keyboard_arrow_down_rounded,
+            color: Colors.white,
+          ),
         ),
-        iconSize: 24,
+        iconSize: 22,
       ),
       dropdownStyleData: DropdownStyleData(
         decoration: BoxDecoration(
@@ -688,7 +700,7 @@ class TitleWidget extends StatelessWidget {
             color: Colors.white,
             fontWeight: FontWeight.w300,
           ),
-          hintText: 'title',
+          hintText: 'title'.tr,
           prefixText: '  ',
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
@@ -832,3 +844,7 @@ class TitleWidget extends StatelessWidget {
 //                       // pathOfVoice = '';
 //                     }
 //                   },
+
+//todo: category items
+//todo: notif create ...
+//todo: record and play sound

@@ -68,13 +68,13 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
             onTap: () {
-              Get.to(() => ReviewScreen());
+              // Get.to(() => ReviewScreen());
             },
             leading: const Icon(
               Icons.bar_chart_rounded,
               color: Colors.black,
             ),
-            title: const Text('Review Tasks'),
+            title: Text('Review'.tr),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
@@ -85,7 +85,7 @@ class DrawerWidget extends StatelessWidget {
               Icons.beach_access_rounded,
               color: Colors.black,
             ),
-            title: const Text('Premium V.'),
+            title: Text('Premium V.'.tr),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
@@ -96,7 +96,7 @@ class DrawerWidget extends StatelessWidget {
               Icons.category_rounded,
               color: Colors.black,
             ),
-            title: const Text('Set Categories'),
+            title: Text('Set Categories'.tr),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
@@ -107,7 +107,7 @@ class DrawerWidget extends StatelessWidget {
               Icons.cake_sharp,
               color: Colors.black,
             ),
-            title: const Text('Set Birthdays'),
+            title: Text('Set Birthdays'.tr),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
@@ -116,7 +116,7 @@ class DrawerWidget extends StatelessWidget {
               Icons.coffee_rounded,
               color: Colors.black,
             ),
-            title: const Text('Buy me a Coffee'),
+            title: Text('Buy me a Coffee'.tr),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
@@ -127,7 +127,7 @@ class DrawerWidget extends StatelessWidget {
               Icons.settings,
               color: Colors.black,
             ),
-            title: const Text('Settings'),
+            title: Text('Settings'.tr),
           ),
           const Divider(
             indent: 20,
@@ -136,13 +136,13 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
             onTap: () async {
-              await Share.share('Check Out This App');
+              await Share.share('Check Out This App'.tr);
             },
             leading: const Icon(
               Icons.person_add,
               color: Colors.black,
             ),
-            title: const Text('Invite Friends'),
+            title: Text('Invite Friends'.tr),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
@@ -153,7 +153,7 @@ class DrawerWidget extends StatelessWidget {
               Icons.bubble_chart_rounded,
               color: Colors.black,
             ),
-            title: const Text('Contact Us'),
+            title: Text('Contact Us'.tr),
           ),
         ],
       ),
@@ -165,15 +165,12 @@ Future<void> _openUrl() async {
   final Uri params = Uri(
     scheme: 'mailto',
     path: 'unclegenson@gmail.com',
-    query:
-        'subject=App Feedback&body=App Version 1.0:\n\nThe problem is ', //add subject and body here
+    query: 'subject=App Feedback&body=App Version 1.0:\n\nThe problem is '.tr,
   );
-
-  // var url = params.toString();
 
   if (await canLaunchUrl(params)) {
     await launchUrl(params);
   } else {
-    Get.snackbar('error', 'error while emailing unclegenson@gmail.com');
+    Get.snackbar('error'.tr, 'error while emailing unclegenson@gmail.com'.tr);
   }
 }

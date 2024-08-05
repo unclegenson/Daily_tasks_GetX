@@ -2,11 +2,8 @@ import 'package:daily_tasks_getx/models/general_models.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class TaskController extends GetxController {
-  var isEditing = false;
-  var micOn = false.obs;
-  var isRecording = false.obs;
-  var tasks = <TasksModel>[].obs;
+class DoneTaskController extends GetxController {
+  var doneTasks = <TasksModel>[].obs;
   var index = 0;
 
   var colorAlpha = 0.obs;
@@ -20,9 +17,6 @@ class TaskController extends GetxController {
   var day = 0.obs;
   var month = 0.obs;
   var year = 0.obs;
-  var hour = 0.obs;
-  var minute = 0.obs;
-  var weekDay = 0.obs;
 
   var image = ''.obs;
   var voice = ''.obs;
@@ -31,15 +25,15 @@ class TaskController extends GetxController {
   void onInit() {
     var box = GetStorage();
 
-    if (box.read('tasks') != null) {
-      var tasksList = box.read('tasks');
+    if (box.read('done_tasks') != null) {
+      var tasksList = box.read('done_tasks');
       for (var taskItem in tasksList) {
-        tasks.add(TasksModel.fromJson(taskItem));
+        doneTasks.add(TasksModel.fromJson(taskItem));
       }
     }
 
-    ever(tasks, (callback) {
-      box.write('tasks', tasks.toJson());
+    ever(doneTasks, (callback) {
+      box.write('tasks', doneTasks.toJson());
     });
     super.onInit();
   }

@@ -19,10 +19,10 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black87,
-      appBar: const AppBarWidget(
+      appBar: AppBarWidget(
         action: false,
         back: true,
-        titleText: "Settings",
+        titleText: "Settings".tr,
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
@@ -47,20 +47,20 @@ class SettingsScreen extends StatelessWidget {
                     color: Colors.indigo[400],
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.fingerprint,
                         size: 45,
                         color: Colors.white,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Text(
-                        'Edit Profile',
-                        style: TextStyle(
+                        'Edit Profile'.tr,
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 22,
                           fontWeight: FontWeight.w500,
@@ -88,20 +88,20 @@ class SettingsScreen extends StatelessWidget {
                       color: Colors.orangeAccent,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.notifications_active_rounded,
                           size: 45,
                           color: Colors.white,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
-                          'Notifications',
-                          style: TextStyle(
+                          'Notifications'.tr,
+                          style: const TextStyle(
                             fontSize: 22,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
@@ -129,20 +129,20 @@ class SettingsScreen extends StatelessWidget {
                       color: Colors.teal,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.folder_open_outlined,
                           size: 45,
                           color: Colors.white,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
-                          'More Settings',
-                          style: TextStyle(
+                          'More Settings'.tr,
+                          style: const TextStyle(
                             fontSize: 22,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
@@ -159,11 +159,12 @@ class SettingsScreen extends StatelessWidget {
                 onTap: () {
                   PanaraConfirmDialog.showAnimatedGrow(
                     context,
-                    title: 'Delete All Tasks',
+                    title: 'Delete All Tasks'.tr,
                     message:
-                        "Tap delete if you're sure you wanna delete all tasks",
-                    confirmButtonText: 'delete',
-                    cancelButtonText: 'cancel',
+                        "Tap delete if you're sure you wanna delete all tasks"
+                            .tr,
+                    confirmButtonText: 'delete'.tr,
+                    cancelButtonText: 'cancel'.tr,
                     onTapCancel: () {
                       Get.back();
                     },
@@ -188,20 +189,20 @@ class SettingsScreen extends StatelessWidget {
                       color: Colors.redAccent,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.delete,
                           size: 45,
                           color: Colors.white,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
-                          'Delete All Tasks',
-                          style: TextStyle(
+                          'Delete All Tasks'.tr,
+                          style: const TextStyle(
                             fontSize: 22,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,

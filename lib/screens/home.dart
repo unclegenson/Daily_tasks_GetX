@@ -2,8 +2,12 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:daily_tasks_getx/controllers/done_task_controller.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
+import 'package:daily_tasks_getx/models/general_models.dart';
+import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/screens/add_task.dart';
 import 'package:daily_tasks_getx/screens/drawer_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
@@ -11,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 
 class Home extends StatelessWidget {
@@ -35,7 +40,7 @@ class Home extends StatelessWidget {
         svgIcon: 'assets/ham3.svg',
         fontSize: 46,
       ),
-      body: HomeBody(),
+      body: const HomeBody(),
     );
   }
 }
@@ -60,7 +65,15 @@ List colorItems = const [
   Color.fromARGB(255, 193, 231, 227),
 ];
 
-List weekDays = ['Mon', 'Tue', 'Wed', 'Tur', 'Fri', 'Sat', 'Sun'];
+List weekDays = [
+  'Mon'.tr,
+  'Tue'.tr,
+  'Wed'.tr,
+  'Tur'.tr,
+  'Fri'.tr,
+  'Sat'.tr,
+  'Sun'.tr
+];
 
 bool done = false;
 
@@ -71,6 +84,8 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(['len', Get.find<DoneTaskController>().doneTasks.length]);
+
     return Obx(() {
       return Center(
         child: Get.find<TaskController>().tasks.isEmpty
@@ -85,12 +100,12 @@ class HomeBody extends StatelessWidget {
                           return GestureDetector(
                             onLongPress: () {
                               longPressEachTask(index, context);
+                              print(Get.find<TaskController>()
+                                  .tasks[index]
+                                  .weekDay);
                             },
                             onTap: () {
                               onTapEachTask(index);
-                              print(Get.find<TaskController>()
-                                  .tasks[index]
-                                  .colorRed!);
                             },
                             child: Stack(
                               alignment: Alignment.topRight,
@@ -152,6 +167,9 @@ class HomeBody extends StatelessWidget {
                                         ''
                                     ? ShowImageWidget(index: index)
                                     : const SizedBox(),
+                                ShowDate(
+                                  index: index,
+                                ),
                               ],
                             ),
                           );
@@ -193,7 +211,7 @@ class HomeBody extends StatelessWidget {
   }
 
   void longPressEachTask(int index, BuildContext context) {
-    Get.find<TaskController>().tasks[index].image != null
+    Get.find<TaskController>().tasks[index].image != ''
         ? showGeneralDialog(
             barrierColor: Colors.black.withOpacity(0.5),
             transitionBuilder: (context, a1, a2, widget) {
@@ -243,6 +261,31 @@ class HomeBody extends StatelessWidget {
   }
 }
 
+class ShowDate extends StatelessWidget {
+  ShowDate({super.key, required this.index});
+  int index;
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Get.find<UserInfoController>().language.value == 'en'
+          ? Alignment.bottomRight
+          : Alignment.bottomLeft,
+      child: Padding(
+        padding: EdgeInsets.all(15),
+        child: Text(
+          '${weekDays[Get.find<TaskController>().tasks[index].weekDay! - 1]} - ${Get.find<TaskController>().tasks[index].day!.toString()}',
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            color: Colors.black38,
+            fontSize: 14,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ShowImageWidget extends StatelessWidget {
   const ShowImageWidget({
     super.key,
@@ -278,7 +321,7 @@ class DoneOrDeleteWidgets extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 8),
+          padding: const EdgeInsets.only(left: 8, right: 8),
           child: Row(
             children: [
               SizedBox(
@@ -294,87 +337,70 @@ class DoneOrDeleteWidgets extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    // setState(() {
-                    //   done = true;
-                    // });
                     PanaraConfirmDialog.showAnimatedGrow(
                       context,
-                      title: 'done2',
-                      message: 'pressYesIf',
-                      confirmButtonText: 'yes',
-                      cancelButtonText: 'no',
+                      title: 'done?'.tr,
+                      message: "Press Yes if you'he done this task.".tr,
+                      confirmButtonText: 'Yes'.tr,
+                      cancelButtonText: 'No'.tr,
                       onTapCancel: () {
                         Navigator.pop(context);
-                        // setState(() {
-                        //   done = false;
-                        // });
                       },
                       onTapConfirm: () {
-                        // Hive.box<Notes>(
-                        //         'notesBox')
-                        //     .putAt(
-                        //   index,
-                        //   Notes(
-                        //     voice:
-                        //         voiceList[
-                        //             index],
-                        //     image:
-                        //         boxImages[
-                        //             index],
-                        //     id: index
-                        //         .toString(),
-                        //     title: titles[
-                        //         index],
-                        //     category:
-                        //         categories[
-                        //             index],
-                        //     description:
-                        //         descriptions[
-                        //             index],
-                        //     done: true,
-                        //     colorAlpha:
-                        //         containerColors[
-                        //                 index]
-                        //             .alpha,
-                        //     colorBlue:
-                        //         containerColors[
-                        //                 index]
-                        //             .blue,
-                        //     colorGreen:
-                        //         containerColors[
-                        //                 index]
-                        //             .green,
-                        //     colorRed:
-                        //         containerColors[
-                        //                 index]
-                        //             .red,
-                        //     day: dateTimes[
-                        //             index]
-                        //         ['day'],
-                        //     hour: dateTimes[
-                        //             index]
-                        //         ['hour'],
-                        //     minute: dateTimes[
-                        //             index]
-                        //         [
-                        //         'minute'],
-                        //     month: dateTimes[
-                        //             index]
-                        //         ['mount'],
-                        //     weekDay: dateTimes[
-                        //             index]
-                        //         [
-                        //         'weekDay'],
-                        //     year: dateTimes[
-                        //             index]
-                        //         ['year'],
-                        //   ),
-                        // );
-                        // textsListCreate();
+                        Get.find<TaskController>().tasks[index].done = true;
+                        //todo: delete this item from home and move it to review screen.
+                        Get.find<DoneTaskController>().doneTasks.add(
+                              TasksModel(
+                                  category: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .category,
+                                  colorAlpha: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .colorAlpha,
+                                  day: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .day,
+                                  description: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .description,
+                                  done: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .done,
+                                  hour: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .hour,
+                                  minute: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .minute,
+                                  month: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .month,
+                                  title: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .title,
+                                  weekDay: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .weekDay,
+                                  year: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .year,
+                                  colorRed: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .colorRed,
+                                  colorBlue: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .colorBlue,
+                                  colorGreen: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .colorGreen,
+                                  image: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .image,
+                                  voice: Get.find<TaskController>()
+                                      .tasks[index]
+                                      .voice),
+                            );
 
-                        // setState(() {
-                        //   done = false;
-                        // });
                         Get.back();
                       },
                       panaraDialogType: PanaraDialogType.warning,
@@ -414,35 +440,18 @@ class DoneOrDeleteWidgets extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          // setState(() {
-                          //   done = true;
-                          // });
                           PanaraConfirmDialog.showAnimatedGrow(
                             context,
-                            title: 'deleteThisTask',
-                            message: 'areYouSureDelete',
-                            confirmButtonText: 'yes',
-                            cancelButtonText: 'no',
+                            title: 'Delete This Task'.tr,
+                            message:
+                                'Are you sure you want to delete this Task?'.tr,
+                            confirmButtonText: 'Yes'.tr,
+                            cancelButtonText: 'No'.tr,
                             onTapCancel: () {
                               Navigator.pop(context);
-                              // setState(
-                              //     () {
-                              //   done =
-                              //       false;
-                              // });
                             },
                             onTapConfirm: () {
                               Get.find<TaskController>().tasks.removeAt(index);
-                              // Hive.box<Notes>(
-                              //         'notesBox')
-                              //     .deleteAt(
-                              //         index);
-                              // textsListCreate();
-                              // setState(
-                              //     () {
-                              //   done =
-                              //       false;
-                              // });
                               Get.back();
                             },
                             panaraDialogType: PanaraDialogType.warning,
@@ -469,19 +478,6 @@ class DoneOrDeleteWidgets extends StatelessWidget {
                 ),
               )
             ],
-          ),
-        ),
-        const Spacer(),
-        Padding(
-          padding: const EdgeInsets.only(right: 20),
-          child: Text(
-            '${weekDays[Get.find<TaskController>().tasks[index].weekDay! - 1]} - ${Get.find<TaskController>().tasks[index].day!.toString()}',
-            softWrap: false,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              color: Colors.black38,
-              fontSize: 14,
-            ),
           ),
         ),
       ],
@@ -677,10 +673,10 @@ class EmptyHomeBodyWidget extends StatelessWidget {
           'assets/ast.svg',
           colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcATop),
         ),
-        const Text(
-          'Add New Task!',
-          style:
-              TextStyle(color: Colors.white, fontSize: 45, fontFamily: 'title'),
+        Text(
+          'Add New Task!'.tr,
+          style: const TextStyle(
+              color: Colors.white, fontSize: 45, fontFamily: 'title'),
         )
       ],
     );

@@ -17,7 +17,6 @@ class UserInfoController extends GetxController {
   Color? buttonColor;
   @override
   void onInit() {
-    print(['len', Hive.box<UserInfo>('user').length]);
     Hive.box<UserInfo>('user').values.forEach((element) {
       name.value = element.name!;
       number.value = element.number!;

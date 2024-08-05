@@ -9,19 +9,23 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 int selectedLang = 0;
-List langs = ['English', 'Persian'];
 
 class MoreSettingsScreen extends StatelessWidget {
   const MoreSettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    if (Hive.box<UserInfo>('user').values.first.language == 'en') {
+      selectedLang = 0;
+    } else {
+      selectedLang = 1;
+    }
+    return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBarWidget(
         action: false,
         back: true,
-        titleText: "More Settings",
+        titleText: "More Settings".tr,
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
@@ -32,23 +36,23 @@ class MoreSettingsScreen extends StatelessWidget {
             padding: EdgeInsets.only(top: 8, left: 16, right: 8),
             child: SettingsCategoryWidget(
               color: Colors.white,
-              text: 'Set Language',
+              text: 'Set Language'.tr,
             ),
           ),
-          LanguageWidget(),
+          const LanguageWidget(),
           Column(
             children: [
-              Divider(indent: 12, endIndent: 12),
+              const Divider(indent: 12, endIndent: 12),
               Padding(
                 padding: EdgeInsets.only(top: 8, left: 16, right: 8),
                 child: SettingsCategoryWidget(
                   color: Colors.white,
-                  text: 'Default Color',
+                  text: 'App Theme'.tr,
                 ),
               ),
             ],
           ),
-          ColorWidget(),
+          const ColorWidget(),
         ],
       ),
     );
@@ -79,14 +83,14 @@ class LanguageWidget extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  langs[0],
+                  'English'.tr,
                   style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         SizedBox(
@@ -104,7 +108,7 @@ class LanguageWidget extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  langs[1],
+                  "Persian".tr,
                   style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
@@ -138,10 +142,10 @@ class ColorWidget extends StatelessWidget {
                 color: Colors.teal,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Choose',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                  'Choose'.tr,
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
               ),
             ),
@@ -160,9 +164,9 @@ void _openDialog(String title, Widget content) {
       onPressed: () {
         Get.back();
       },
-      child: const Text(
-        'cancel',
-        style: TextStyle(
+      child: Text(
+        'cancel'.tr,
+        style: const TextStyle(
           color: Colors.black,
         ),
       ),
@@ -175,8 +179,8 @@ void _openDialog(String title, Widget content) {
         Get.back();
 
         Get.snackbar(
-          'SuccessFul',
-          'App Color SuccessFully Updated',
+          'SuccessFul'.tr,
+          'App Theme SuccessFully Updated'.tr,
           icon: const Icon(
             Icons.check,
             color: Colors.green,
@@ -186,9 +190,9 @@ void _openDialog(String title, Widget content) {
           margin: const EdgeInsets.all(15),
         );
       },
-      child: const Text(
-        'sumbit',
-        style: TextStyle(
+      child: Text(
+        'submit'.tr,
+        style: const TextStyle(
           color: Colors.black,
         ),
       ),
@@ -218,12 +222,6 @@ void _openColorPicker() async {
           userInfo.selectedColorRed.value = color.red;
           userInfo.updateUserHiveInfo();
         }
-        print([
-          userInfo.selectedColorAlpha.value,
-          userInfo.selectedColorBlue.value,
-          userInfo.selectedColorGreen.value,
-          userInfo.selectedColorRed.value,
-        ]);
       },
     ),
   );

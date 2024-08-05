@@ -1,3 +1,4 @@
+import 'package:daily_tasks_getx/controllers/done_task_controller.dart';
 import 'package:daily_tasks_getx/controllers/image_controller.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
@@ -12,6 +13,7 @@ class MyBindings extends Bindings {
     Get.put(TextFieldController());
     Get.put(ImageController());
     Get.put(UserInfoController());
-    Get.lazyPut(() => TrasnlateController());
+    Get.put(TrasnlateController());
+    Get.put(DoneTaskController());
   }
 }

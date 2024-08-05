@@ -7,29 +7,28 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 String imageController = '';
 String nameController = '';
 String numberController = '';
 bool checkFirstEntry = true;
 checkEnterForFirstTime() async {
-  SharedPreferences isActivePref = await SharedPreferences.getInstance();
-  if (isActivePref.getBool('isActive') == null) {
-    setProfileData();
-    SharedPreferences premium = await SharedPreferences.getInstance();
-    premium.setBool('purchase', false);
-    // scheduleDailyNotification();
-  } else {
-    checkFirstEntry = false;
-    loadProfileData();
-  }
+  // SharedPreferences isActivePref = await SharedPreferences.getInstance();
+  // if (isActivePref.getBool('isActive') == null) {
+  //   setProfileData();
+  //   SharedPreferences premium = await SharedPreferences.getInstance();
+  //   premium.setBool('purchase', false);
+  //   // scheduleDailyNotification();
+  // } else {
+  //   checkFirstEntry = false;
+  //   loadProfileData();
+  // }
 }
 
 loadProfileData() async {
-  SharedPreferences prefProfileImage = await SharedPreferences.getInstance();
-  SharedPreferences prefProfileName = await SharedPreferences.getInstance();
-  SharedPreferences prefProfileNumber = await SharedPreferences.getInstance();
+  // SharedPreferences prefProfileImage = await SharedPreferences.getInstance();
+  // SharedPreferences prefProfileName = await SharedPreferences.getInstance();
+  // SharedPreferences prefProfileNumber = await SharedPreferences.getInstance();
 
   // setState(() {
   //   nameController = prefProfileName.getString('profileName')!;
@@ -39,15 +38,15 @@ loadProfileData() async {
 }
 
 setProfileData() async {
-  SharedPreferences isActivePref = await SharedPreferences.getInstance();
-  SharedPreferences prefProfileImage = await SharedPreferences.getInstance();
-  SharedPreferences prefProfileName = await SharedPreferences.getInstance();
-  SharedPreferences prefProfileNumber = await SharedPreferences.getInstance();
+  // SharedPreferences isActivePref = await SharedPreferences.getInstance();
+  // SharedPreferences prefProfileImage = await SharedPreferences.getInstance();
+  // SharedPreferences prefProfileName = await SharedPreferences.getInstance();
+  // SharedPreferences prefProfileNumber = await SharedPreferences.getInstance();
 
-  await isActivePref.setBool('isActive', true);
-  await prefProfileNumber.setString('profileNumber', numberController);
-  await prefProfileName.setString('profileName', nameController);
-  await prefProfileImage.setString('profileImage', imageController);
+  // await isActivePref.setBool('isActive', true);
+  // await prefProfileNumber.setString('profileNumber', numberController);
+  // await prefProfileName.setString('profileName', nameController);
+  // await prefProfileImage.setString('profileImage', imageController);
 }
 
 Future showOptions() async {
@@ -63,9 +62,9 @@ Future showOptions() async {
             ),
             backgroundColor: Colors.indigo[400],
           ),
-          child: const Text(
-            'Photo Gallery',
-            style: TextStyle(color: Colors.black),
+          child: Text(
+            'Photo Gallery'.tr,
+            style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
             // close the options modal
@@ -84,9 +83,9 @@ Future showOptions() async {
             ),
             backgroundColor: Colors.indigo[400],
           ),
-          child: const Text(
-            'Camera',
-            style: TextStyle(color: Colors.black),
+          child: Text(
+            'Camera'.tr,
+            style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
             // close the options modal
@@ -138,7 +137,7 @@ class EditProfileScreen extends StatelessWidget {
       appBar: AppBarWidget(
         action: false,
         back: true,
-        titleText: "Edit Profile",
+        titleText: "Edit Profile".tr,
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
@@ -190,8 +189,8 @@ class EditProfileScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SettingsCategoryWidget(
-                text: 'Name :',
+              SettingsCategoryWidget(
+                text: 'Name :'.tr,
                 color: Colors.white,
               ),
               Padding(
@@ -208,9 +207,9 @@ class EditProfileScreen extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
-              const SettingsCategoryWidget(
+              SettingsCategoryWidget(
                 color: Colors.white,
-                text: 'Number :',
+                text: 'Number :'.tr,
               ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -254,10 +253,11 @@ class EditProfileScreen extends StatelessWidget {
                   onPressed: () async {
                     if (nameController == '' || numberController == '') {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
+                        SnackBar(
                           content: Text(
                               '''You must add your profile data to use the app
-Your profile data will be unreachable for others.'''),
+Your profile data will be unreachable for others.'''
+                                  .tr),
                         ),
                       );
                     } else {
@@ -276,9 +276,9 @@ Your profile data will be unreachable for others.'''),
                       Get.back();
                     }
                   },
-                  child: const Text(
-                    'Done',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  child: Text(
+                    'Done'.tr,
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
               )
@@ -289,3 +289,6 @@ Your profile data will be unreachable for others.'''),
     );
   }
 }
+
+
+// todo: backend of this screen

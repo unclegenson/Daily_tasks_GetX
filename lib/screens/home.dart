@@ -7,7 +7,6 @@ import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/models/general_models.dart';
-import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/screens/add_task.dart';
 import 'package:daily_tasks_getx/screens/drawer_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
@@ -15,7 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 
 class Home extends StatelessWidget {
@@ -51,18 +49,19 @@ Duration homeDurationOfAudio = Duration.zero;
 Duration homeAudioPosition = Duration.zero;
 final homeAudioPlayer = AudioPlayer();
 
+Future homeSetAudio() async {
+  homeAudioPlayer.setSourceDeviceFile(homePathOfVoice!);
+}
+
 List colorItems = const [
-  Color.fromARGB(255, 137, 207, 240),
-  Color.fromARGB(255, 255, 229, 180),
-  Color.fromARGB(255, 255, 209, 220),
-  Color.fromARGB(255, 169, 211, 158),
-  Color.fromARGB(255, 255, 200, 152),
-  Color.fromARGB(255, 195, 177, 225),
-  Color.fromARGB(255, 193, 187, 221),
-  Color.fromARGB(255, 218, 191, 222),
-  Color.fromARGB(255, 255, 220, 244),
-  Color.fromARGB(255, 220, 255, 251),
-  Color.fromARGB(255, 193, 231, 227),
+  Color.fromARGB(255, 174, 213, 129),
+  Color.fromARGB(255, 30, 136, 229),
+  Color.fromARGB(255, 255, 138, 101),
+  Color.fromARGB(255, 255, 193, 7),
+  Color.fromARGB(255, 77, 182, 172),
+  Color.fromARGB(255, 239, 83, 80),
+  Color.fromARGB(255, 171, 71, 188),
+  Color.fromARGB(255, 76, 175, 80),
 ];
 
 List weekDays = [
@@ -85,7 +84,6 @@ class HomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(['len', Get.find<DoneTaskController>().doneTasks.length]);
-
     return Obx(() {
       return Center(
         child: Get.find<TaskController>().tasks.isEmpty
@@ -97,6 +95,8 @@ class HomeBody extends StatelessWidget {
                     SliverGrid(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
+                          print('audios');
+                          print(Get.find<TaskController>().tasks[index].voice!);
                           return GestureDetector(
                             onLongPress: () {
                               longPressEachTask(index, context);
@@ -262,10 +262,19 @@ class HomeBody extends StatelessWidget {
 }
 
 class ShowDate extends StatelessWidget {
-  ShowDate({super.key, required this.index});
-  int index;
+  const ShowDate({super.key, required this.index});
+  final int index;
   @override
   Widget build(BuildContext context) {
+    weekDays = [
+      'Mon'.tr,
+      'Tue'.tr,
+      'Wed'.tr,
+      'Tur'.tr,
+      'Fri'.tr,
+      'Sat'.tr,
+      'Sun'.tr
+    ];
     return Align(
       alignment: Get.find<UserInfoController>().language.value == 'en'
           ? Alignment.bottomRight
@@ -351,6 +360,8 @@ class DoneOrDeleteWidgets extends StatelessWidget {
                         //todo: delete this item from home and move it to review screen.
                         Get.find<DoneTaskController>().doneTasks.add(
                               TasksModel(
+                                  audioId:
+                                      Get.find<TaskController>().audioId.value,
                                   category: Get.find<TaskController>()
                                       .tasks[index]
                                       .category,
@@ -407,20 +418,11 @@ class DoneOrDeleteWidgets extends StatelessWidget {
                       noImage: true,
                     );
                   },
-                  child: done
-                      ? SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            color: colorItems[index % colorItems.length],
-                            strokeWidth: 1,
-                          ),
-                        )
-                      : const Icon(
-                          Icons.check,
-                          size: 20,
-                          color: Colors.white,
-                        ),
+                  child: const Icon(
+                    Icons.check,
+                    size: 20,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               Padding(
@@ -458,20 +460,11 @@ class DoneOrDeleteWidgets extends StatelessWidget {
                             noImage: true,
                           );
                         },
-                        child: done
-                            ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  color: colorItems[index % colorItems.length],
-                                  strokeWidth: 1,
-                                ),
-                              )
-                            : const Icon(
-                                Icons.close,
-                                size: 20,
-                                color: Colors.white,
-                              ),
+                        child: const Icon(
+                          Icons.close,
+                          size: 20,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -524,14 +517,9 @@ class ShowAudioWidget extends StatelessWidget {
           children: [
             GestureDetector(
               onTap: () {
-                // setState(() {
-                //   homePathOfVoice =
-                //       voiceList[
-                //           index];
-                // });
-                // homeSetAudio();
-                // homeAudioPlayer
-                //     .resume();
+                homePathOfVoice = Get.find<TaskController>().tasks[index].voice;
+                homeSetAudio();
+                homeAudioPlayer.resume();
               },
               child: Container(
                 decoration: const BoxDecoration(
@@ -551,8 +539,7 @@ class ShowAudioWidget extends StatelessWidget {
             ),
             GestureDetector(
               onTap: () {
-                // homeAudioPlayer
-                //     .pause();
+                homeAudioPlayer.pause();
               },
               child: Container(
                 decoration: const BoxDecoration(

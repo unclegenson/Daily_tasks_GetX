@@ -16,6 +16,7 @@ class TasksModel {
     required this.colorGreen,
     required this.image,
     required this.voice,
+    required this.audioId,
   });
 
   String? title;
@@ -34,6 +35,7 @@ class TasksModel {
   int? colorBlue;
   String? image;
   String? voice;
+  int? audioId;
 
   Map<String, dynamic> toJson() {
     return {
@@ -53,6 +55,7 @@ class TasksModel {
       'colorBlue': colorBlue,
       'image': image,
       'voice': voice,
+      'audioId': audioId,
     };
   }
 
@@ -72,5 +75,23 @@ class TasksModel {
         colorGreen = json['colorGreen'],
         colorBlue = json['colorBlue'],
         image = json['image'],
-        voice = json['voice'];
+        voice = json['voice'],
+        audioId = json['audioId'];
+}
+
+class CategoriesModel {
+  CategoriesModel({
+    required this.category,
+  });
+
+  String? category;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'category': category,
+    };
+  }
+
+  CategoriesModel.fromJson(Map<String, dynamic> json)
+      : category = json['category'];
 }

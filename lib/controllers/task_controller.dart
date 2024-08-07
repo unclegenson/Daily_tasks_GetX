@@ -26,6 +26,11 @@ class TaskController extends GetxController {
 
   var image = ''.obs;
   var voice = ''.obs;
+  var audioId = 0.obs;
+  var pathOfVoice = ''.obs;
+  var isPlaying = false.obs;
+  var durationOfAudio = Duration(seconds: 0).obs;
+  var position = Duration(seconds: 0).obs;
 
   @override
   void onInit() {
@@ -37,6 +42,10 @@ class TaskController extends GetxController {
         tasks.add(TasksModel.fromJson(taskItem));
       }
     }
+    tasks.forEach((element) {
+      print('----');
+      print(element.voice);
+    });
 
     ever(tasks, (callback) {
       box.write('tasks', tasks.toJson());

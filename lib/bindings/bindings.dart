@@ -1,3 +1,4 @@
+import 'package:daily_tasks_getx/controllers/category_controller.dart';
 import 'package:daily_tasks_getx/controllers/done_task_controller.dart';
 import 'package:daily_tasks_getx/controllers/image_controller.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
@@ -15,5 +16,6 @@ class MyBindings extends Bindings {
     Get.put(UserInfoController());
     Get.put(TrasnlateController());
     Get.put(DoneTaskController());
+    Get.put(CategoryController());
   }
 }

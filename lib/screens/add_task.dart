@@ -1,12 +1,17 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:daily_tasks_getx/controllers/category_controller.dart';
+import 'package:flutter_sound/public/flutter_sound_player.dart' as h;
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daily_tasks_getx/controllers/image_controller.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/models/general_models.dart';
+import 'package:daily_tasks_getx/screens/home.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +22,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 
 int selectedTaskIndex = 0;
-List categoryItems = ['1', '2', '3'];
+List categoryItems = ['WorkOut', 'Shopping', 'Work', 'Studing'];
 final picker = ImagePicker();
 final recorder = FlutterSoundRecorder();
 final audioPlayer = AudioPlayer();
-
-String pathOfVoice = '';
 
 void _openDialog(String title, Widget content) {
   Get.defaultDialog(
@@ -114,6 +117,15 @@ Future showOptions() async {
 Color? _shadeColor = Colors.blue[800];
 Color? selectedColor;
 
+void setColor() {
+  var task = Get.find<TaskController>();
+
+  task.colorAlpha.value = selectedColor!.alpha;
+  task.colorBlue.value = selectedColor!.blue;
+  task.colorGreen.value = selectedColor!.green;
+  task.colorRed.value = selectedColor!.red;
+}
+
 void _openColorPicker() async {
   _openDialog(
     '',
@@ -121,19 +133,28 @@ void _openColorPicker() async {
       selectedColor: _shadeColor,
       onColorChange: (color) {
         selectedColor = color;
-        var task = Get.find<TaskController>();
-
-        task.colorAlpha.value = selectedColor!.alpha;
-        task.colorBlue.value = selectedColor!.blue;
-        task.colorGreen.value = selectedColor!.green;
-        task.colorRed.value = selectedColor!.red;
+        setColor();
       },
     ),
   );
 }
 
+Future record() async {
+  Get.find<TaskController>().audioId.value++;
+  await recorder.startRecorder(
+      toFile: 'audio${Get.find<TaskController>().audioId.value.toString()}');
+  print('audio');
+  print(Get.find<TaskController>().audioId.value);
+}
+
+Future stop() async {
+  final path = await recorder.stopRecorder();
+  Get.find<TaskController>().pathOfVoice.value = path!;
+  setAudio();
+}
+
 Future setAudio() async {
-  audioPlayer.setSourceDeviceFile(pathOfVoice);
+  audioPlayer.setSourceDeviceFile(Get.find<TaskController>().pathOfVoice.value);
 }
 
 Future<void> initRecorder() async {
@@ -143,11 +164,53 @@ Future<void> initRecorder() async {
   recorder.setSubscriptionDuration(const Duration(milliseconds: 200));
 }
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
 
   @override
+  State<AddTaskScreen> createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  @override
+  void initState() {
+    if (Get.find<CategoryController>().categories.isNotEmpty) {
+      for (var i = 0;
+          i < Get.find<CategoryController>().categories.length;
+          i++) {
+        categoryItems
+            .add(Get.find<CategoryController>().categories[i].category);
+      }
+    }
+    audioPlayer.onPlayerStateChanged.listen(
+      (event) {
+        if (this.mounted) {
+          Get.find<TaskController>().isPlaying.value =
+              event == h.PlayerState.isPlaying;
+        }
+        ;
+      },
+    );
+    audioPlayer.onDurationChanged.listen((newDuration) {
+      if (this.mounted) {
+        Get.find<TaskController>().durationOfAudio.value = newDuration;
+      }
+    });
+    audioPlayer.onPositionChanged.listen((newPosition) {
+      if (this.mounted) {
+        Get.find<TaskController>().position.value = newPosition;
+      }
+    });
+    initRecorder();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    setTime();
+    selectedColor = colorItems[Random().nextInt(colorItems.length)];
+    setColor();
     return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBarWidget(
@@ -198,40 +261,49 @@ class AddTaskScreen extends StatelessWidget {
                             SizedBox(
                               height: 8,
                             ),
-                            // StreamBuilder(
-                            //   stream: recorder.onProgress,
-                            //   builder: (_, snapshot) {
-                            //     final duration = snapshot.hasData
-                            //         ? snapshot.data!.duration
-                            //         : Duration.zero;
+                            StreamBuilder(
+                              stream: recorder.onProgress,
+                              builder: (_, snapshot) {
+                                final duration = snapshot.hasData
+                                    ? snapshot.data!.duration
+                                    : Duration.zero;
 
-                            //     String twoDigits(int n) =>
-                            //         n.toString().padLeft(2);
-                            //     final twoDigitMinutes =
-                            //         twoDigits(duration.inMinutes.remainder(60));
-                            //     final twoDigitSeconds =
-                            //         twoDigits(duration.inSeconds.remainder(60));
+                                String twoDigits(int n) =>
+                                    n.toString().padLeft(2);
+                                final twoDigitMinutes =
+                                    twoDigits(duration.inMinutes.remainder(60));
+                                final twoDigitSeconds =
+                                    twoDigits(duration.inSeconds.remainder(60));
 
-                            //     return Text(
-                            //       '$twoDigitMinutes :$twoDigitSeconds',
-                            //       style: const TextStyle(
-                            //           color: Colors.white, fontSize: 26),
-                            //     );
-                            //   },
-                            // ),
-                            // Slider(
-                            //   activeColor: Colors.orange,
-                            //   divisions: 20,
-                            //   value: position.inSeconds.toDouble(),
-                            //   onChanged: (value) async {
-                            //     final position = Duration(seconds: value.toInt());
-                            //     await audioPlayer.seek(position);
-                            //   },
-                            //   min: 0,
-                            //   max: durationOfAudio.inSeconds.toDouble(),
-                            // ),
-                            AudioPositionsWidget(),
-                            Row(
+                                return Text(
+                                  '$twoDigitMinutes :$twoDigitSeconds',
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 26),
+                                );
+                              },
+                            ),
+                            Slider(
+                              activeColor: Colors.orange,
+                              divisions: 20,
+                              value: Get.find<TaskController>()
+                                  .position
+                                  .value
+                                  .inSeconds
+                                  .toDouble(),
+                              onChanged: (value) async {
+                                final position =
+                                    Duration(seconds: value.toInt());
+                                await audioPlayer.seek(position);
+                              },
+                              min: 0,
+                              max: Get.find<TaskController>()
+                                  .durationOfAudio
+                                  .value
+                                  .inSeconds
+                                  .toDouble(),
+                            ),
+                            const AudioPositionsWidget(),
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 RecordIconButton(),
@@ -239,10 +311,10 @@ class AddTaskScreen extends StatelessWidget {
                                 PauseIconButton()
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 14,
                             ),
-                            TitleWidget(),
+                            const TitleWidget(),
                           ],
                         ),
                   const ImagePickerWidget(),
@@ -348,6 +420,7 @@ class CreateTaskWidget extends StatelessWidget {
                   colorGreen: Get.find<TaskController>().colorGreen.value,
                   image: Get.find<ImageController>().imagePath.value,
                   voice: Get.find<TaskController>().voice.value,
+                  audioId: Get.find<TaskController>().audioId.value,
                 ),
               );
         }
@@ -481,17 +554,13 @@ class RecordIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () async {
-        // if (recorder.isRecording) {
-        //   await stop();
-        //   setState(() {
-        //     isRecording = false;
-        //   });
-        // } else {
-        //   await record();
-        //   setState(() {
-        //     isRecording = true;
-        //   });
-        // }
+        if (recorder.isRecording) {
+          await stop();
+          // isRecording = false;
+        } else {
+          await record();
+          // isRecording = true;
+        }
       },
       icon: Container(
         decoration: const BoxDecoration(
@@ -531,7 +600,7 @@ class PauseIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        // audioPlayer.pause();
+        audioPlayer.pause();
       },
       icon: Container(
         decoration: const BoxDecoration(
@@ -558,10 +627,10 @@ class ResumeIconButtion extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        // if (pathOfVoice != '') {
-        //   setAudio();
-        //   audioPlayer.resume();
-        // }
+        if (Get.find<TaskController>().pathOfVoice.value != '') {
+          setAudio();
+          audioPlayer.resume();
+        }
       },
       icon: Container(
         decoration: const BoxDecoration(

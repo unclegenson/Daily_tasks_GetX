@@ -6,6 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
+void setTime() {
+  var task = Get.find<TaskController>();
+  task.day.value = time.day;
+  task.hour.value = time.hour;
+  task.minute.value = time.minute;
+  task.month.value = time.month;
+  task.weekDay.value = time.weekday;
+  task.year.value = time.year;
+}
+
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({
     super.key,
@@ -111,7 +121,7 @@ DateTime time = DateTime.now();
 void openDateTimePicker(BuildContext context) {
   BottomPicker.dateTime(
     pickerTitle: Text(
-      'choose Task Date'.tr,
+      'Choose Task Date'.tr,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18,
@@ -130,6 +140,7 @@ void openDateTimePicker(BuildContext context) {
       fontSize: 14,
     ),
     onSubmit: (p0) {
+      time = p0;
       var day = DateTime(time.year, time.month, time.day)
           .difference(DateTime.now())
           .inDays;
@@ -150,14 +161,8 @@ void openDateTimePicker(BuildContext context) {
       );
     },
     onChange: (p0) {
-      var task = Get.find<TaskController>();
       time = p0;
-      task.day.value = time.day;
-      task.hour.value = time.hour;
-      task.minute.value = time.minute;
-      task.month.value = time.month;
-      task.weekDay.value = time.weekday;
-      task.year.value = time.year;
+      setTime();
       print(time);
     },
   ).show(context);
@@ -180,21 +185,27 @@ class CalenderWidget extends StatelessWidget {
           return openDateTimePicker(context);
         },
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.edit_calendar,
-              ),
-              Text(
-                '${time.day.toString()} - ${time.month.toString()} - ${time.year.toString()}',
-                style: const TextStyle(fontSize: 20),
-              ),
-              Text(
-                '${time.hour.toString().length > 1 ? time.hour.toString() : '0${time.hour.toString()}'} : ${time.minute.toString().length > 1 ? time.minute.toString() : '0${time.minute.toString()}'} ',
-                style: const TextStyle(fontSize: 20),
-              ),
-            ],
+          child: Obx(
+            () {
+              var task = Get.find<TaskController>();
+
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.edit_calendar,
+                  ),
+                  Text(
+                    '${task.day.value.toString()} - ${task.month.value.toString()} - ${task.year.value.toString()}',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    '${task.hour.value.toString().length > 1 ? task.hour.value.toString() : '0${task.hour.value.toString()}'} : ${task.minute.value.toString().length > 1 ? task.minute.value.toString() : '0${task.minute.value.toString()}'} ',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),

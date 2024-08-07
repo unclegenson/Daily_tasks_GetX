@@ -117,9 +117,19 @@ Your profile data will be unreachable for others.''',
           'for each month': 'for each month',
           'App Feedback': 'App Feedback',
           'subject=App Feedback&body=App Version 1.0:\n\nThe problem is ':
-              'subject=App Feedback&body=App Version 1.0:\n\nThe problem is '
+              'subject=App Feedback&body=App Version 1.0:\n\nThe problem is ',
+          'Add New Task!': 'Add New Task!',
+          'Task Notification will be in: ': 'Task Notification will be in: ',
+          'Delete This Category': 'Delete This Category',
+          'Are you sure you want to delete this Category?':
+              'Are you sure you want to delete this Category?'
         },
         'fa': {
+          'Are you sure you want to delete this Category?':
+              'مطمئنی میخوای این دسته بندی پاک بشه؟',
+          'Delete This Category': 'پاک کردن این دسته بندی',
+          'Task Notification will be in: ': ' یادآور این وظیفه در',
+          'Add New Task!': 'یه وظیفه جدید اضافه کن!',
           'subject=App Feedback&body=App Version 1.0:\n\nThe problem is ':
               'subject=پیشنهاد برای آپدیت اپلیکیشن&body=ورژن 1.0:\n\n پیشنهاد من ',
           'App Feedback': 'پیشنهاد برای آپدیت اپلیکیشن:',

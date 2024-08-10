@@ -95,3 +95,36 @@ class CategoriesModel {
   CategoriesModel.fromJson(Map<String, dynamic> json)
       : category = json['category'];
 }
+
+class BirthdayModel {
+  BirthdayModel({
+    required this.name,
+    required this.number,
+    required this.day,
+    required this.mounth,
+    required this.year,
+  });
+
+  String? name;
+  int? day;
+  int? mounth;
+  int? year;
+  String? number;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'day': day,
+      'mounth': mounth,
+      'year': year,
+      'number': number,
+    };
+  }
+
+  BirthdayModel.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        number = json['number'],
+        day = json['day'],
+        mounth = json['mounth'],
+        year = json['year'];
+}

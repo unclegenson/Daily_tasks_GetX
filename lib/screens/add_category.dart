@@ -118,52 +118,55 @@ class Buttons extends StatelessWidget {
             ),
           );
         }),
-        Obx(() {
-          if (Get.find<CategoryController>().wantToChange.value == true) {
-            return SizedBox(
-              width: 70,
-              height: 50,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+        Obx(
+          () {
+            if (Get.find<CategoryController>().wantToChange.value == true) {
+              return SizedBox(
+                width: 70,
+                height: 50,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {
+                    PanaraConfirmDialog.showAnimatedGrow(
+                      context,
+                      title: 'Delete This Category'.tr,
+                      message:
+                          'Are you sure you want to delete this Category?'.tr,
+                      confirmButtonText: 'Yes'.tr,
+                      cancelButtonText: 'No'.tr,
+                      onTapCancel: () {
+                        Navigator.pop(context);
+                      },
+                      onTapConfirm: () {
+                        Get.find<CategoryController>()
+                            .categories
+                            .removeAt(Get.find<CategoryController>().index);
+                        Get.find<CategoryController>().con.text = '';
+                        Get.find<CategoryController>().wantToChange.value =
+                            false;
+
+                        Get.back();
+                      },
+                      panaraDialogType: PanaraDialogType.warning,
+                      noImage: true,
+                    );
+                  },
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.white,
                   ),
                 ),
-                onPressed: () {
-                  PanaraConfirmDialog.showAnimatedGrow(
-                    context,
-                    title: 'Delete This Category'.tr,
-                    message:
-                        'Are you sure you want to delete this Category?'.tr,
-                    confirmButtonText: 'Yes'.tr,
-                    cancelButtonText: 'No'.tr,
-                    onTapCancel: () {
-                      Navigator.pop(context);
-                    },
-                    onTapConfirm: () {
-                      Get.find<CategoryController>()
-                          .categories
-                          .removeAt(Get.find<CategoryController>().index);
-                      Get.find<CategoryController>().con.text = '';
-                      Get.find<CategoryController>().wantToChange.value = false;
-
-                      Get.back();
-                    },
-                    panaraDialogType: PanaraDialogType.warning,
-                    noImage: true,
-                  );
-                },
-                child: const Icon(
-                  Icons.delete,
-                  color: Colors.white,
-                ),
-              ),
-            );
-          } else {
-            return const SizedBox();
-          }
-        })
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
+        )
       ],
     );
   }
@@ -220,8 +223,9 @@ class ShowCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: Get.height * 6 / 10,
-        child: Obx(() {
+      height: Get.height * 6 / 10,
+      child: Obx(
+        () {
           return ListView.builder(
             itemCount: Get.find<CategoryController>().categories.length,
             itemBuilder: (context, index) {
@@ -249,6 +253,8 @@ class ShowCategories extends StatelessWidget {
               );
             },
           );
-        }));
+        },
+      ),
+    );
   }
 }

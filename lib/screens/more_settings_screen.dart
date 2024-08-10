@@ -36,7 +36,7 @@ class MoreSettingsScreen extends StatelessWidget {
             padding: EdgeInsets.only(top: 8, left: 16, right: 8),
             child: SettingsCategoryWidget(
               color: Colors.white,
-              text: 'Set Language'.tr,
+              text: 'Set Language:'.tr,
             ),
           ),
           const LanguageWidget(),

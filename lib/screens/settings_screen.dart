@@ -3,6 +3,8 @@
 // import 'package:daily_tasks/screens/notitfications.dart';
 // import 'package:daily_tasks/widgets/app_widgets.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
+import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/screens/edit_profile.dart';
 import 'package:daily_tasks_getx/screens/more_settings_screen.dart';
 import 'package:daily_tasks_getx/screens/notifications_screen.dart';
@@ -238,7 +240,9 @@ class SettingsCategoryWidget extends StatelessWidget {
     return Column(
       children: [
         Align(
-          alignment: Alignment.centerLeft,
+          alignment: Get.find<UserInfoController>().language.value == 'en'
+              ? Alignment.centerLeft
+              : Alignment.centerRight,
           child: Text(
             text,
             style: TextStyle(

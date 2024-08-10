@@ -16,8 +16,40 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 
-class Home extends StatelessWidget {
+import 'package:flutter_sound/public/flutter_sound_player.dart' as h;
+
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    homeAudioPlayer.onPlayerStateChanged.listen(
+      (event) {
+        if (this.mounted) {
+          setState(() {
+            Get.find<TaskController>().isPlaying.value =
+                event == h.PlayerState.isPlaying;
+          });
+        }
+      },
+    );
+    homeAudioPlayer.onDurationChanged.listen((newDuration) {
+      if (mounted) {
+        Get.find<TaskController>().homeDurationOfAudio.value = newDuration;
+      }
+    });
+    homeAudioPlayer.onPositionChanged.listen((newPosition) {
+      if (mounted) {
+        Get.find<TaskController>().homeAudioPosition.value = newPosition;
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +75,11 @@ class Home extends StatelessWidget {
   }
 }
 
-String? homePathOfVoice;
-
-Duration homeDurationOfAudio = Duration.zero;
-Duration homeAudioPosition = Duration.zero;
 final homeAudioPlayer = AudioPlayer();
 
 Future homeSetAudio() async {
-  homeAudioPlayer.setSourceDeviceFile(homePathOfVoice!);
+  homeAudioPlayer
+      .setSourceDeviceFile(Get.find<TaskController>().homePathOfVoice.value);
 }
 
 List colorItems = const [
@@ -485,79 +514,94 @@ class ShowAudioWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 30,
-        ),
-        homePathOfVoice == Get.find<TaskController>().tasks[index].voice!
-            ? Slider(
-                activeColor: Colors.green,
-                divisions: 20,
-                value: homeAudioPosition.inSeconds.toDouble(),
-                onChanged: (value) async {
-                  final homeAudioPosition = Duration(seconds: value.toInt());
-                  await homeAudioPlayer.seek(
-                    homeAudioPosition,
-                  );
+    return Obx(() {
+      return Column(
+        children: [
+          const SizedBox(
+            height: 30,
+          ),
+          Get.find<TaskController>().homePathOfVoice.value ==
+                  Get.find<TaskController>().tasks[index].voice!
+              ? Slider(
+                  activeColor: Colors.green,
+                  divisions: 20,
+                  value: Get.find<TaskController>()
+                      .homeAudioPosition
+                      .value
+                      .inSeconds
+                      .toDouble(),
+                  onChanged: (value) async {
+                    final homeAudioPosition = Duration(seconds: value.toInt());
+                    await homeAudioPlayer.seek(
+                      homeAudioPosition,
+                    );
+                  },
+                  min: 0,
+                  max: Get.find<TaskController>()
+                      .homeDurationOfAudio
+                      .value
+                      .inSeconds
+                      .toDouble(),
+                )
+              : Slider(
+                  activeColor: Colors.grey[600],
+                  divisions: 20,
+                  value: 0,
+                  onChanged: (value) {
+                    print(value);
+                  },
+                  min: 0,
+                  max: 100,
+                ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.find<TaskController>().homePathOfVoice.value =
+                      Get.find<TaskController>().tasks[index].voice!;
+
+                  homeSetAudio();
+                  homeAudioPlayer.resume();
                 },
-                min: 0,
-                max: homeDurationOfAudio.inSeconds.toDouble(),
-              )
-            : Slider(
-                activeColor: Colors.green,
-                divisions: 20,
-                value: 0,
-                onChanged: (value) {},
-                min: 0,
-                max: 100,
-              ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () {
-                homePathOfVoice = Get.find<TaskController>().tasks[index].voice;
-                homeSetAudio();
-                homeAudioPlayer.resume();
-              },
-              child: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-                width: 40,
-                height: 40,
-                child: const Icon(
-                  Icons.play_arrow,
-                  color: Colors.black,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                  width: 40,
+                  height: 40,
+                  child: const Icon(
+                    Icons.play_arrow,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              width: 8,
-            ),
-            GestureDetector(
-              onTap: () {
-                homeAudioPlayer.pause();
-              },
-              child: Container(
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-                width: 40,
-                height: 40,
-                child: const Icon(
-                  Icons.pause,
-                  color: Colors.black,
+              const SizedBox(
+                width: 8,
+              ),
+              GestureDetector(
+                onTap: () {
+                  homeAudioPlayer.pause();
+                },
+                child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                  ),
+                  width: 40,
+                  height: 40,
+                  child: const Icon(
+                    Icons.pause,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
-    );
+            ],
+          ),
+        ],
+      );
+    });
   }
 }
 
@@ -662,8 +706,12 @@ class EmptyHomeBodyWidget extends StatelessWidget {
         ),
         Text(
           'Add New Task!'.tr,
-          style: const TextStyle(
-              color: Colors.white, fontSize: 45, fontFamily: 'title'),
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: 45,
+              fontFamily: Get.find<UserInfoController>().language.value == 'en'
+                  ? 'title'
+                  : 'farsi'),
         )
       ],
     );

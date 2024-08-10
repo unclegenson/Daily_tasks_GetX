@@ -1,6 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daily_tasks_getx/bindings/bindings.dart';
-import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/models/translate.dart';
 import 'package:daily_tasks_getx/screens/home.dart';
@@ -52,6 +51,7 @@ class DailyTasksApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    firstEnter();
     var user = Hive.box<UserInfo>('user').values.first;
 
     return GetMaterialApp(
@@ -61,6 +61,22 @@ class DailyTasksApp extends StatelessWidget {
       title: 'Daily Tasks',
       debugShowCheckedModeBanner: false,
       home: const Home(),
+    );
+  }
+
+  void firstEnter() {
+    Hive.box<UserInfo>('user').add(
+      UserInfo(
+        name: 'name',
+        number: 'number',
+        dailyReminderHour: 23,
+        image: 'image',
+        language: 'en',
+        selectedColorAlpha: 255,
+        selectedColorBlue: 100,
+        selectedColorGreen: 230,
+        selectedColorRed: 210,
+      ),
     );
   }
 }

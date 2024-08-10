@@ -1,6 +1,7 @@
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
+import 'package:daily_tasks_getx/screens/add_task.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -81,6 +82,8 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                       child: Obx(() {
                         return InkWell(
                           onTap: () async {
+                            initRecorder();
+
                             var micOn = Get.find<TaskController>().micOn;
                             if (micOn.value == true) {
                               micOn.value = false;
@@ -104,10 +107,19 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       backgroundColor: Colors.black87,
-      title: Text(
-        titleText,
-        style: TextStyle(
-            fontSize: fontSize, fontFamily: 'title', color: Colors.white),
+      title: Obx(
+        () {
+          return Text(
+            titleText,
+            style: TextStyle(
+                fontSize: fontSize,
+                fontFamily:
+                    Get.find<UserInfoController>().language.value == 'en'
+                        ? 'title'
+                        : 'farsi',
+                color: Colors.white),
+          );
+        },
       ),
     );
   }

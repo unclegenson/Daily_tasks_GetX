@@ -23,7 +23,6 @@ class CategoryController extends GetxController {
 
     ever(categories, (callback) {
       box.write('categories', categories.toJson());
-      print(categories.last);
     });
     super.onInit();
   }

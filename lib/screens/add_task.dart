@@ -47,7 +47,7 @@ void _openDialog(String title, Widget content) {
         Get.back();
       },
       child: Text(
-        'sumbit'.tr,
+        'Sumbit'.tr,
         style: const TextStyle(
           color: Colors.black,
         ),
@@ -139,6 +139,8 @@ void _openColorPicker() async {
   );
 }
 
+//todo: fix bug of reset audioId
+
 Future record() async {
   Get.find<TaskController>().audioId.value++;
   await recorder.startRecorder(
@@ -201,7 +203,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         Get.find<TaskController>().position.value = newPosition;
       }
     });
-    initRecorder();
 
     super.initState();
   }
@@ -255,10 +256,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                   : 'Click the mic button to start recording...'
                                       .tr,
                               style: TextStyle(
-                                  color: Get.find<UserInfoController>()
-                                      .buttonColor),
+                                color:
+                                    Get.find<UserInfoController>().buttonColor,
+                              ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
                             StreamBuilder(
@@ -283,7 +285,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                               },
                             ),
                             Slider(
-                              activeColor: Colors.orange,
+                              activeColor:
+                                  Get.find<UserInfoController>().buttonColor,
                               divisions: 20,
                               value: Get.find<TaskController>()
                                   .position
@@ -386,7 +389,7 @@ class CreateTaskWidget extends StatelessWidget {
           task.colorGreen = Get.find<TaskController>().colorGreen.value;
           task.colorRed = Get.find<TaskController>().colorRed.value;
           task.image = Get.find<TaskController>().image.value;
-          task.voice = Get.find<TaskController>().voice.value;
+          task.voice = Get.find<TaskController>().pathOfVoice.value;
           //
           task.year = Get.find<TaskController>().year.value;
           task.month = Get.find<TaskController>().month.value;
@@ -419,7 +422,7 @@ class CreateTaskWidget extends StatelessWidget {
                   colorBlue: Get.find<TaskController>().colorBlue.value,
                   colorGreen: Get.find<TaskController>().colorGreen.value,
                   image: Get.find<ImageController>().imagePath.value,
-                  voice: Get.find<TaskController>().voice.value,
+                  voice: Get.find<TaskController>().pathOfVoice.value,
                   audioId: Get.find<TaskController>().audioId.value,
                 ),
               );

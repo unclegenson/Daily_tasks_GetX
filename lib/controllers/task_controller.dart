@@ -32,6 +32,10 @@ class TaskController extends GetxController {
   var durationOfAudio = Duration(seconds: 0).obs;
   var position = Duration(seconds: 0).obs;
 
+  var homePathOfVoice = ''.obs;
+  var homeDurationOfAudio = Duration(seconds: 0).obs;
+  var homeAudioPosition = Duration(seconds: 0).obs;
+
   @override
   void onInit() {
     var box = GetStorage();

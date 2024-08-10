@@ -122,9 +122,20 @@ Your profile data will be unreachable for others.''',
           'Task Notification will be in: ': 'Task Notification will be in: ',
           'Delete This Category': 'Delete This Category',
           'Are you sure you want to delete this Category?':
-              'Are you sure you want to delete this Category?'
+              'Are you sure you want to delete this Category?',
+          'Choose best daily reminder time': 'Choose best daily reminder time',
+          "Tap delete if you're sure you wanna delete all tasks":
+              "Tap delete if you're sure you wanna delete all tasks",
+          'delete': 'delete',
+          'cancel': 'cancel'
         },
         'fa': {
+          'cancel': 'لغو',
+          'delete': 'پاک شدن',
+          "Tap delete if you're sure you wanna delete all tasks":
+              "اگه میخوای کل وظایف پاک بشن روی پاک شدن کلیک کن",
+          'Choose best daily reminder time':
+              'بهترین زمان یادآور روزانه رو انتخاب کن',
           'Are you sure you want to delete this Category?':
               'مطمئنی میخوای این دسته بندی پاک بشه؟',
           'Delete This Category': 'پاک کردن این دسته بندی',
@@ -219,11 +230,11 @@ Your profile data will be unreachable for others.''',
               "مطمئنی میخوای این وظیفه پاک بشه؟",
           "Language Settings": "تنظیمات زبان",
           "Reminder Time": ": زمان یادآوری",
-          "Notification Settings": "تنظیمات اعلان ها",
+          "Notification Settings": "تنظیم اعلان ها",
           "Choose your best daily reminder :":
               "بهترین یادآور روزانه خود را انتخاب کنید :",
           "Choose": "انتخاب",
-          "Your Best Daily Reminder": ": بهترین زمان یادآوری روزانه شما",
+          "Your best daily reminder :": "بهترین زمان یادآوری روزانه شما :",
           "Delete": "حذف",
           "Press Delete if you want to delete all the available tasks.":
               ".اگر می خواهید تمام وظایف موجود را حذف کنید، حذف را فشار دهید",
@@ -239,8 +250,8 @@ Your profile data will be unreachable for others.''':
           'More Settings': 'تنظیمات بیشتر',
           "Set Categories": "تنظیم دسته بندی ها",
           'Set Birthdays': "تنظیم تاریخ های تولد",
-          'Set Language:': 'تنظیم زبان',
-          'َApp Theme': 'تم اپلیکیشن',
+          'Set Language:': 'تنظیم زبان :',
+          'App Theme': 'تم اپلیکیشن :',
           'SuccessFul': 'موفق بود',
           'App Theme SuccessFully Updated': 'تم اپلیکیشن با موفقیت تغییر کرد'
         }

@@ -2,33 +2,6 @@ import 'package:hive/hive.dart';
 
 part 'hive_models.g.dart';
 
-@HiveType(typeId: 1)
-class Categories {
-  Categories({
-    required this.name,
-  });
-
-  @HiveField(0)
-  String? name;
-}
-
-@HiveType(typeId: 2)
-class Birthdays {
-  Birthdays({
-    required this.name,
-    required this.number,
-    required this.date,
-  });
-  @HiveField(0)
-  String? name;
-
-  @HiveField(1)
-  DateTime? date;
-
-  @HiveField(2)
-  String? number;
-}
-
 @HiveType(typeId: 3)
 class UserInfo {
   UserInfo({
@@ -68,4 +41,7 @@ class UserInfo {
 
   @HiveField(8)
   int? selectedColorRed;
+
+  @HiveField(9)
+  int? dailyReminderMinute;
 }

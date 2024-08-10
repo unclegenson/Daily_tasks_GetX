@@ -4,7 +4,6 @@ import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 int reminderHour = 23;
 int reminderMin = 0;
@@ -13,16 +12,16 @@ void openDateTimePicker(BuildContext context) {
   BottomPicker.time(
     initialTime: Time.now(),
     pickerTitle: Text(
-      'reminder Time'.tr,
-      style: const TextStyle(
+      'Reminder Time'.tr,
+      style: TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 18,
-        color: Colors.blue,
+        color: Get.find<UserInfoController>().buttonColor,
       ),
     ),
-    gradientColors: const [Colors.white, Colors.blue],
+    gradientColors: [Get.find<UserInfoController>().buttonColor!, Colors.blue],
     backgroundColor: Colors.black87,
-    closeIconColor: Colors.white,
+    closeIconColor: Get.find<UserInfoController>().buttonColor!,
     pickerTextStyle: const TextStyle(
       color: Colors.blue,
       fontWeight: FontWeight.bold,
@@ -111,7 +110,7 @@ class NotificationScreen extends StatelessWidget {
                       return openDateTimePicker(context);
                     },
                     child: Text(
-                      'choose'.tr,
+                      'Choose'.tr,
                       style: const TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),
@@ -131,7 +130,7 @@ class NotificationScreen extends StatelessWidget {
                     children: [
                       SettingsCategoryWidget(
                         color: Colors.white,
-                        text: 'your best daily reminder'.tr,
+                        text: 'Your best daily reminder :'.tr,
                       ),
                       const Spacer(),
                       Text(
@@ -165,7 +164,7 @@ class NotificationScreen extends StatelessWidget {
                               .tr);
                     },
                     child: Text(
-                      'save'.tr,
+                      'Save'.tr,
                       style: const TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),

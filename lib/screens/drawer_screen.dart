@@ -1,7 +1,10 @@
+import 'dart:io';
+
+import 'package:daily_tasks_getx/controllers/image_controller.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/screens/add_birthday_screen.dart';
 import 'package:daily_tasks_getx/screens/add_category.dart';
 import 'package:daily_tasks_getx/screens/go_premium.dart';
-import 'package:daily_tasks_getx/screens/review_tasks_screen.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,24 +28,28 @@ class DrawerWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 100,
-                    width: 100,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.red,
+                  child: Obx(
+                    () => CircleAvatar(
+                      backgroundColor:
+                          Get.find<UserInfoController>().buttonColor,
+                      backgroundImage: FileImage(
+                        File(Get.find<UserInfoController>().image.value),
+                      ),
+                      radius: Get.width / 5,
                     ),
                   ),
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Uncle Gen Son',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontFamily: 'title',
-                        fontWeight: FontWeight.w600,
+                    Obx(
+                      () => Text(
+                        Get.find<UserInfoController>().name.value,
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontFamily: 'title',
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -54,10 +61,12 @@ class DrawerWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                const Text(
-                  '+98 910 063 9128',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                ),
+                Obx(
+                  () => Text(
+                    Get.find<UserInfoController>().number.value,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                )
               ],
             ),
           ),
@@ -112,31 +121,31 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
             onTap: () {
-              Get.back();
-              Get.snackbar(
-                'Navigating to purchase page',
-                'Make sure your internet connection is active! You will be in purchase page in 5 seconds!',
-                colorText: Colors.white,
-                margin: EdgeInsets.all(15),
-                duration: Duration(seconds: 7),
-                icon: Icon(
-                  Icons.wifi,
-                  color: Colors.orange,
-                ),
-                snackPosition: SnackPosition.BOTTOM,
-              );
-              Get.snackbar(
-                'Successfull',
-                'Your purchase was successfull. Thanks!',
-                colorText: Colors.white,
-                margin: EdgeInsets.all(15),
-                duration: Duration(seconds: 4),
-                icon: Icon(
-                  Icons.check,
-                  color: Colors.green,
-                ),
-                snackPosition: SnackPosition.BOTTOM,
-              );
+              // Get.back();
+              // Get.snackbar(
+              //   'Navigating to purchase page',
+              //   'Make sure your internet connection is active! You will be in purchase page in 5 seconds!',
+              //   colorText: Colors.white,
+              //   margin: EdgeInsets.all(15),
+              //   duration: Duration(seconds: 7),
+              //   icon: Icon(
+              //     Icons.wifi,
+              //     color: Colors.orange,
+              //   ),
+              //   snackPosition: SnackPosition.BOTTOM,
+              // );
+              // Get.snackbar(
+              //   'Successfull',
+              //   'Your purchase was successfull. Thanks!',
+              //   colorText: Colors.white,
+              //   margin: EdgeInsets.all(15),
+              //   duration: Duration(seconds: 4),
+              //   icon: Icon(
+              //     Icons.check,
+              //     color: Colors.green,
+              //   ),
+              //   snackPosition: SnackPosition.BOTTOM,
+              // );
             },
             leading: const Icon(
               Icons.coffee_rounded,

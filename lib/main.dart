@@ -9,7 +9,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
-  var box = GetStorage();
+  GetStorage();
 
   await AwesomeNotifications().initialize(
     debug: true,
@@ -51,7 +51,8 @@ class DailyTasksApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    firstEnter();
+    // firstEnter();
+    // Hive.box<UserInfo>('user').clear();
     var user = Hive.box<UserInfo>('user').values.first;
 
     return GetMaterialApp(

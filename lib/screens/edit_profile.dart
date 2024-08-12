@@ -1,53 +1,15 @@
 import 'dart:io';
+import 'package:daily_tasks_getx/controllers/image_controller.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
+import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/screens/home.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-
-String imageController = '';
-String nameController = '';
-String numberController = '';
-bool checkFirstEntry = true;
-checkEnterForFirstTime() async {
-  // SharedPreferences isActivePref = await SharedPreferences.getInstance();
-  // if (isActivePref.getBool('isActive') == null) {
-  //   setProfileData();
-  //   SharedPreferences premium = await SharedPreferences.getInstance();
-  //   premium.setBool('purchase', false);
-  //   // scheduleDailyNotification();
-  // } else {
-  //   checkFirstEntry = false;
-  //   loadProfileData();
-  // }
-}
-
-loadProfileData() async {
-  // SharedPreferences prefProfileImage = await SharedPreferences.getInstance();
-  // SharedPreferences prefProfileName = await SharedPreferences.getInstance();
-  // SharedPreferences prefProfileNumber = await SharedPreferences.getInstance();
-
-  // setState(() {
-  //   nameController = prefProfileName.getString('profileName')!;
-  //   numberController = prefProfileNumber.getString('profileNumber')!;
-  //   imageController = prefProfileImage.getString('profileImage')!;
-  // });
-}
-
-setProfileData() async {
-  // SharedPreferences isActivePref = await SharedPreferences.getInstance();
-  // SharedPreferences prefProfileImage = await SharedPreferences.getInstance();
-  // SharedPreferences prefProfileName = await SharedPreferences.getInstance();
-  // SharedPreferences prefProfileNumber = await SharedPreferences.getInstance();
-
-  // await isActivePref.setBool('isActive', true);
-  // await prefProfileNumber.setString('profileNumber', numberController);
-  // await prefProfileName.setString('profileName', nameController);
-  // await prefProfileImage.setString('profileImage', imageController);
-}
 
 Future showOptions() async {
   Get.defaultDialog(
@@ -63,14 +25,14 @@ Future showOptions() async {
             backgroundColor: Colors.indigo[400],
           ),
           child: Text(
-            'Photo Gallery'.tr,
+            'Gallery'.tr,
             style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
-            // close the options modal
-            Get.back();
-            // get image from gallery
-            getImageFromGallery();
+            Get.find<ImageController>().getImage(ImageSource.gallery);
+
+            Get.find<UserInfoController>().image.value =
+                Get.find<ImageController>().imagePath.value;
           },
         ),
         const SizedBox(
@@ -88,43 +50,12 @@ Future showOptions() async {
             style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
-            // close the options modal
-            Get.back();
-            // get image from camera
-            getImageFromCamera();
+            Get.find<ImageController>().getImage(ImageSource.camera);
           },
         ),
       ],
     ),
   );
-}
-
-final picker = ImagePicker();
-
-//Image Picker function to get image from gallery
-Future getImageFromGallery() async {
-  final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-  // setState(() {
-  //   if (pickedFile != null) {
-  //     // setState(() {
-  //     //   imageController = pickedFile.path;
-  //     // });
-  //   }
-  // });
-}
-
-//Image Picker function to get image from camera
-Future getImageFromCamera() async {
-  final pickedFile = await picker.pickImage(source: ImageSource.camera);
-
-  // setState(() {
-  //   if (pickedFile != null) {
-  //     // setState(() {
-  //     //   imageController = pickedFile.path;
-  //     // });
-  //   }
-  // });
 }
 
 class EditProfileScreen extends StatelessWidget {
@@ -151,8 +82,10 @@ class EditProfileScreen extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.bottomRight,
                   children: [
-                    imageController == ''
-                        ? CircleAvatar(
+                    Obx(
+                      () {
+                        if (Get.find<ImageController>().imagePath.value == '') {
+                          return CircleAvatar(
                             backgroundColor: Colors.indigo[400],
                             radius: Get.width / 2 - 30,
                             child: Icon(
@@ -160,32 +93,21 @@ class EditProfileScreen extends StatelessWidget {
                               color: Colors.white,
                               size: Get.width / 2,
                             ),
-                          )
-                        : CircleAvatar(
+                          );
+                        } else {
+                          return CircleAvatar(
                             backgroundColor: Colors.indigo[400],
-                            backgroundImage: FileImage(File(imageController)),
-                            radius: Get.width / 2 - 30,
-                          ),
-                    GestureDetector(
-                      onTap: showOptions,
-                      child: Padding(
-                        padding: EdgeInsets.all(Get.width / 20),
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.black54,
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Icon(
-                              Icons.edit,
-                              size: 30,
-                              color: Colors.white,
+                            backgroundImage: FileImage(
+                              File(
+                                Get.find<ImageController>().imagePath.value,
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                    )
+                            radius: Get.width / 2 - 30,
+                          );
+                        }
+                      },
+                    ),
+                    GalleryOrCameraImage()
                   ],
                 ),
               ),
@@ -193,98 +115,172 @@ class EditProfileScreen extends StatelessWidget {
                 text: 'Name :'.tr,
                 color: Colors.white,
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: TextFormField(
-                  initialValue: nameController,
-                  onChanged: (value) {
-                    // setState(
-                    //   () {
-                    //     nameController = value;
-                    //   },
-                    // );
-                  },
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
+              nameTextFiled(),
               SettingsCategoryWidget(
                 color: Colors.white,
                 text: 'Number :'.tr,
               ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: TextFormField(
-                  inputFormatters: [LengthLimitingTextInputFormatter(11)],
-                  decoration: const InputDecoration(
-                    hintText: '09100000000',
-                    hintStyle: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  initialValue: numberController,
-                  onChanged: (value) {
-                    // setState(() {
-                    //   if (value.length > 10) {
-                    //     String val1 = value.substring(1, 4);
-                    //     String val2 = value.substring(4, 7);
-                    //     String val3 = value.substring(7);
-
-                    //     numberController = '$val1 $val2 $val3';
-                    //   }
-                    // });
-                  },
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
+              numberTextField(),
               SizedBox(
                 height: Get.height / 10,
               ),
-              SizedBox(
-                width: Get.width - 40,
-                height: 50,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.indigo[400],
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: () async {
-                    if (nameController == '' || numberController == '') {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                              '''You must add your profile data to use the app
-Your profile data will be unreachable for others.'''
-                                  .tr),
-                        ),
-                      );
-                    } else {
-                      setProfileData();
-                      if (checkFirstEntry) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return const Home();
-                            },
-                          ),
-                        );
-                      }
-
-                      Get.back();
-                    }
-                  },
-                  child: Text(
-                    'Done'.tr,
-                    style: const TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                ),
-              )
+              DoneButton()
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class GalleryOrCameraImage extends StatelessWidget {
+  const GalleryOrCameraImage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: showOptions,
+      child: Padding(
+        padding: EdgeInsets.all(Get.width / 20),
+        child: Container(
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.black54,
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Icon(
+              Icons.edit,
+              size: 30,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class DoneButton extends StatelessWidget {
+  const DoneButton({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: Get.width - 40,
+      height: 50,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.indigo[400],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        onPressed: () async {
+          if (Get.find<UserInfoController>().name.value == '' ||
+              Get.find<UserInfoController>().number.value == '') {
+            Get.snackbar(
+              'error!',
+              '''You must add your profile data to use the app
+    Your profile data will be unreachable for others.'''
+                  .tr,
+              snackPosition: SnackPosition.BOTTOM,
+              margin: EdgeInsets.all(15),
+              colorText: Colors.white,
+              duration: Duration(seconds: 4),
+            );
+          } else {
+            Hive.box<UserInfo>('user').values.forEach(
+              (element) {
+                Hive.box<UserInfo>('user').putAt(
+                  0,
+                  UserInfo(
+                    name: Get.find<UserInfoController>().name.value,
+                    number: Get.find<UserInfoController>().number.value,
+                    dailyReminderHour: element.dailyReminderHour,
+                    image: Get.find<ImageController>().imagePath.value,
+                    language: element.language,
+                    selectedColorAlpha: element.selectedColorAlpha,
+                    selectedColorBlue: element.selectedColorBlue,
+                    selectedColorGreen: element.selectedColorGreen,
+                    selectedColorRed: element.selectedColorRed,
+                  ),
+                );
+                print('done');
+                print(Hive.box<UserInfo>('user').values.length);
+                Hive.box<UserInfo>('user').values.forEach((element) {
+                  print(element.name);
+                  print(element.number);
+                  print(element.image);
+                });
+              },
+            );
+
+            Get.back();
+          }
+        },
+        child: Text(
+          'Done'.tr,
+          style: const TextStyle(color: Colors.white, fontSize: 20),
+        ),
+      ),
+    );
+  }
+}
+
+class numberTextField extends StatelessWidget {
+  const numberTextField({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: TextFormField(
+        keyboardType: TextInputType.phone,
+        inputFormatters: [LengthLimitingTextInputFormatter(11)],
+        decoration: const InputDecoration(
+          hintText: '09100000000',
+          hintStyle: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+        onChanged: (value) {
+          if (value.length > 10) {
+            String val1 = value.substring(1, 4);
+            String val2 = value.substring(4, 7);
+            String val3 = value.substring(7);
+
+            Get.find<UserInfoController>().number.value =
+                '+98 $val1 $val2 $val3';
+          }
+        },
+        style: const TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
+
+class nameTextFiled extends StatelessWidget {
+  const nameTextFiled({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: TextFormField(
+        onChanged: (value) {
+          Get.find<UserInfoController>().name.value = value;
+        },
+        style: const TextStyle(color: Colors.white),
       ),
     );
   }

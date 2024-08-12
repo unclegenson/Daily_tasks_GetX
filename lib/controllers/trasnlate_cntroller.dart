@@ -8,22 +8,24 @@ class TrasnlateController extends GetxController {
   void changeLanguage(String language) {
     var locale = Locale(language);
     Get.updateLocale(locale);
-    Hive.box<UserInfo>('user').values.forEach((element) {
-      Hive.box<UserInfo>('user').putAt(
-        0,
-        UserInfo(
-          name: element.name,
-          number: element.number,
-          dailyReminderHour: element.dailyReminderHour,
-          image: element.image,
-          language: language,
-          selectedColorAlpha: element.selectedColorAlpha,
-          selectedColorBlue: element.selectedColorBlue,
-          selectedColorGreen: element.selectedColorGreen,
-          selectedColorRed: element.selectedColorRed,
-        ),
-      );
-      Get.find<UserInfoController>().language.value = language;
-    });
+    Hive.box<UserInfo>('user').values.forEach(
+      (element) {
+        Hive.box<UserInfo>('user').putAt(
+          0,
+          UserInfo(
+            name: element.name,
+            number: element.number,
+            dailyReminderHour: element.dailyReminderHour,
+            image: element.image,
+            language: language,
+            selectedColorAlpha: element.selectedColorAlpha,
+            selectedColorBlue: element.selectedColorBlue,
+            selectedColorGreen: element.selectedColorGreen,
+            selectedColorRed: element.selectedColorRed,
+          ),
+        );
+        Get.find<UserInfoController>().language.value = language;
+      },
+    );
   }
 }

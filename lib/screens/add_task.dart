@@ -5,7 +5,6 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:daily_tasks_getx/controllers/category_controller.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart' as h;
 
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daily_tasks_getx/controllers/image_controller.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
@@ -160,7 +159,7 @@ Future setAudio() async {
 }
 
 Future<void> initRecorder() async {
-  final status = await Permission.microphone.request();
+  Permission.microphone.request();
 
   await recorder.openRecorder();
   recorder.setSubscriptionDuration(const Duration(milliseconds: 200));
@@ -520,10 +519,14 @@ class ImagePickerWidget extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              child: Image.file(
-                                File(Get.find<ImageController>()
-                                    .imagePath
-                                    .value),
+                              child: Obx(
+                                () {
+                                  return Image.file(
+                                    File(Get.find<ImageController>()
+                                        .imagePath
+                                        .value),
+                                  );
+                                },
                               ),
                             ),
                           ),
@@ -579,7 +582,7 @@ class RecordIconButton extends StatelessWidget {
           ),
           width: 40,
           height: 40,
-          child: true
+          child: !Get.find<TaskController>().isRecording.value
               ? const Icon(
                   Icons.mic,
                   color: Colors.black,

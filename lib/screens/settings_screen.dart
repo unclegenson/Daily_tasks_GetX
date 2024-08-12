@@ -1,10 +1,5 @@
-// import 'package:daily_tasks/screens/edit_profile_screens.dart';
-// import 'package:daily_tasks/screens/language_screen.dart';
-// import 'package:daily_tasks/screens/notitfications.dart';
-// import 'package:daily_tasks/widgets/app_widgets.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
-import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/screens/edit_profile.dart';
 import 'package:daily_tasks_getx/screens/more_settings_screen.dart';
 import 'package:daily_tasks_getx/screens/notifications_screen.dart';

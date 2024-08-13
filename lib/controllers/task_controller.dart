@@ -46,10 +46,6 @@ class TaskController extends GetxController {
         tasks.add(TasksModel.fromJson(taskItem));
       }
     }
-    tasks.forEach((element) {
-      print('----');
-      print(element.voice);
-    });
 
     ever(tasks, (callback) {
       box.write('tasks', tasks.toJson());

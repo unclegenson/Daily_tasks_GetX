@@ -38,7 +38,6 @@ class UserInfoController extends GetxController {
   }
 
   void userHiveFirstTime() async {
-    print('1');
     var user = UserInfo(
       name: name.value,
       number: number.value,
@@ -60,7 +59,6 @@ class UserInfoController extends GetxController {
   }
 
   void updateUserHiveInfo() {
-    print('2');
     var user = UserInfo(
       name: name.value,
       number: number.value,

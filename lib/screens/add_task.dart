@@ -132,9 +132,6 @@ void _openColorPicker() async {
 Future record() async {
   int id = Get.find<TaskController>().index;
   await recorder.startRecorder(toFile: 'audio${id.toString()}');
-
-  print('audio');
-  print(id);
 }
 
 Future stop() async {
@@ -364,7 +361,6 @@ class CreateTaskWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (Get.find<TaskController>().isEditing) {
-          print('edit');
           var task = Get.find<TaskController>()
               .tasks[Get.find<TaskController>().index.toInt()];
           //
@@ -389,8 +385,6 @@ class CreateTaskWidget extends StatelessWidget {
               .tasks[Get.find<TaskController>().index.toInt()] = task;
           //
         } else {
-          print('add');
-
           final now = DateTime.now();
           Get.find<TaskController>().tasks.add(
                 TasksModel(

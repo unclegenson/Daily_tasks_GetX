@@ -175,7 +175,6 @@ void openDateTimePicker(BuildContext context) {
     onChange: (p0) {
       time = p0;
       setTime();
-      print(time);
     },
   ).show(context);
 }

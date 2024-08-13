@@ -129,16 +129,18 @@ Your profile data will be unreachable for others.''',
               "Tap delete if you're sure you wanna delete all tasks",
           'delete': 'delete',
           'cancel': 'cancel',
-          'Error': 'Error',
+          'Error!': 'Error!',
           'No Image Selected': 'No Image Selected',
-          'We will let you know at ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}!':
-              'We will let you know at ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}!'
+          'We will let you know on': 'We will let you know on',
+          'Check the fields and complete them.':
+              'Check the fields and complete them.'
         },
         'fa': {
-          'We will let you know at ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}!':
-              'در تاریخ ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}! به شما اطلاع میدهیم',
+          'Check the fields and complete them.':
+              'لطفا تمای فیلد ها را پر کنید.',
+          'We will let you know on': 'را به شما اطلاع میدهیم',
           'No Image Selected': 'عکسی انتخاب نشد',
-          'Error': 'خطا',
+          'Error!': 'خطا!',
           'cancel': 'لغو',
           'delete': 'پاک شدن',
           "Tap delete if you're sure you wanna delete all tasks":
@@ -199,7 +201,7 @@ Your profile data will be unreachable for others.''',
           "Edit Birthday Date": ": ویرایش تاریخ تولد",
           "Edit Phone Number": ": ویرایش شماره تماس",
           "Edit The Birthday Item": "!لطفا آیتم های تولد را ویرایش کنید",
-          "Nothing Added": "!چیزی اضافه نشده",
+          "Nothing Added": "چیزی اضافه نشده",
           "Edit Category": "ویراش دسته بندی",
           "Edit The Task Please": "لطفا وظیفه را ویرایش کنید!",
           "Cancel": "لغو",

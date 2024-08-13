@@ -1,6 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daily_tasks_getx/bindings/bindings.dart';
-import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/models/translate.dart';
 import 'package:daily_tasks_getx/screens/edit_profile.dart';
@@ -72,6 +71,7 @@ class DailyTasksApp extends StatelessWidget {
 }
 
 //todo: edit all snackbar translate
+//todo: change the location of all . : ! to end of translate sentances 
 //todo: notifications
 //todo: review screen
 //todo: purchse check

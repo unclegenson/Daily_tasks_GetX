@@ -18,6 +18,6 @@ class MyBindings extends Bindings {
     Get.put(TrasnlateController());
     Get.put(DoneTaskController());
     Get.put(CategoryController());
-    Get.put(BirthdayController());
+    Get.put(BirthdayController(), permanent: true);
   }
 }

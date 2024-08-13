@@ -9,6 +9,7 @@ import 'package:daily_tasks_getx/models/general_models.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 
@@ -94,11 +95,30 @@ class Inputs extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-          child: SettingsCategoryWidget(
-            color: Colors.white,
-            text: !Get.find<BirthdayController>().wantToChange.value
-                ? 'Add Name'.tr
-                : 'Edit Name'.tr,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SettingsCategoryWidget(
+                color: Colors.white,
+                text: !Get.find<BirthdayController>().wantToChange.value
+                    ? 'Add Name'.tr
+                    : 'Edit Name'.tr,
+              ),
+              IconButton(
+                onPressed: () {
+                  Get.find<BirthdayController>().nameCon.text = '';
+                  Get.find<BirthdayController>().numberCon.text = '';
+                  Get.find<BirthdayController>().wantToChange.value = false;
+                  Get.find<BirthdayController>().day.value = 0;
+                  Get.find<BirthdayController>().mounth.value = 0;
+                  Get.find<BirthdayController>().year.value = 0;
+                },
+                icon: const Icon(
+                  Icons.restart_alt_outlined,
+                  color: Colors.white,
+                ),
+              )
+            ],
           ),
         ),
         Padding(
@@ -166,6 +186,7 @@ class Inputs extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 0),
           child: TextFormField(
+            inputFormatters: [LengthLimitingTextInputFormatter(11)],
             keyboardType: TextInputType.phone,
             controller: Get.find<BirthdayController>().numberCon,
             onChanged: (value) {
@@ -202,9 +223,13 @@ class SaveButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              onPressed: () async {
+              onPressed: () {
                 if (Get.find<BirthdayController>().wantToChange.value) {
-                  if (Get.find<BirthdayController>().name.value != '') {
+                  // want to change :
+                  if (Get.find<BirthdayController>().name.value != '' &&
+                      Get.find<BirthdayController>().number.value != '' &&
+                      Get.find<BirthdayController>().day.value != 0) {
+                    // check name number and date are not empty
                     Get.find<BirthdayController>().birthdays.add(
                           BirthdayModel(
                             name: Get.find<BirthdayController>().name.value,
@@ -221,8 +246,7 @@ class SaveButton extends StatelessWidget {
 
                     Get.snackbar(
                       'Good!'.tr,
-                      'We will let you know at ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}!'
-                          .tr,
+                      '${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}${'We will let you know on'.tr}',
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
                       colorText: Colors.white,
@@ -231,6 +255,8 @@ class SaveButton extends StatelessWidget {
                         color: Colors.white,
                       ),
                     );
+
+                    print('edit');
 
                     // await AwesomeNotifications().createNotification(
                     //   schedule: NotificationCalendar(
@@ -250,19 +276,20 @@ class SaveButton extends StatelessWidget {
                     //             .tr, // add this to localization
                     //   ),
                     // );
-
-                    Get.back();
                   } else {
                     Get.snackbar(
-                      'Ok!'.tr,
-                      'Birthday Item edited!'.tr,
+                      'Error!'.tr,
+                      'Check the fields and complete them.'.tr,
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
                       colorText: Colors.white,
                     );
                   }
                 } else {
-                  if (Get.find<BirthdayController>().name.value != '') {
+                  // want to add:
+                  if (Get.find<BirthdayController>().name.value != '' &&
+                      Get.find<BirthdayController>().number.value != '' &&
+                      Get.find<BirthdayController>().day.value != 0) {
                     Get.find<BirthdayController>().birthdays.add(
                           BirthdayModel(
                             name: Get.find<BirthdayController>().name.value,
@@ -298,16 +325,18 @@ class SaveButton extends StatelessWidget {
                     // );
                     Get.snackbar(
                       'Good!'.tr,
-                      'We will let you know at $time!'.tr,
+                      '${'We will let you know on'.tr}${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}',
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
                       colorText: Colors.white,
+                      icon: const Icon(
+                        Icons.cake_sharp,
+                        color: Colors.white,
+                      ),
                     );
-
-                    Get.back();
                   } else {
                     Get.snackbar(
-                      'error!'.tr,
+                      'Error!'.tr,
                       'Nothing Added'.tr,
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:daily_tasks_getx/controllers/image_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/screens/add_birthday_screen.dart';
 import 'package:daily_tasks_getx/screens/add_category.dart';
@@ -64,7 +63,11 @@ class DrawerWidget extends StatelessWidget {
                 Obx(
                   () => Text(
                     Get.find<UserInfoController>().number.value,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                    textDirection: TextDirection.ltr,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 )
               ],

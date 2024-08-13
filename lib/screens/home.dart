@@ -124,14 +124,9 @@ class HomeBody extends StatelessWidget {
                     SliverGrid(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
-                          print('audios');
-                          print(Get.find<TaskController>().tasks[index].voice!);
                           return GestureDetector(
                             onLongPress: () {
                               longPressEachTask(index, context);
-                              print(Get.find<TaskController>()
-                                  .tasks[index]
-                                  .weekDay);
                             },
                             onTap: () {
                               onTapEachTask(index);
@@ -547,9 +542,7 @@ class ShowAudioWidget extends StatelessWidget {
                   activeColor: Colors.grey[600],
                   divisions: 20,
                   value: 0,
-                  onChanged: (value) {
-                    print(value);
-                  },
+                  onChanged: (value) {},
                   min: 0,
                   max: 100,
                 ),

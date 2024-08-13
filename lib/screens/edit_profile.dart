@@ -84,7 +84,10 @@ class EditProfileScreen extends StatelessWidget {
                   children: [
                     Obx(
                       () {
-                        if (Get.find<ImageController>().imagePath.value == '') {
+                        // Get.find<UserInfoController>().image.value =
+                        //     Get.find<ImageController>().imagePath.value;
+
+                        if (Get.find<UserInfoController>().image.value == '') {
                           return CircleAvatar(
                             backgroundColor: Colors.indigo[400],
                             radius: Get.width / 2 - 30,
@@ -98,9 +101,7 @@ class EditProfileScreen extends StatelessWidget {
                           return CircleAvatar(
                             backgroundColor: Colors.indigo[400],
                             backgroundImage: FileImage(
-                              File(
-                                Get.find<ImageController>().imagePath.value,
-                              ),
+                              File(Get.find<UserInfoController>().image.value),
                             ),
                             radius: Get.width / 2 - 30,
                           );
@@ -184,7 +185,7 @@ class DoneButton extends StatelessWidget {
           if (Get.find<UserInfoController>().name.value == '' ||
               Get.find<UserInfoController>().number.value == '') {
             Get.snackbar(
-              'error!',
+              'Error!'.tr,
               'You must add your profile data to use the app Your profile data will be unreachable for others.'
                   .tr,
               snackPosition: SnackPosition.BOTTOM,
@@ -235,6 +236,9 @@ class NumberTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: TextFormField(
+        initialValue: Get.find<UserInfoController>().number.value == ''
+            ? ''
+            : Get.find<UserInfoController>().number.value,
         keyboardType: TextInputType.phone,
         inputFormatters: [LengthLimitingTextInputFormatter(11)],
         decoration: const InputDecoration(
@@ -270,6 +274,9 @@ class NameTextFiled extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: TextFormField(
+        initialValue: Get.find<UserInfoController>().name.value == ''
+            ? ''
+            : Get.find<UserInfoController>().name.value,
         onChanged: (value) {
           Get.find<UserInfoController>().name.value = value;
         },

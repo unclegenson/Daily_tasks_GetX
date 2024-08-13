@@ -1,4 +1,3 @@
-import 'package:daily_tasks_getx/controllers/birthday_controller.dart';
 import 'package:get/get.dart';
 
 class Translate extends Translations {
@@ -35,7 +34,7 @@ class Translate extends Translations {
           "Create Task": "Create Task",
           "Click the mic button to start recording":
               "Click the mic button to start recording",
-          "recordeing...": "recordeing...",
+          "recording...": "recording...",
           "English": "English",
           "Persian": "Persian",
           "Birthday List": "Birthday List",
@@ -93,7 +92,6 @@ class Translate extends Translations {
               "Press Delete if you want to delete all the available tasks.",
           "Choose Task Date": "Choose Task Date",
           'More Settings': 'More Settings',
-          "recording...": "recording...",
           "error while emailing unclegenson@gmail.com":
               "error while emailing unclegenson@gmail.com",
           '''You must add your profile data to use the app
@@ -133,9 +131,31 @@ Your profile data will be unreachable for others.''',
           'No Image Selected': 'No Image Selected',
           'We will let you know on': 'We will let you know on',
           'Check the fields and complete them.':
-              'Check the fields and complete them.'
+              'Check the fields and complete them.',
+          'Click the mic button to start recording...':
+              'Click the mic button to start recording...',
+          'start': 'start',
+          'end': 'end',
+          'Good!': 'Good!',
+          'Daily reminder set at': 'Daily reminder set at',
+          'days': 'days',
+          'hours': 'hours',
+          'minutes': 'minutes',
+          'from now!': 'from now!'
         },
         'fa': {
+          'from now!': 'از الان',
+          'minutes': 'دقیقه',
+          'hours': 'ساعت',
+          'days': 'روز',
+          'Daily reminder set at': 'یادآور روزانه تنظیم شد',
+          'Good!': 'موفقیت آموز بود!',
+          "CANCEL": "لغو",
+          "SUBMIT": "تایید",
+          'start': 'شروع',
+          'end': 'پایان',
+          'Click the mic button to start recording...':
+              'برای شروع ضبط صدا روی دکمه میکروفن کلیک کنید',
           'Check the fields and complete them.':
               'لطفا تمای فیلد ها را پر کنید.',
           'We will let you know on': 'را به شما اطلاع میدهیم',
@@ -178,9 +198,9 @@ Your profile data will be unreachable for others.''',
           "Settings": "تنظیمات",
           "Invite Friends": "دعوت از دوستان",
           "Contact Us": "تماس با ما",
-          "Add Name": "اضافه کردن نام",
-          "Add Birthday Date": "اضافه کردن تاریخ تولد",
-          "Add Phone Number": "اضافه کردن شماره تلفن",
+          "Add Name": "نام",
+          "Add Birthday Date": "تاریخ تولد",
+          "Add Phone Number": "شماره تلفن",
           "Save": "ذخیره",
           "Notifications": "اعلان ها",
           "Delete All Tasks": "حذف همه وظایف",
@@ -207,14 +227,14 @@ Your profile data will be unreachable for others.''',
           "Cancel": "لغو",
           "Sumbit": "تایید",
           "You Are Not a Premium Contact": "شما یک مخاطب پریمیوم نیستید",
-          "Check Out This App": "...این برنامه را بررسی کنید",
+          "Check Out This App": "این برنامه را بررسی کنید",
           "Gallery": "گالری",
           "Camera": "دوربین",
           "Color Picker": "انتخاب رنگ",
           "Edit Task": "ویرایش وظیفه",
           "Add Task": "اضافه کردن وظیفه",
           "category": "دسته بندی",
-          "Please Select a Category": ".لطفا یک دسته بندی را انتخاب کنید",
+          "Please Select a Category": "لطفا یک دسته بندی را انتخاب کنید",
           "There is no voice or title to create a task!":
               "!هیچ صدا یا عنوانی برای ایجاد یک وظیفه وجود ندارد",
           "There is no title or description to create a task!":
@@ -233,7 +253,7 @@ Your profile data will be unreachable for others.''',
           "Add a New Task": "!یک وظیفه جدید ایجاد کنید",
           "Done?": "انجام شد؟",
           "Press Yes if you'he done this task.":
-              ".اگر این کار را انجام داده اید، بله را فشار دهید",
+              "اگر این کار را انجام داده اید، بله را فشار دهید.",
           "Yes": "آره",
           "No": "نه",
           "Delete This Task": "این وظیفه پاک شود؟",
@@ -248,10 +268,10 @@ Your profile data will be unreachable for others.''',
           "Your best daily reminder :": "بهترین زمان یادآوری روزانه شما :",
           "Delete": "حذف",
           "Press Delete if you want to delete all the available tasks.":
-              ".اگر می خواهید تمام وظایف موجود را حذف کنید، حذف را فشار دهید",
+              "اگر می خواهید تمام وظایف موجود را حذف کنید، حذف را فشار دهید.",
           "Choose Task Date": "تاریخ وظیفه را انتخاب کنید",
           "error while emailing unclegenson@gmail.com":
-              "!رخ داد unclegenson@gmail.com خطایی هنگام ایمیل به",
+              "رخ داد unclegenson@gmail.com خطایی هنگام ایمیل به!",
           '''You must add your profile data to use the app
 Your profile data will be unreachable for others.''':
               '''وارد کردن عکس نام و شماره تلفن الزامی است 

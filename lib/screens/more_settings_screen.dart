@@ -165,7 +165,7 @@ void _openDialog(String title, Widget content) {
         Get.back();
       },
       child: Text(
-        'cancel'.tr,
+        'CANCEL'.tr,
         style: const TextStyle(
           color: Colors.black,
         ),
@@ -191,7 +191,7 @@ void _openDialog(String title, Widget content) {
         );
       },
       child: Text(
-        'submit'.tr,
+        'SUBMIT'.tr,
         style: const TextStyle(
           color: Colors.black,
         ),
@@ -211,6 +211,8 @@ void _openColorPicker() async {
         userInfo.selectedColorBlue.value = color.blue;
         userInfo.selectedColorGreen.value = color.green;
         userInfo.selectedColorRed.value = color.red;
+
+        Get.find<UserInfoController>().buttonColor = color;
 
         Hive.box<UserInfo>('user').values.forEach(
           (element) {

@@ -86,7 +86,7 @@ class Buttons extends StatelessWidget {
                         .removeAt(Get.find<CategoryController>().index);
                   } else {
                     Get.snackbar(
-                      'error!'.tr,
+                      'Error!'.tr,
                       'Edit the Task please'.tr,
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
@@ -104,8 +104,8 @@ class Buttons extends StatelessWidget {
                     Get.find<CategoryController>().con.text = '';
                   } else {
                     Get.snackbar(
-                      'error!'.tr,
-                      'nothing Added'.tr,
+                      'Error!'.tr,
+                      'Nothing Added'.tr,
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
                       colorText: Colors.white,
@@ -207,11 +207,26 @@ class AddOrEditWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
-      child: SettingsCategoryWidget(
-        color: Colors.white,
-        text: !Get.find<CategoryController>().wantToChange.value
-            ? 'Add Category'.tr
-            : 'Edit Category'.tr,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SettingsCategoryWidget(
+            color: Colors.white,
+            text: !Get.find<CategoryController>().wantToChange.value
+                ? 'Add Category'.tr
+                : 'Edit Category'.tr,
+          ),
+          IconButton(
+            onPressed: () {
+              Get.find<CategoryController>().con.text = '';
+              Get.find<CategoryController>().wantToChange.value = false;
+            },
+            icon: const Icon(
+              Icons.restart_alt_outlined,
+              color: Colors.white,
+            ),
+          )
+        ],
       ),
     );
   }

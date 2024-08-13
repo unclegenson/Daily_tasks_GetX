@@ -47,7 +47,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
               back ? Get.back() : Scaffold.of(context).openDrawer();
             },
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 8),
+              margin: const EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.grey[800],
@@ -153,23 +153,19 @@ void openDateTimePicker(BuildContext context) {
     ),
     onSubmit: (p0) {
       time = p0;
-      var day = DateTime(time.year, time.month, time.day)
-          .difference(DateTime.now())
-          .inDays;
-      int hour = DateTime(time.year, time.month, time.day, time.hour).hour -
-          DateTime.now().hour;
-      int minute =
-          DateTime(time.year, time.month, time.day, time.hour, time.minute)
-                  .minute -
-              DateTime.now().minute;
+
       Get.snackbar(
         'Task Notification will be in: '.tr,
-        '${day != 0 ? '$day days' : ''} ${hour.toString().length > 1 ? '$hour' : '0$hour'} hours ${minute.toString().length > 1 ? '$minute' : '0$minute'} minutes from now!'
-            .tr,
+        '',
         snackPosition: SnackPosition.BOTTOM,
-        margin: EdgeInsets.all(15),
+        margin: const EdgeInsets.all(15),
         colorText: Colors.white,
-        duration: Duration(seconds: 6),
+        messageText: Text(
+          '${time.year}.${time.month}.${time.day} - ${time.hour} : ${time.minute}',
+          textDirection: TextDirection.ltr,
+          style: const TextStyle(color: Colors.white),
+        ),
+        duration: const Duration(seconds: 6),
       );
     },
     onChange: (p0) {

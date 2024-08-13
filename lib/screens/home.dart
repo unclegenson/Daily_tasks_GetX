@@ -30,9 +30,10 @@ class _HomeState extends State<Home> {
   void initState() {
     homeAudioPlayer.onPlayerStateChanged.listen(
       (event) {
-        if (this.mounted) {
+        if (mounted) {
           setState(() {
             Get.find<TaskController>().isPlaying.value =
+                // ignore: unrelated_type_equality_checks
                 event == h.PlayerState.isPlaying;
           });
         }
@@ -304,7 +305,7 @@ class ShowDate extends StatelessWidget {
           ? Alignment.bottomRight
           : Alignment.bottomLeft,
       child: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Text(
           '${weekDays[Get.find<TaskController>().tasks[index].weekDay! - 1]} - ${Get.find<TaskController>().tasks[index].day!.toString()}',
           softWrap: false,
@@ -739,7 +740,7 @@ class FAB extends StatelessWidget {
         Get.find<TextFieldController>().taskTitle!.text = '';
         Get.find<TextFieldController>().taskDesc!.text = '';
 
-        Get.to(() => AddTaskScreen());
+        Get.to(() => const AddTaskScreen());
       },
       backgroundColor: Colors.grey[800],
       child: const SizedBox(

@@ -36,7 +36,7 @@ class SettingsScreen extends StatelessWidget {
             if (index == 0) {
               return GestureDetector(
                 onTap: () {
-                  Get.to(() => EditProfileScreen());
+                  Get.to(() => const EditProfileScreen());
                 },
                 child: Container(
                   width: Get.width / 2,

@@ -171,20 +171,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     }
     audioPlayer.onPlayerStateChanged.listen(
       (event) {
-        if (this.mounted) {
+        if (mounted) {
           Get.find<TaskController>().isPlaying.value =
+              // ignore: unrelated_type_equality_checks
               event == h.PlayerState.isPlaying;
         }
-        ;
       },
     );
     audioPlayer.onDurationChanged.listen((newDuration) {
-      if (this.mounted) {
+      if (mounted) {
         Get.find<TaskController>().durationOfAudio.value = newDuration;
       }
     });
     audioPlayer.onPositionChanged.listen((newPosition) {
-      if (this.mounted) {
+      if (mounted) {
         Get.find<TaskController>().position.value = newPosition;
       }
     });
@@ -413,7 +413,7 @@ class CreateTaskWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           color: Get.find<UserInfoController>().buttonColor,
         ),
         width: Get.width - 30,

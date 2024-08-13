@@ -44,17 +44,17 @@ class DrawerWidget extends StatelessWidget {
                     Obx(
                       () => Text(
                         Get.find<UserInfoController>().name.value,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 28,
                           fontFamily: 'title',
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
-                    Icon(
+                    const Icon(
                       Icons.star_rounded,
                       color: Colors.amber,
                     ),
@@ -64,7 +64,7 @@ class DrawerWidget extends StatelessWidget {
                   () => Text(
                     Get.find<UserInfoController>().number.value,
                     textDirection: TextDirection.ltr,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -91,7 +91,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
             onTap: () {
-              Get.to(() => GoPremiumScreen());
+              Get.to(() => const GoPremiumScreen());
             },
             leading: const Icon(
               Icons.beach_access_rounded,
@@ -102,7 +102,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
             onTap: () {
-              Get.to(() => AddCategoryScreen());
+              Get.to(() => const AddCategoryScreen());
             },
             leading: const Icon(
               Icons.category_rounded,
@@ -113,7 +113,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
             onTap: () {
-              Get.to(() => AddBirthdayScreen());
+              Get.to(() => const AddBirthdayScreen());
             },
             leading: const Icon(
               Icons.cake_sharp,
@@ -129,9 +129,9 @@ class DrawerWidget extends StatelessWidget {
                 'Navigating to purchase page',
                 'Make sure your internet connection is active! You will be in purchase page in 5 seconds!',
                 colorText: Colors.white,
-                margin: EdgeInsets.all(15),
-                duration: Duration(seconds: 7),
-                icon: Icon(
+                margin: const EdgeInsets.all(15),
+                duration: const Duration(seconds: 7),
+                icon: const Icon(
                   Icons.wifi,
                   color: Colors.orange,
                 ),
@@ -141,9 +141,9 @@ class DrawerWidget extends StatelessWidget {
                 'Successfull',
                 'Your purchase was successfull. Thanks!',
                 colorText: Colors.white,
-                margin: EdgeInsets.all(15),
-                duration: Duration(seconds: 4),
-                icon: Icon(
+                margin: const EdgeInsets.all(15),
+                duration: const Duration(seconds: 4),
+                icon: const Icon(
                   Icons.check,
                   color: Colors.green,
                 ),
@@ -159,7 +159,7 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
             onTap: () {
-              Get.to(() => SettingsScreen());
+              Get.to(() => const SettingsScreen());
             },
             leading: const Icon(
               Icons.settings,
@@ -210,7 +210,7 @@ Future<void> _openUrl() async {
     await launchUrl(params);
   } else {
     Get.snackbar(
-      'error'.tr,
+      'Error!'.tr,
       'error while emailing unclegenson@gmail.com'.tr,
       snackPosition: SnackPosition.BOTTOM,
       colorText: Colors.white,

@@ -246,7 +246,7 @@ class SaveButton extends StatelessWidget {
 
                     Get.snackbar(
                       'Good!'.tr,
-                      '${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}${'We will let you know on'.tr}',
+                      '${Get.find<BirthdayController>().mounth.value}.${Get.find<BirthdayController>().day.value} ${'We will let you know on'.tr}',
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
                       colorText: Colors.white,
@@ -255,8 +255,6 @@ class SaveButton extends StatelessWidget {
                         color: Colors.white,
                       ),
                     );
-
-                    print('edit');
 
                     // await AwesomeNotifications().createNotification(
                     //   schedule: NotificationCalendar(
@@ -455,7 +453,7 @@ class ShowBirthdays extends StatelessWidget {
                 ),
                 subtitle: Text(
                   '${Get.find<BirthdayController>().birthdays[index].day}.${Get.find<BirthdayController>().birthdays[index].mounth}.${Get.find<BirthdayController>().birthdays[index].year}',
-                  style: TextStyle(color: Colors.white70),
+                  style: const TextStyle(color: Colors.white70),
                 ),
                 leading: const Icon(Icons.circle),
               );

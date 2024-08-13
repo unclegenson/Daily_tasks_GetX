@@ -160,8 +160,7 @@ class NotificationScreen extends StatelessWidget {
                       Get.back();
                       Get.snackbar(
                         'Good!'.tr,
-                        'Daily reminder set at ${reminderHour.toString().length > 1 ? '$reminderHour' : '0$reminderHour'} : ${reminderMin.toString().length > 1 ? '$reminderMin' : '0$reminderMin'}'
-                            .tr,
+                        '${'Daily reminder set at'.tr} ${reminderHour.toString().length > 1 ? '$reminderHour' : '0$reminderHour'} : ${reminderMin.toString().length > 1 ? '$reminderMin' : '0$reminderMin'}',
                         snackPosition: SnackPosition.BOTTOM,
                         colorText: Colors.white,
                         margin: const EdgeInsets.all(20),

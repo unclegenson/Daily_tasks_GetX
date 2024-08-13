@@ -12,8 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 
-DateTime time = DateTime.now();
-
 void openDateTimePicker2(BuildContext context) {
   BottomPicker.date(
     pickerTitle: Text(
@@ -223,7 +221,8 @@ class SaveButton extends StatelessWidget {
 
                     Get.snackbar(
                       'Good!'.tr,
-                      'We will let you know at $time!'.tr,
+                      'We will let you know at ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}!'
+                          .tr,
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
                       colorText: Colors.white,
@@ -259,6 +258,7 @@ class SaveButton extends StatelessWidget {
                       'Birthday Item edited!'.tr,
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
+                      colorText: Colors.white,
                     );
                   }
                 } else {
@@ -311,6 +311,7 @@ class SaveButton extends StatelessWidget {
                       'Nothing Added'.tr,
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
+                      colorText: Colors.white,
                     );
                   }
                 }

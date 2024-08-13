@@ -1,3 +1,4 @@
+import 'package:daily_tasks_getx/controllers/birthday_controller.dart';
 import 'package:get/get.dart';
 
 class Translate extends Translations {
@@ -127,9 +128,17 @@ Your profile data will be unreachable for others.''',
           "Tap delete if you're sure you wanna delete all tasks":
               "Tap delete if you're sure you wanna delete all tasks",
           'delete': 'delete',
-          'cancel': 'cancel'
+          'cancel': 'cancel',
+          'Error': 'Error',
+          'No Image Selected': 'No Image Selected',
+          'We will let you know at ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}!':
+              'We will let you know at ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}!'
         },
         'fa': {
+          'We will let you know at ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}!':
+              'در تاریخ ${'${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}'}! به شما اطلاع میدهیم',
+          'No Image Selected': 'عکسی انتخاب نشد',
+          'Error': 'خطا',
           'cancel': 'لغو',
           'delete': 'پاک شدن',
           "Tap delete if you're sure you wanna delete all tasks":

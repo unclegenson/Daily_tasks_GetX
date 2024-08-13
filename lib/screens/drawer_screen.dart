@@ -121,31 +121,31 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),
             onTap: () {
-              // Get.back();
-              // Get.snackbar(
-              //   'Navigating to purchase page',
-              //   'Make sure your internet connection is active! You will be in purchase page in 5 seconds!',
-              //   colorText: Colors.white,
-              //   margin: EdgeInsets.all(15),
-              //   duration: Duration(seconds: 7),
-              //   icon: Icon(
-              //     Icons.wifi,
-              //     color: Colors.orange,
-              //   ),
-              //   snackPosition: SnackPosition.BOTTOM,
-              // );
-              // Get.snackbar(
-              //   'Successfull',
-              //   'Your purchase was successfull. Thanks!',
-              //   colorText: Colors.white,
-              //   margin: EdgeInsets.all(15),
-              //   duration: Duration(seconds: 4),
-              //   icon: Icon(
-              //     Icons.check,
-              //     color: Colors.green,
-              //   ),
-              //   snackPosition: SnackPosition.BOTTOM,
-              // );
+              Get.back();
+              Get.snackbar(
+                'Navigating to purchase page',
+                'Make sure your internet connection is active! You will be in purchase page in 5 seconds!',
+                colorText: Colors.white,
+                margin: EdgeInsets.all(15),
+                duration: Duration(seconds: 7),
+                icon: Icon(
+                  Icons.wifi,
+                  color: Colors.orange,
+                ),
+                snackPosition: SnackPosition.BOTTOM,
+              );
+              Get.snackbar(
+                'Successfull',
+                'Your purchase was successfull. Thanks!',
+                colorText: Colors.white,
+                margin: EdgeInsets.all(15),
+                duration: Duration(seconds: 4),
+                icon: Icon(
+                  Icons.check,
+                  color: Colors.green,
+                ),
+                snackPosition: SnackPosition.BOTTOM,
+              );
             },
             leading: const Icon(
               Icons.coffee_rounded,
@@ -206,6 +206,12 @@ Future<void> _openUrl() async {
   if (await canLaunchUrl(params)) {
     await launchUrl(params);
   } else {
-    Get.snackbar('error'.tr, 'error while emailing unclegenson@gmail.com'.tr);
+    Get.snackbar(
+      'error'.tr,
+      'error while emailing unclegenson@gmail.com'.tr,
+      snackPosition: SnackPosition.BOTTOM,
+      colorText: Colors.white,
+      margin: const EdgeInsets.all(20),
+    );
   }
 }

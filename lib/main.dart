@@ -1,7 +1,9 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daily_tasks_getx/bindings/bindings.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/models/translate.dart';
+import 'package:daily_tasks_getx/screens/edit_profile.dart';
 import 'package:daily_tasks_getx/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,36 +53,28 @@ class DailyTasksApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // firstEnter();
-    // Hive.box<UserInfo>('user').clear();
     var user = Hive.box<UserInfo>('user').values.first;
-
+    bool isFirstTime = false;
+    if (user.name != '') {
+      isFirstTime = false;
+    } else {
+      isFirstTime = true;
+    }
     return GetMaterialApp(
       locale: Locale(user.language!),
       translations: Translate(),
       initialBinding: MyBindings(),
       title: 'Daily Tasks',
       debugShowCheckedModeBanner: false,
-      home: const Home(),
-    );
-  }
-
-  void firstEnter() {
-    Hive.box<UserInfo>('user').add(
-      UserInfo(
-        name: 'name',
-        number: 'number',
-        dailyReminderHour: 23,
-        image: 'image',
-        language: 'en',
-        selectedColorAlpha: 255,
-        selectedColorBlue: 100,
-        selectedColorGreen: 230,
-        selectedColorRed: 210,
-      ),
+      home: isFirstTime ? const EditProfileScreen() : const Home(),
     );
   }
 }
 
-//todo: open user screen for the first time app opens
-//todo: edit all snackbar duration text color and translate
+//todo: edit all snackbar translate
+//todo: notifications
+//todo: review screen
+//todo: purchse check
+//todo: logo and app name
+//todo: publish
+

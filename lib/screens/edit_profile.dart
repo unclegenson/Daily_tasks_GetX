@@ -107,7 +107,7 @@ class EditProfileScreen extends StatelessWidget {
                         }
                       },
                     ),
-                    GalleryOrCameraImage()
+                    const GalleryOrCameraImage()
                   ],
                 ),
               ),
@@ -115,16 +115,16 @@ class EditProfileScreen extends StatelessWidget {
                 text: 'Name :'.tr,
                 color: Colors.white,
               ),
-              nameTextFiled(),
+              const NameTextFiled(),
               SettingsCategoryWidget(
                 color: Colors.white,
                 text: 'Number :'.tr,
               ),
-              numberTextField(),
+              const NumberTextField(),
               SizedBox(
                 height: Get.height / 10,
               ),
-              DoneButton()
+              const DoneButton()
             ],
           ),
         ),
@@ -185,13 +185,12 @@ class DoneButton extends StatelessWidget {
               Get.find<UserInfoController>().number.value == '') {
             Get.snackbar(
               'error!',
-              '''You must add your profile data to use the app
-    Your profile data will be unreachable for others.'''
+              'You must add your profile data to use the app Your profile data will be unreachable for others.'
                   .tr,
               snackPosition: SnackPosition.BOTTOM,
-              margin: EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               colorText: Colors.white,
-              duration: Duration(seconds: 4),
+              duration: const Duration(seconds: 4),
             );
           } else {
             Hive.box<UserInfo>('user').values.forEach(
@@ -210,17 +209,11 @@ class DoneButton extends StatelessWidget {
                     selectedColorRed: element.selectedColorRed,
                   ),
                 );
-                print('done');
-                print(Hive.box<UserInfo>('user').values.length);
-                Hive.box<UserInfo>('user').values.forEach((element) {
-                  print(element.name);
-                  print(element.number);
-                  print(element.image);
-                });
               },
             );
-
-            Get.back();
+            Get.offAll(
+              () => const Home(),
+            );
           }
         },
         child: Text(
@@ -232,8 +225,8 @@ class DoneButton extends StatelessWidget {
   }
 }
 
-class numberTextField extends StatelessWidget {
-  const numberTextField({
+class NumberTextField extends StatelessWidget {
+  const NumberTextField({
     super.key,
   });
 
@@ -267,8 +260,8 @@ class numberTextField extends StatelessWidget {
   }
 }
 
-class nameTextFiled extends StatelessWidget {
-  const nameTextFiled({
+class NameTextFiled extends StatelessWidget {
+  const NameTextFiled({
     super.key,
   });
 
@@ -285,6 +278,3 @@ class nameTextFiled extends StatelessWidget {
     );
   }
 }
-
-
-// todo: backend of this screen

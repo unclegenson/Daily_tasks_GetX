@@ -33,7 +33,7 @@ class MoreSettingsScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 8, left: 16, right: 8),
+            padding: const EdgeInsets.only(top: 8, left: 16, right: 8),
             child: SettingsCategoryWidget(
               color: Colors.white,
               text: 'Set Language:'.tr,
@@ -44,7 +44,7 @@ class MoreSettingsScreen extends StatelessWidget {
             children: [
               const Divider(indent: 12, endIndent: 12),
               Padding(
-                padding: EdgeInsets.only(top: 8, left: 16, right: 8),
+                padding: const EdgeInsets.only(top: 8, left: 16, right: 8),
                 child: SettingsCategoryWidget(
                   color: Colors.white,
                   text: 'App Theme'.tr,
@@ -212,16 +212,28 @@ void _openColorPicker() async {
         userInfo.selectedColorGreen.value = color.green;
         userInfo.selectedColorRed.value = color.red;
 
-        if (Hive.box<UserInfo>('user').isEmpty) {
-          //! maybe some bug here
-          userInfo.userHiveFirstTime();
-        } else {
-          userInfo.selectedColorAlpha.value = color.alpha;
-          userInfo.selectedColorBlue.value = color.blue;
-          userInfo.selectedColorGreen.value = color.green;
-          userInfo.selectedColorRed.value = color.red;
-          userInfo.updateUserHiveInfo();
-        }
+        Hive.box<UserInfo>('user').values.forEach(
+          (element) {
+            Hive.box<UserInfo>('user').putAt(
+              0,
+              UserInfo(
+                name: element.name,
+                number: element.number,
+                image: element.image,
+                dailyReminderHour: element.dailyReminderHour,
+                language: element.language,
+                selectedColorAlpha:
+                    Get.find<UserInfoController>().selectedColorAlpha.value,
+                selectedColorBlue:
+                    Get.find<UserInfoController>().selectedColorBlue.value,
+                selectedColorGreen:
+                    Get.find<UserInfoController>().selectedColorGreen.value,
+                selectedColorRed:
+                    Get.find<UserInfoController>().selectedColorRed.value,
+              ),
+            );
+          },
+        );
       },
     ),
   );

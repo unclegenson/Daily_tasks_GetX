@@ -12,9 +12,10 @@ class ImageController extends GetxController {
       Get.back();
     } else {
       Get.snackbar(
-        'خطا',
-        'عکسی انتخاب نشد',
+        'Error'.tr,
+        'No Image Selected'.tr,
         snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
         margin: const EdgeInsets.all(20),
       );
     }

@@ -56,15 +56,6 @@ void _openDialog(String title, Widget content) {
 }
 
 Future showOptions() async {
-  // SharedPreferences premium = await SharedPreferences.getInstance();
-  // if (premium.getBool('purchase')!) {
-  // Get.showSnackbar(
-  //   const GetSnackBar(
-  //     message: 'Tou Are Not a Premium Contact',
-  //     duration: Duration(milliseconds: 2500),
-  //   ),
-  // );
-  // } else {
   Get.defaultDialog(
     backgroundColor: Colors.transparent,
     content: Row(
@@ -138,14 +129,12 @@ void _openColorPicker() async {
   );
 }
 
-//todo: fix bug of reset audioId
-
 Future record() async {
-  Get.find<TaskController>().audioId.value++;
-  await recorder.startRecorder(
-      toFile: 'audio${Get.find<TaskController>().audioId.value.toString()}');
+  int id = Get.find<TaskController>().index;
+  await recorder.startRecorder(toFile: 'audio${id.toString()}');
+
   print('audio');
-  print(Get.find<TaskController>().audioId.value);
+  print(id);
 }
 
 Future stop() async {
@@ -227,7 +216,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           padding: const EdgeInsets.all(15.0),
           child: SizedBox(
             width: Get.width,
-            height: Get.height - 130, //todo: fix this 130
+            height: Get.height * 5 / 6,
             child: Obx(() {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -248,7 +237,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                         )
                       : Column(
                           children: [
-                            //todo: fix the structure of this column
                             Text(
                               Get.find<TaskController>().isRecording.value
                                   ? 'recordeing...'.tr
@@ -785,141 +773,3 @@ class TitleWidget extends StatelessWidget {
     );
   }
 }
-
-
-// line 554 
-// onTap: () async {
-//                     if (mainTitleText == '') {
-//                       if (
-//                           // pathOfVoice == '' && micOn
-//                           true) {
-//                         ScaffoldMessenger.of(context).showSnackBar(
-//                           SnackBar(
-//                             duration: const Duration(milliseconds: 1500),
-//                             behavior: SnackBarBehavior.fixed,
-//                             content: Text('thereIsNoVoiceOrTitle'),
-//                           ),
-//                         );
-//                       }
-//                       if (
-//                           // !micOn && mainDescriptionText == ''
-//                           true) {
-//                         ScaffoldMessenger.of(context).showSnackBar(
-//                           SnackBar(
-//                             duration: const Duration(milliseconds: 1500),
-//                             behavior: SnackBarBehavior.fixed,
-//                             content: Text('thereIsNoTitleOrDescription'),
-//                           ),
-//                         );
-//                       }
-//                     } else {
-//                       if (
-//                           // anythingToShow
-//                           false) {
-//                         //   await Hive.box<Notes>('notesBox').putAt(
-//                         //     int.parse(widget.note.id!),
-//                         //     Notes(
-//                         //       voice: pathOfVoice,
-//                         //       image: imageString,
-//                         //       category: selectedCategory,
-//                         //       colorAlpha: selectedColor?.alpha,
-//                         //       colorRed: selectedColor?.red,
-//                         //       colorBlue: selectedColor?.blue,
-//                         //       colorGreen: selectedColor?.green,
-//                         //       day: time.day,
-//                         //       description: mainDescriptionText,
-//                         //       done: false,
-//                         //       hour: time.hour,
-//                         //       id: time.toString(),
-//                         //       minute: time.minute,
-//                         //       month: time.month,
-//                         //       title: mainTitleText,
-//                         //       weekDay: time.weekday,
-//                         //       year: time.year,
-//                         //     ),
-//                         //   );
-//                         ScaffoldMessenger.of(context).showSnackBar(
-//                           SnackBar(
-//                             duration: const Duration(milliseconds: 1500),
-//                             behavior: SnackBarBehavior.fixed,
-//                             content: Text('taskEdited'),
-//                           ),
-//                         );
-//                       } else {
-//                         // await Hive.box<Notes>('notesBox').add(
-//                         //   Notes(
-//                         //     voice: pathOfVoice,
-//                         //     image: imageString,
-//                         //     category: selectedCategory,
-//                         //     colorAlpha: selectedColor?.alpha,
-//                         //     colorRed: selectedColor?.red,
-//                         //     colorBlue: selectedColor?.blue,
-//                         //     colorGreen: selectedColor?.green,
-//                         //     day: time.day,
-//                         //     description: mainDescriptionText,
-//                         //     done: false,
-//                         //     hour: time.hour,
-//                         //     id: time.toString(),
-//                         //     minute: time.minute,
-//                         //     month: time.month,
-//                         //     title: mainTitleText,
-//                         //     weekDay: time.weekday,
-//                         //     year: time.year,
-//                         //   ),
-//                         // );
-//                         ScaffoldMessenger.of(context).showSnackBar(
-//                           SnackBar(
-//                             duration: const Duration(milliseconds: 1500),
-//                             behavior: SnackBarBehavior.fixed,
-//                             content: Text('taskEditedSuccessfully'),
-//                           ),
-//                         );
-//                         if (
-//                             // imageString != ''
-//                             true) {
-//                           ScaffoldMessenger.of(context).showSnackBar(
-//                             SnackBar(
-//                               duration: const Duration(milliseconds: 3500),
-//                               behavior: SnackBarBehavior.fixed,
-//                               content: Text(
-//                                 'longPressTo',
-//                               ),
-//                             ),
-//                           );
-//                         }
-//                       }
-
-//                       Navigator.pop(context);
-//                       //!send notif here ->
-//                       AwesomeNotifications().createNotification(
-//                         schedule: NotificationCalendar(
-//                           day: time.day,
-//                           hour: time.hour,
-//                           minute: time.minute - 1,
-//                           month: time.month,
-//                           year: time.year,
-//                         ),
-//                         content: NotificationContent(
-//                           category: NotificationCategory.Reminder,
-//                           wakeUpScreen: true,
-//                           color: Colors.orange,
-//                           id: 10,
-//                           channelKey: 'chanel',
-//                           title: 'Daily Tasks', //add this to localization
-//                           body:
-//                               'time of $mainTitleText is now!', //add this to localization
-//                         ),
-//                       );
-//                       //! -------------------
-//                       // selectedCategory = '';
-//                       // mainDescriptionText = '';
-//                       // imageString = '';
-//                       // mainTitleText = '';
-//                       // _image = null;
-//                       // pathOfVoice = '';
-//                     }
-//                   },
-
-//todo: category items
-//todo: notif create ...
-//todo: record and play sound

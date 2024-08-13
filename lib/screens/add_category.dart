@@ -90,6 +90,7 @@ class Buttons extends StatelessWidget {
                       'Edit the Task please'.tr,
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
+                      colorText: Colors.white,
                     );
                   }
                 } else {
@@ -107,6 +108,7 @@ class Buttons extends StatelessWidget {
                       'nothing Added'.tr,
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
+                      colorText: Colors.white,
                     );
                   }
                 }

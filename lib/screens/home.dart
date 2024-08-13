@@ -741,6 +741,8 @@ class FAB extends StatelessWidget {
         Get.find<TaskController>().year.value = 0;
         Get.find<TaskController>().weekDay.value = 0;
         Get.find<TaskController>().image.value = '';
+        Get.find<TaskController>().index =
+            Get.find<TaskController>().tasks.length + 1;
         Get.find<TextFieldController>().taskTitle!.text = '';
         Get.find<TextFieldController>().taskDesc!.text = '';
 

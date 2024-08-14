@@ -71,8 +71,5 @@ class DailyTasksApp extends StatelessWidget {
 }
 
 //todo: notifications
-//todo: review screen
 //todo: purchse check
-//todo: logo and app name
 //todo: publish
-

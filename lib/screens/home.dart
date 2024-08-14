@@ -382,60 +382,60 @@ class DoneOrDeleteWidgets extends StatelessWidget {
                       },
                       onTapConfirm: () {
                         Get.find<TaskController>().tasks[index].done = true;
-                        //todo: delete this item from home and move it to review screen.
                         Get.find<DoneTaskController>().doneTasks.add(
                               TasksModel(
-                                  audioId:
-                                      Get.find<TaskController>().audioId.value,
-                                  category: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .category,
-                                  colorAlpha: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .colorAlpha,
-                                  day: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .day,
-                                  description: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .description,
-                                  done: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .done,
-                                  hour: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .hour,
-                                  minute: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .minute,
-                                  month: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .month,
-                                  title: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .title,
-                                  weekDay: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .weekDay,
-                                  year: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .year,
-                                  colorRed: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .colorRed,
-                                  colorBlue: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .colorBlue,
-                                  colorGreen: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .colorGreen,
-                                  image: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .image,
-                                  voice: Get.find<TaskController>()
-                                      .tasks[index]
-                                      .voice),
+                                audioId:
+                                    Get.find<TaskController>().audioId.value,
+                                category: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .category,
+                                colorAlpha: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .colorAlpha,
+                                day:
+                                    Get.find<TaskController>().tasks[index].day,
+                                description: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .description,
+                                done: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .done,
+                                hour: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .hour,
+                                minute: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .minute,
+                                month: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .month,
+                                title: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .title,
+                                weekDay: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .weekDay,
+                                year: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .year,
+                                colorRed: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .colorRed,
+                                colorBlue: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .colorBlue,
+                                colorGreen: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .colorGreen,
+                                image: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .image,
+                                voice: Get.find<TaskController>()
+                                    .tasks[index]
+                                    .voice,
+                              ),
                             );
+                        Get.find<TaskController>().tasks.removeAt(index);
 
                         Get.back();
                       },
@@ -701,11 +701,12 @@ class EmptyHomeBodyWidget extends StatelessWidget {
         Text(
           'Add New Task!'.tr,
           style: TextStyle(
-              color: Colors.white,
-              fontSize: 45,
-              fontFamily: Get.find<UserInfoController>().language.value == 'en'
-                  ? 'title'
-                  : 'farsi'),
+            color: Colors.white,
+            fontSize: 45,
+            fontFamily: Get.find<UserInfoController>().language.value == 'en'
+                ? 'title'
+                : 'farsi',
+          ),
         )
       ],
     );

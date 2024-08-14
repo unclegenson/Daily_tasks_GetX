@@ -20,7 +20,7 @@
     </intent>
 </queries>
     <application
-        android:label="daily_tasks_getx"
+        android:label="Daily Tasks"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -21,6 +21,12 @@ class DoneTaskController extends GetxController {
   var image = ''.obs;
   var voice = ''.obs;
 
+  var isPlaying = false.obs;
+  var reviewPathOfVoice = ''.obs;
+
+  var reviewDurationOfAudio = Duration(seconds: 0).obs;
+  var reviewAudioPosition = Duration(seconds: 0).obs;
+
   @override
   void onInit() {
     var box = GetStorage();
@@ -33,7 +39,7 @@ class DoneTaskController extends GetxController {
     }
 
     ever(doneTasks, (callback) {
-      box.write('tasks', doneTasks.toJson());
+      box.write('done_tasks', doneTasks.toJson());
     });
     super.onInit();
   }

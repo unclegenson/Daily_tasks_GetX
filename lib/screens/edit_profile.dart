@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:daily_tasks_getx/controllers/image_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
+import 'package:daily_tasks_getx/main.dart';
 import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/screens/home.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
@@ -84,9 +85,6 @@ class EditProfileScreen extends StatelessWidget {
                   children: [
                     Obx(
                       () {
-                        // Get.find<UserInfoController>().image.value =
-                        //     Get.find<ImageController>().imagePath.value;
-
                         if (Get.find<UserInfoController>().image.value == '') {
                           return CircleAvatar(
                             backgroundColor: Colors.indigo[400],
@@ -194,24 +192,48 @@ class DoneButton extends StatelessWidget {
               duration: const Duration(seconds: 4),
             );
           } else {
-            Hive.box<UserInfo>('user').values.forEach(
-              (element) {
-                Hive.box<UserInfo>('user').putAt(
-                  0,
-                  UserInfo(
-                    name: Get.find<UserInfoController>().name.value,
-                    number: Get.find<UserInfoController>().number.value,
-                    dailyReminderHour: element.dailyReminderHour,
-                    image: Get.find<ImageController>().imagePath.value,
-                    language: element.language,
-                    selectedColorAlpha: element.selectedColorAlpha,
-                    selectedColorBlue: element.selectedColorBlue,
-                    selectedColorGreen: element.selectedColorGreen,
-                    selectedColorRed: element.selectedColorRed,
-                  ),
-                );
-              },
+            await Hive.box<UserInfo>('user').putAt(
+              0,
+              UserInfo(
+                name: Get.find<UserInfoController>().name.value,
+                number: Get.find<UserInfoController>().number.value,
+                dailyReminderHour:
+                    Get.find<UserInfoController>().dailyReminderHour.value,
+                image: Get.find<UserInfoController>().image.value,
+                language: Get.find<UserInfoController>().language.value,
+                selectedColorAlpha:
+                    Get.find<UserInfoController>().selectedColorAlpha.value,
+                selectedColorBlue:
+                    Get.find<UserInfoController>().selectedColorBlue.value,
+                selectedColorGreen:
+                    Get.find<UserInfoController>().selectedColorGreen.value,
+                selectedColorRed:
+                    Get.find<UserInfoController>().selectedColorRed.value,
+              ),
             );
+            if (isFirstTime == true) {
+              Get.snackbar(
+                'SuccessFul'.tr,
+                'user info added'.tr,
+                colorText: Colors.white,
+                snackPosition: SnackPosition.BOTTOM,
+                icon: const Icon(
+                  Icons.check,
+                  color: Colors.green,
+                ),
+              );
+            } else {
+              Get.snackbar(
+                'SuccessFul'.tr,
+                'user info updated'.tr,
+                snackPosition: SnackPosition.BOTTOM,
+                colorText: Colors.white,
+                icon: const Icon(
+                  Icons.check,
+                  color: Colors.green,
+                ),
+              );
+            }
             Get.offAll(
               () => const Home(),
             );

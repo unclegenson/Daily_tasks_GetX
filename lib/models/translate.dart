@@ -141,9 +141,21 @@ Your profile data will be unreachable for others.''',
           'days': 'days',
           'hours': 'hours',
           'minutes': 'minutes',
-          'from now!': 'from now!'
+          'from now!': 'from now!',
+          's birthday is today!': 's birthday is today!',
+          'Delete This Birhtday item': 'Delete This Birhtday item',
+          'Are you sure you want to delete this Birhday?':
+              'Are you sure you want to delete this Birhday?',
+          'user info added': 'user info added',
+          'user info updated': 'user info updated'
         },
         'fa': {
+          'user info updated': 'اطلاعات کاربر تغییر کرد',
+          'user info added': 'اطلاعات کاربر اضافه شد',
+          'Are you sure you want to delete this Birhday?':
+              '؟مطمئنی میخوای این تاریح تولد پاک بشه',
+          'Delete This Birhtday item': 'پاک کردن تاریخ تولد',
+          's birthday is today!': 'امروز تولدشه',
           'from now!': 'از الان',
           'minutes': 'دقیقه',
           'hours': 'ساعت',

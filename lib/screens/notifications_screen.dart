@@ -1,5 +1,4 @@
 import 'package:bottom_picker/bottom_picker.dart';
-import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -13,15 +12,15 @@ void openDateTimePicker(BuildContext context) {
     initialTime: Time.now(),
     pickerTitle: Text(
       'Reminder Time'.tr,
-      style: TextStyle(
+      style: const TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 18,
-        color: Get.find<UserInfoController>().buttonColor,
+        color: Colors.orangeAccent,
       ),
     ),
-    gradientColors: [Get.find<UserInfoController>().buttonColor!, Colors.blue],
+    gradientColors: const [Colors.orangeAccent, Colors.blue],
     backgroundColor: Colors.black87,
-    closeIconColor: Get.find<UserInfoController>().buttonColor!,
+    closeIconColor: Colors.orangeAccent,
     pickerTextStyle: const TextStyle(
       color: Colors.blue,
       fontWeight: FontWeight.bold,
@@ -100,8 +99,7 @@ class NotificationScreen extends StatelessWidget {
                   height: 45,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Get.find<UserInfoController>().buttonColor,
+                      backgroundColor: Colors.orangeAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -149,8 +147,7 @@ class NotificationScreen extends StatelessWidget {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          Get.find<UserInfoController>().buttonColor,
+                      backgroundColor: Colors.orangeAccent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),

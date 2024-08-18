@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:daily_tasks_getx/controllers/done_task_controller.dart';
+import 'package:daily_tasks_getx/controllers/image_controller.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/text_field_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
@@ -113,7 +114,6 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(['len', Get.find<DoneTaskController>().doneTasks.length]);
     return Obx(() {
       return Center(
         child: Get.find<TaskController>().tasks.isEmpty
@@ -723,6 +723,7 @@ class FAB extends StatelessWidget {
     return FloatingActionButton(
       shape: const CircleBorder(),
       onPressed: () {
+        Get.find<ImageController>().imagePath.value = '';
         Get.find<TaskController>().isEditing = false;
         Get.find<TaskController>().category.value = '';
         Get.find<TaskController>().colorAlpha.value = 0;

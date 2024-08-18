@@ -2,6 +2,7 @@
 
 // import 'package:awesome_notifications/awesome_notifications.dart';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:daily_tasks_getx/controllers/birthday_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
@@ -223,7 +224,7 @@ class SaveButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (Get.find<BirthdayController>().wantToChange.value) {
                   // want to change :
                   if (Get.find<BirthdayController>().name.value != '' &&
@@ -258,20 +259,19 @@ class SaveButton extends StatelessWidget {
 
                     // await AwesomeNotifications().createNotification(
                     //   schedule: NotificationCalendar(
-                    //     day: time.day,
-                    //     month: time.month,
+                    //     day: Get.find<BirthdayController>().day.value,
+                    //     month: Get.find<BirthdayController>().mounth.value,
                     //     repeats: true,
                     //   ),
                     //   content: NotificationContent(
                     //     category: NotificationCategory.Reminder,
-                    //     wakeUpScreen: true,
+                    //     wakeUpScreen: false,
                     //     color: Get.find<UserInfoController>().buttonColor,
                     //     id: 10,
                     //     channelKey: 'chanel',
                     //     title: 'Daily Tasks'.tr,
                     //     body:
-                    //         "${Get.find<BirthdayController>().nameCon}'s birthday is next week on ${time.day}!"
-                    //             .tr, // add this to localization
+                    //         '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
                     //   ),
                     // );
                   } else {
@@ -305,20 +305,19 @@ class SaveButton extends StatelessWidget {
 
                     // await AwesomeNotifications().createNotification(
                     //   schedule: NotificationCalendar(
-                    //     day: time.day,
-                    //     month: time.month,
+                    //     day: Get.find<BirthdayController>().day.value,
+                    //     month: Get.find<BirthdayController>().mounth.value,
                     //     repeats: true,
                     //   ),
                     //   content: NotificationContent(
                     //     category: NotificationCategory.Reminder,
-                    //     wakeUpScreen: true,
+                    //     wakeUpScreen: false,
                     //     color: Get.find<UserInfoController>().buttonColor,
                     //     id: 10,
                     //     channelKey: 'chanel',
                     //     title: 'Daily Tasks'.tr,
                     //     body:
-                    //         "${Get.find<BirthdayController>().nameCon}'s birthday is next week on ${time.day}!"
-                    //             .tr, // add this to localization
+                    //         '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
                     //   ),
                     // );
                     Get.snackbar(

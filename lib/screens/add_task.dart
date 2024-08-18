@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daily_tasks_getx/controllers/category_controller.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart' as h;
 
@@ -408,6 +409,24 @@ class CreateTaskWidget extends StatelessWidget {
                 ),
               );
         }
+        // AwesomeNotifications().createNotification(
+        //   schedule: NotificationCalendar(
+        //     day: time.day,
+        //     hour: time.hour,
+        //     minute: time.minute - 1,
+        //     month: time.month,
+        //     year: time.year,
+        //   ),
+        //   content: NotificationContent(
+        //     category: NotificationCategory.Reminder,
+        //     wakeUpScreen: true,
+        //     color: selectedColor,
+        //     id: 10,
+        //     channelKey: 'chanel',
+        //     title: 'Daily Tasks',
+        //     body: 'time of $mainTitleText is now!',
+        //   ),
+        // );
         Get.find<ImageController>().imagePath.value = '';
         Get.back();
       },
@@ -688,7 +707,6 @@ class CategoryWidget extends StatelessWidget {
         ),
       ),
       hint: Text(
-        // anythingToShow && widget.note.voice == ''
         'category'.tr,
         style: const TextStyle(
           color: Colors.white,

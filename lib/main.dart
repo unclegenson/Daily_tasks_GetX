@@ -47,18 +47,24 @@ void main() async {
   runApp(const DailyTasksApp());
 }
 
+bool isFirstTime = false;
+
 class DailyTasksApp extends StatelessWidget {
   const DailyTasksApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var user = Hive.box<UserInfo>('user').values.first;
-    bool isFirstTime = false;
-    if (user.name != '') {
-      isFirstTime = false;
-    } else {
+    print(['user lenght', Hive.box<UserInfo>('user').length]);
+
+    // Hive.box<UserInfo>('user').clear();
+
+    if (Hive.box<UserInfo>('user').isEmpty) {
+      print('is empty');
       isFirstTime = true;
+      firstEnter();
     }
+
+    var user = Hive.box<UserInfo>('user').values.first;
     return GetMaterialApp(
       locale: Locale(user.language!),
       translations: Translate(),
@@ -73,3 +79,19 @@ class DailyTasksApp extends StatelessWidget {
 //todo: notifications
 //todo: purchse check
 //todo: publish
+
+void firstEnter() async {
+  await Hive.box<UserInfo>('user').add(
+    UserInfo(
+      name: '',
+      number: '',
+      dailyReminderHour: 23,
+      image: '',
+      language: 'en',
+      selectedColorAlpha: 255,
+      selectedColorBlue: 192,
+      selectedColorGreen: 107,
+      selectedColorRed: 92,
+    ),
+  );
+}

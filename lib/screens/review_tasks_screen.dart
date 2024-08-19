@@ -8,6 +8,7 @@ import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart' as h;
 import 'package:get/get.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 
 final reviewAudioPlayer = AudioPlayer();
 
@@ -68,143 +69,226 @@ class _ReviewScreenState extends State<ReviewScreen> {
         svgIcon: 'assets/back2.svg',
         fontSize: 46,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Get.find<DoneTaskController>().doneTasks.isEmpty
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Nothing to Show'.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize:
-                            Get.find<UserInfoController>().language.value ==
-                                    'en'
-                                ? 48
-                                : 38,
-                        fontFamily:
-                            Get.find<UserInfoController>().language.value ==
-                                    'en'
-                                ? 'title'
-                                : 'farsi',
+      body: Obx(
+        () => Padding(
+          padding: const EdgeInsets.all(12),
+          child: Get.find<DoneTaskController>().doneTasks.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Nothing to Show'.tr,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize:
+                              Get.find<UserInfoController>().language.value ==
+                                      'en'
+                                  ? 48
+                                  : 38,
+                          fontFamily:
+                              Get.find<UserInfoController>().language.value ==
+                                      'en'
+                                  ? 'title'
+                                  : 'farsi',
+                        ),
                       ),
-                    ),
-                    Text(
-                      'You can review done tasks here.'.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize:
-                            Get.find<UserInfoController>().language.value ==
-                                    'en'
-                                ? 36
-                                : 20,
-                        fontFamily:
-                            Get.find<UserInfoController>().language.value ==
-                                    'en'
-                                ? 'title'
-                                : 'farsi',
+                      Text(
+                        'You can review done tasks here.'.tr,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize:
+                              Get.find<UserInfoController>().language.value ==
+                                      'en'
+                                  ? 36
+                                  : 20,
+                          fontFamily:
+                              Get.find<UserInfoController>().language.value ==
+                                      'en'
+                                  ? 'title'
+                                  : 'farsi',
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : Column(
+                  children: [
+                    SizedBox(
+                      height: Get.height * 8 / 10,
+                      child: ListView.separated(
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(
+                            height: 10,
+                          );
+                        },
+                        itemCount:
+                            Get.find<DoneTaskController>().doneTasks.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onLongPress: () {
+                              PanaraConfirmDialog.showAnimatedGrow(
+                                context,
+                                title: 'Delete This Task'.tr,
+                                message:
+                                    'Are you sure you want to delete this Task?'
+                                        .tr,
+                                confirmButtonText: 'Yes'.tr,
+                                cancelButtonText: 'No'.tr,
+                                onTapCancel: () {
+                                  Navigator.pop(context);
+                                },
+                                onTapConfirm: () {
+                                  Get.find<DoneTaskController>()
+                                      .doneTasks
+                                      .removeAt(index);
+                                  Get.back();
+                                },
+                                panaraDialogType: PanaraDialogType.warning,
+                                noImage: true,
+                              );
+                            },
+                            child: Stack(
+                              alignment: Get.find<UserInfoController>()
+                                          .language
+                                          .value ==
+                                      'en'
+                                  ? Alignment.bottomRight
+                                  : Alignment.bottomLeft,
+                              children: [
+                                Container(
+                                  height: 100,
+                                  width: Get.width - 20,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color.fromARGB(
+                                      Get.find<DoneTaskController>()
+                                          .doneTasks[index]
+                                          .colorAlpha!,
+                                      Get.find<DoneTaskController>()
+                                          .doneTasks[index]
+                                          .colorRed!,
+                                      Get.find<DoneTaskController>()
+                                          .doneTasks[index]
+                                          .colorGreen!,
+                                      Get.find<DoneTaskController>()
+                                          .doneTasks[index]
+                                          .colorBlue!,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Get.find<DoneTaskController>()
+                                                  .doneTasks[index]
+                                                  .image !=
+                                              ''
+                                          ? ShowImage(
+                                              index: index,
+                                            )
+                                          : const NoImage(),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 12,
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            ShowTitle(
+                                              index: index,
+                                            ),
+                                            Get.find<DoneTaskController>()
+                                                        .doneTasks[index]
+                                                        .voice ==
+                                                    ''
+                                                ? ShowDesc(
+                                                    index: index,
+                                                  )
+                                                : const ShowVoice(),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                ShowDate(index: index),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
                 ),
-              )
-            : Column(
-                children: [
-                  SizedBox(
-                    height: Get.height * 8 / 10,
-                    child: ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return const SizedBox(
-                          height: 10,
-                        );
-                      },
-                      itemCount:
-                          Get.find<DoneTaskController>().doneTasks.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onLongPress: () {
-                            longPressEachTask(index, context);
-                          },
-                          child: Stack(
-                            alignment:
-                                Get.find<UserInfoController>().language.value ==
-                                        'en'
-                                    ? Alignment.bottomRight
-                                    : Alignment.bottomLeft,
-                            children: [
-                              Container(
-                                height: 100,
-                                width: Get.width - 20,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color.fromARGB(
-                                    Get.find<DoneTaskController>()
-                                        .doneTasks[index]
-                                        .colorAlpha!,
-                                    Get.find<DoneTaskController>()
-                                        .doneTasks[index]
-                                        .colorRed!,
-                                    Get.find<DoneTaskController>()
-                                        .doneTasks[index]
-                                        .colorGreen!,
-                                    Get.find<DoneTaskController>()
-                                        .doneTasks[index]
-                                        .colorBlue!,
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Get.find<DoneTaskController>()
-                                                .doneTasks[index]
-                                                .image !=
-                                            ''
-                                        ? ShowImage(
-                                            index: index,
-                                          )
-                                        : const NoImage(),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 12,
-                                        vertical: 12,
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          ShowTitle(
-                                            index: index,
-                                          ),
-                                          Get.find<DoneTaskController>()
-                                                      .doneTasks[index]
-                                                      .voice ==
-                                                  ''
-                                              ? ShowDesc(
-                                                  index: index,
-                                                )
-                                              : const ShowVoice(),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              ShowDate(index: index),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                ],
+        ),
+      ),
+    );
+  }
+}
+
+class NoImage extends StatelessWidget {
+  const NoImage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: 80,
+        height: 80,
+        decoration: const BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.black,
+        ),
+        child: const Icon(
+          Icons.image_not_supported_rounded,
+          size: 45,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+class ShowImage extends StatelessWidget {
+  final int? index;
+  const ShowImage({super.key, required this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onLongPress: () {
+          longPressPic(index!, context);
+        },
+        child: ClipRRect(
+          child: Container(
+            height: 80,
+            width: 80,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              // !-------------------image------------------
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: FileImage(
+                  File(
+                    Get.find<DoneTaskController>().doneTasks[index!].image!,
+                  ),
+                ),
               ),
+            ),
+          ),
+        ),
       ),
     );
   }
 
-  void longPressEachTask(int index, BuildContext context) {
+  void longPressPic(int index, BuildContext context) {
     Get.find<DoneTaskController>().doneTasks[index].image != ''
         ? showGeneralDialog(
             barrierColor: Colors.black.withOpacity(0.5),
@@ -252,62 +336,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
             },
           )
         : const AboutDialog();
-  }
-}
-
-class NoImage extends StatelessWidget {
-  const NoImage({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: 80,
-        height: 80,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.black,
-        ),
-        child: const Icon(
-          Icons.image_not_supported_rounded,
-          size: 45,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
-}
-
-class ShowImage extends StatelessWidget {
-  final int? index;
-  const ShowImage({super.key, required this.index});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ClipRRect(
-        child: Container(
-          height: 80,
-          width: 80,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            // !-------------------image------------------
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: FileImage(
-                File(
-                  Get.find<DoneTaskController>().doneTasks[index!].image!,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 

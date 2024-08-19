@@ -99,6 +99,10 @@ class DrawerWidget extends StatelessWidget {
               color: Colors.black,
             ),
             title: Text('Premium V.'.tr),
+            trailing: const Icon(
+              Icons.check_circle,
+              color: Colors.black,
+            ),
           ),
           ListTile(
             visualDensity: const VisualDensity(vertical: -2),

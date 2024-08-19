@@ -169,7 +169,7 @@ Your profile data will be unreachable for others.''',
           'user info updated': 'اطلاعات کاربر تغییر کرد',
           'user info added': 'اطلاعات کاربر اضافه شد',
           'Are you sure you want to delete this Birhday?':
-              '؟مطمئنی میخوای این تاریح تولد پاک بشه',
+              'مطمئنی میخوای این تاریح تولد پاک بشه؟',
           'Delete This Birhtday item': 'پاک کردن تاریخ تولد',
           's birthday is today!': 'امروز تولدشه',
           'from now!': 'از الان',

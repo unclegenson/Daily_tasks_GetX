@@ -1,16 +1,17 @@
 # daily_tasks_getx
 
-A new Flutter project.
+A full note app :
+local db :(Hive for personal data and GetX storage for not personal data) , 
+State Managment : GetX
+record and play sound
+add images for tasks
+select color for each task
+daily reminders
+task time reminder
+invite friends and contact us 
+support persian and english with GetX
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+You can use this code and contact me if you saw any bug
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+thanks.

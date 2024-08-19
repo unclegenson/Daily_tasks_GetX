@@ -9,6 +9,7 @@ select color for each task
 daily reminders
 task time reminder
 invite friends and contact us 
+support persian and english with GetX
 
 
 You can use this code and contact me if you saw any bug

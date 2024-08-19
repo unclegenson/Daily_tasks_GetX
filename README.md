@@ -10,7 +10,7 @@ daily reminders
 task time reminder
 invite friends and contact us 
 
-########
+
 You can use this code and contact me if you saw any bug
 
 thanks.

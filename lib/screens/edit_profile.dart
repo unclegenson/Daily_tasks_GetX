@@ -30,6 +30,7 @@ Future showOptions() async {
             style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
+            Get.find<ImageController>().from.value = 'user';
             Get.find<ImageController>().getImage(ImageSource.gallery);
 
             Get.find<UserInfoController>().image.value =
@@ -51,6 +52,7 @@ Future showOptions() async {
             style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
+            Get.find<ImageController>().from.value = 'user';
             Get.find<ImageController>().getImage(ImageSource.camera);
           },
         ),

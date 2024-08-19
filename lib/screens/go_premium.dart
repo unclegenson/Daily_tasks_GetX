@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 List premiumOptions = [
-  'Task Notifications'.tr.tr,
+  'Task Notifications'.tr,
   'Reminder Birthday Dates'.tr,
   'Task Image Selector'.tr,
   'Voice Tasks'.tr,
-  'Daily Motivational Quotes'.tr,
+  'Ideally Theme'.tr,
 ];
 
 class GoPremiumScreen extends StatelessWidget {
@@ -135,7 +135,19 @@ class GoPremiumScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.snackbar(
+                          'Error!'.tr,
+                          "You're already premium :)".tr,
+                          icon: const Icon(
+                            Icons.error,
+                            color: Colors.orange,
+                          ),
+                          margin: const EdgeInsets.all(20),
+                          colorText: Colors.white,
+                          snackPosition: SnackPosition.BOTTOM,
+                        );
+                      },
                       child: Text(
                         'Purchase'.tr,
                         style:

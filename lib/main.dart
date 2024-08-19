@@ -17,6 +17,8 @@ void main() async {
     null,
     [
       NotificationChannel(
+        enableVibration: true,
+        playSound: true,
         channelKey: 'chanel',
         channelName: 'notif name',
         channelDescription: 'daily tasks notif',
@@ -54,12 +56,7 @@ class DailyTasksApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(['user lenght', Hive.box<UserInfo>('user').length]);
-
-    // Hive.box<UserInfo>('user').clear();
-
     if (Hive.box<UserInfo>('user').isEmpty) {
-      print('is empty');
       isFirstTime = true;
       firstEnter();
     }
@@ -76,7 +73,9 @@ class DailyTasksApp extends StatelessWidget {
   }
 }
 
+//todo: notif icon
 //todo: notifications
+//todo: notif translate
 //todo: purchse check
 //todo: publish
 

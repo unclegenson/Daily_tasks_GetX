@@ -79,6 +79,7 @@ Future showOptions() async {
             style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
+            Get.find<ImageController>().from.value = 'add task';
             Get.find<ImageController>().getImage(ImageSource.gallery);
           },
         ),
@@ -97,6 +98,7 @@ Future showOptions() async {
             style: const TextStyle(color: Colors.black),
           ),
           onPressed: () {
+            Get.find<ImageController>().from.value = 'add task';
             Get.find<ImageController>().getImage(ImageSource.camera);
           },
         ),
@@ -386,20 +388,19 @@ class CreateTaskWidget extends StatelessWidget {
               .tasks[Get.find<TaskController>().index.toInt()] = task;
           //
         } else {
-          final now = DateTime.now();
           Get.find<TaskController>().tasks.add(
                 TasksModel(
                   category: Get.find<TextFieldController>().cat,
                   colorAlpha: Get.find<TaskController>().colorAlpha.value,
-                  day: now.day,
+                  day: Get.find<TaskController>().day.value,
                   description: Get.find<TextFieldController>().taskDesc!.text,
                   done: false,
-                  hour: now.hour,
-                  minute: now.minute,
-                  month: now.month,
+                  hour: Get.find<TaskController>().hour.value,
+                  minute: Get.find<TaskController>().minute.value,
+                  month: Get.find<TaskController>().month.value,
                   title: Get.find<TextFieldController>().taskTitle!.text,
-                  weekDay: now.weekday,
-                  year: now.year,
+                  weekDay: Get.find<TaskController>().weekDay.value,
+                  year: Get.find<TaskController>().year.value,
                   colorRed: Get.find<TaskController>().colorRed.value,
                   colorBlue: Get.find<TaskController>().colorBlue.value,
                   colorGreen: Get.find<TaskController>().colorGreen.value,
@@ -409,24 +410,24 @@ class CreateTaskWidget extends StatelessWidget {
                 ),
               );
         }
-        // AwesomeNotifications().createNotification(
-        //   schedule: NotificationCalendar(
-        //     day: time.day,
-        //     hour: time.hour,
-        //     minute: time.minute - 1,
-        //     month: time.month,
-        //     year: time.year,
-        //   ),
-        //   content: NotificationContent(
-        //     category: NotificationCategory.Reminder,
-        //     wakeUpScreen: true,
-        //     color: selectedColor,
-        //     id: 10,
-        //     channelKey: 'chanel',
-        //     title: 'Daily Tasks',
-        //     body: 'time of $mainTitleText is now!',
-        //   ),
-        // );
+        AwesomeNotifications().createNotification(
+          schedule: NotificationCalendar(
+            day: Get.find<TaskController>().day.value,
+            hour: Get.find<TaskController>().hour.value,
+            minute: Get.find<TaskController>().minute.value - 1,
+            month: Get.find<TaskController>().month.value,
+            year: Get.find<TaskController>().year.value,
+          ),
+          content: NotificationContent(
+            category: NotificationCategory.Reminder,
+            wakeUpScreen: true,
+            id: 10,
+            channelKey: 'chanel',
+            title: 'Daily Tasks',
+            body:
+                'time of ${Get.find<TextFieldController>().taskTitle!.text} is now!',
+          ),
+        );
         Get.find<ImageController>().imagePath.value = '';
         Get.back();
       },
@@ -511,7 +512,7 @@ class ImagePickerWidget extends StatelessWidget {
             () {
               return Stack(
                 children: [
-                  Get.find<ImageController>().imagePath.value == ''
+                  Get.find<TaskController>().image.value == ''
                       ? const SizedBox()
                       : Center(
                           child: Padding(
@@ -523,9 +524,9 @@ class ImagePickerWidget extends StatelessWidget {
                               child: Obx(
                                 () {
                                   return Image.file(
-                                    File(Get.find<ImageController>()
-                                        .imagePath
-                                        .value),
+                                    File(
+                                      Get.find<TaskController>().image.value,
+                                    ),
                                   );
                                 },
                               ),
@@ -670,7 +671,7 @@ class DescriptionWidget extends StatelessWidget {
         onChanged: (value) {
           Get.find<TextFieldController>().taskDesc!.text = value;
         },
-        maxLines: 3,
+        maxLines: 5,
         style: const TextStyle(color: Colors.white),
         cursorColor: Colors.white,
         decoration: InputDecoration(

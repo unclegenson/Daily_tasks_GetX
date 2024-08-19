@@ -78,8 +78,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                     color: Colors.grey[800],
                   ),
                   child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Obx(() {
+                    padding: const EdgeInsets.all(10.0),
+                    child: Obx(
+                      () {
                         return InkWell(
                           onTap: () async {
                             initRecorder();
@@ -99,7 +100,9 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                             color: Colors.white,
                           ),
                         );
-                      })),
+                      },
+                    ),
+                  ),
                 ),
               )
             : Container(),
@@ -112,12 +115,12 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           return Text(
             titleText,
             style: TextStyle(
-                fontSize: fontSize,
-                fontFamily:
-                    Get.find<UserInfoController>().language.value == 'en'
-                        ? 'title'
-                        : 'farsi',
-                color: Colors.white),
+              fontSize: fontSize,
+              fontFamily: Get.find<UserInfoController>().language.value == 'en'
+                  ? 'title'
+                  : 'farsi',
+              color: Colors.white,
+            ),
           );
         },
       ),
@@ -153,6 +156,11 @@ void openDateTimePicker(BuildContext context) {
     ),
     onSubmit: (p0) {
       time = p0;
+      Get.find<TaskController>().day.value = time.day;
+      Get.find<TaskController>().hour.value = time.hour;
+      Get.find<TaskController>().minute.value = time.minute;
+      Get.find<TaskController>().year.value = time.year;
+      Get.find<TaskController>().month.value = time.month;
 
       Get.snackbar(
         'Task Notification will be in: '.tr,

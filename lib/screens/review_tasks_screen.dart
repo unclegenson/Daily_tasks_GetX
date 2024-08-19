@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:daily_tasks_getx/controllers/done_task_controller.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart' as h;
@@ -69,90 +70,136 @@ class _ReviewScreenState extends State<ReviewScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            SizedBox(
-              height: Get.height * 8 / 10,
-              child: ListView.separated(
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 10,
-                  );
-                },
-                itemCount: Get.find<DoneTaskController>().doneTasks.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onLongPress: () {
-                      longPressEachTask(index, context);
-                    },
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        Container(
-                          height: 100,
-                          width: Get.width - 20,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color.fromARGB(
-                              Get.find<DoneTaskController>()
-                                  .doneTasks[index]
-                                  .colorAlpha!,
-                              Get.find<DoneTaskController>()
-                                  .doneTasks[index]
-                                  .colorRed!,
-                              Get.find<DoneTaskController>()
-                                  .doneTasks[index]
-                                  .colorGreen!,
-                              Get.find<DoneTaskController>()
-                                  .doneTasks[index]
-                                  .colorBlue!,
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+        child: Get.find<DoneTaskController>().doneTasks.isEmpty
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Nothing to Show'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize:
+                            Get.find<UserInfoController>().language.value ==
+                                    'en'
+                                ? 48
+                                : 38,
+                        fontFamily:
+                            Get.find<UserInfoController>().language.value ==
+                                    'en'
+                                ? 'title'
+                                : 'farsi',
+                      ),
+                    ),
+                    Text(
+                      'You can review done tasks here.'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize:
+                            Get.find<UserInfoController>().language.value ==
+                                    'en'
+                                ? 36
+                                : 20,
+                        fontFamily:
+                            Get.find<UserInfoController>().language.value ==
+                                    'en'
+                                ? 'title'
+                                : 'farsi',
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : Column(
+                children: [
+                  SizedBox(
+                    height: Get.height * 8 / 10,
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(
+                          height: 10,
+                        );
+                      },
+                      itemCount:
+                          Get.find<DoneTaskController>().doneTasks.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onLongPress: () {
+                            longPressEachTask(index, context);
+                          },
+                          child: Stack(
+                            alignment:
+                                Get.find<UserInfoController>().language.value ==
+                                        'en'
+                                    ? Alignment.bottomRight
+                                    : Alignment.bottomLeft,
                             children: [
-                              Get.find<DoneTaskController>()
-                                          .doneTasks[index]
-                                          .image !=
-                                      ''
-                                  ? ShowImage(
-                                      index: index,
-                                    )
-                                  : const NoImage(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 12,
+                              Container(
+                                height: 100,
+                                width: Get.width - 20,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color.fromARGB(
+                                    Get.find<DoneTaskController>()
+                                        .doneTasks[index]
+                                        .colorAlpha!,
+                                    Get.find<DoneTaskController>()
+                                        .doneTasks[index]
+                                        .colorRed!,
+                                    Get.find<DoneTaskController>()
+                                        .doneTasks[index]
+                                        .colorGreen!,
+                                    Get.find<DoneTaskController>()
+                                        .doneTasks[index]
+                                        .colorBlue!,
+                                  ),
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    ShowTitle(
-                                      index: index,
-                                    ),
                                     Get.find<DoneTaskController>()
                                                 .doneTasks[index]
-                                                .voice ==
+                                                .image !=
                                             ''
-                                        ? ShowDesc(
+                                        ? ShowImage(
                                             index: index,
                                           )
-                                        : const ShowVoice(),
+                                        : const NoImage(),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 12,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ShowTitle(
+                                            index: index,
+                                          ),
+                                          Get.find<DoneTaskController>()
+                                                      .doneTasks[index]
+                                                      .voice ==
+                                                  ''
+                                              ? ShowDesc(
+                                                  index: index,
+                                                )
+                                              : const ShowVoice(),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 ),
-                              )
+                              ),
+                              ShowDate(index: index),
                             ],
                           ),
-                        ),
-                        ShowDate(index: index),
-                      ],
+                        );
+                      },
                     ),
-                  );
-                },
+                  )
+                ],
               ),
-            )
-          ],
-        ),
       ),
     );
   }

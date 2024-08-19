@@ -128,3 +128,24 @@ class BirthdayModel {
         mounth = json['mounth'],
         year = json['year'];
 }
+
+class NotifModel {
+  NotifModel({
+    required this.hour,
+    required this.minute,
+  });
+
+  int? hour;
+  int? minute;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'hour': hour,
+      'minute': minute,
+    };
+  }
+
+  NotifModel.fromJson(Map<String, dynamic> json)
+      : minute = json['minute'],
+        hour = json['hour'];
+}

@@ -232,6 +232,31 @@ class HomeBody extends StatelessWidget {
     //
     Get.find<TextFieldController>().taskDesc!.text =
         Get.find<TaskController>().tasks[index].description!;
+
+    Get.find<TaskController>().category.value =
+        Get.find<TaskController>().tasks[index].category!;
+
+    Get.find<ImageController>().imagePath.value =
+        Get.find<TaskController>().tasks[index].image!;
+
+    Get.find<TaskController>().day.value =
+        Get.find<TaskController>().tasks[index].day!;
+
+    Get.find<TaskController>().hour.value =
+        Get.find<TaskController>().tasks[index].hour!;
+
+    Get.find<TaskController>().minute.value =
+        Get.find<TaskController>().tasks[index].minute!;
+
+    Get.find<TaskController>().month.value =
+        Get.find<TaskController>().tasks[index].month!;
+
+    Get.find<TaskController>().year.value =
+        Get.find<TaskController>().tasks[index].year!;
+
+    Get.find<TaskController>().weekDay.value =
+        Get.find<TaskController>().tasks[index].weekDay!;
+
     Get.to(() => const AddTaskScreen());
   }
 
@@ -373,7 +398,7 @@ class DoneOrDeleteWidgets extends StatelessWidget {
                   onPressed: () {
                     PanaraConfirmDialog.showAnimatedGrow(
                       context,
-                      title: 'done?'.tr,
+                      title: 'Done?'.tr,
                       message: "Press Yes if you'he done this task.".tr,
                       confirmButtonText: 'Yes'.tr,
                       cancelButtonText: 'No'.tr,
@@ -630,7 +655,7 @@ class ShowDescriptionInTheTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(left: 12, right: 10),
+      padding: const EdgeInsets.only(left: 12, right: 12),
       child: Align(
         alignment: Alignment.topLeft,
         child: Text(
@@ -643,7 +668,10 @@ class ShowDescriptionInTheTask extends StatelessWidget {
             color: Colors.black54,
           ),
           overflow: TextOverflow.ellipsis,
-          maxLines: 3,
+          maxLines:
+              [3, 7, 15, 19, 27, 31, 39, 43, 51, 55, 63, 67, 75].contains(index)
+                  ? 10
+                  : 3,
         ),
       ),
     );
@@ -702,7 +730,8 @@ class EmptyHomeBodyWidget extends StatelessWidget {
           'Add New Task!'.tr,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 45,
+            fontSize:
+                Get.find<UserInfoController>().language.value == 'en' ? 45 : 36,
             fontFamily: Get.find<UserInfoController>().language.value == 'en'
                 ? 'title'
                 : 'farsi',

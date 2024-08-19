@@ -1,11 +1,10 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bottom_picker/bottom_picker.dart';
+import 'package:daily_tasks_getx/controllers/notif_controller.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-int reminderHour = 23;
-int reminderMin = 0;
 
 void openDateTimePicker(BuildContext context) {
   BottomPicker.time(
@@ -27,39 +26,10 @@ void openDateTimePicker(BuildContext context) {
       fontSize: 14,
     ),
     onSubmit: (p0) {
-      // setState(() {
-      //   reminderHour = p0.hour;
-      //   reminderMin = p0.minute;
-      // });
+      Get.find<NotifController>().hour.value = p0.hour;
+      Get.find<NotifController>().minute.value = p0.minute;
     },
   ).show(context);
-}
-// @override
-// void initState() {
-//   getReminderTime();
-//   super.initState();
-// }
-
-Future<void> getReminderTime() async {
-  // SharedPreferences prefDailyReminderHour =
-  //     await SharedPreferences.getInstance();
-  // SharedPreferences prefDailyReminderMin =
-  //     await SharedPreferences.getInstance();
-
-  // setState(() {
-  //   reminderMin = prefDailyReminderMin.getInt('reminderMin')!;
-  //   reminderHour = prefDailyReminderHour.getInt('reminderHour')!;
-  // });
-}
-
-Future<void> setReminderTime() async {
-  // SharedPreferences prefDailyReminderHour =
-  //     await SharedPreferences.getInstance();
-  // SharedPreferences prefDailyReminderMin =
-  //     await SharedPreferences.getInstance();
-
-  // prefDailyReminderMin.setInt('reminderMin', reminderMin);
-  // prefDailyReminderHour.setInt('reminderHour', reminderHour);
 }
 
 class NotificationScreen extends StatelessWidget {
@@ -84,6 +54,7 @@ class NotificationScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                const Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
                   child: SettingsCategoryWidget(
@@ -113,9 +84,7 @@ class NotificationScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: Get.height * 5 / 10,
-                ),
+                const Spacer(),
                 const SizedBox(
                   height: 4,
                 ),
@@ -131,17 +100,21 @@ class NotificationScreen extends StatelessWidget {
                         text: 'Your best daily reminder :'.tr,
                       ),
                       const Spacer(),
-                      Text(
-                        '${reminderHour.toString().length > 1 ? '$reminderHour' : '0$reminderHour'} : ${reminderMin.toString().length > 1 ? '$reminderMin' : '0$reminderMin'}',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
+                      Obx(
+                        () => Text(
+                          '${Get.find<NotifController>().hour.value.toString().length > 1 ? '${Get.find<NotifController>().hour.value}' : '0${Get.find<NotifController>().hour.value}'} : ${Get.find<NotifController>().minute.value.toString().length > 1 ? '${Get.find<NotifController>().minute.value}' : '0${Get.find<NotifController>().minute.value}'}',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                const Spacer(),
+                const SizedBox(
+                  height: 18,
+                ),
                 SizedBox(
                   width: Get.width - 40,
                   height: 50,
@@ -152,15 +125,32 @@ class NotificationScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      setReminderTime();
+                    onPressed: () async {
                       Get.back();
+                      int reminderHour = Get.find<NotifController>().hour.value;
+                      int reminderMin =
+                          Get.find<NotifController>().minute.value;
                       Get.snackbar(
                         'Good!'.tr,
                         '${'Daily reminder set at'.tr} ${reminderHour.toString().length > 1 ? '$reminderHour' : '0$reminderHour'} : ${reminderMin.toString().length > 1 ? '$reminderMin' : '0$reminderMin'}',
                         snackPosition: SnackPosition.BOTTOM,
                         colorText: Colors.white,
                         margin: const EdgeInsets.all(20),
+                      );
+                      AwesomeNotifications().createNotification(
+                        content: NotificationContent(
+                          id: 13,
+                          wakeUpScreen: true,
+                          category: NotificationCategory.Reminder,
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks reminder'.tr,
+                          body: "Make your tomorrow's plan ready!",
+                        ),
+                        schedule: NotificationCalendar(
+                          hour: reminderHour,
+                          minute: reminderMin,
+                          repeats: true,
+                        ),
                       );
                     },
                     child: Text(

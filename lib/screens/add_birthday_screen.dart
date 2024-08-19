@@ -1,7 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
-// import 'package:awesome_notifications/awesome_notifications.dart';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:daily_tasks_getx/controllers/birthday_controller.dart';
@@ -40,6 +36,7 @@ void openDateTimePicker2(BuildContext context) {
       Get.find<BirthdayController>().day.value = time.day;
       Get.find<BirthdayController>().mounth.value = time.month;
       Get.find<BirthdayController>().year.value = time.year;
+      print(time);
     },
   ).show(context);
 }
@@ -256,6 +253,11 @@ class SaveButton extends StatelessWidget {
                         color: Colors.white,
                       ),
                     );
+                    Get.find<BirthdayController>().nameCon.text = '';
+                    Get.find<BirthdayController>().numberCon.text = '';
+                    Get.find<BirthdayController>().day.value = 0;
+                    Get.find<BirthdayController>().mounth.value = 0;
+                    Get.find<BirthdayController>().year.value = 0;
 
                     // await AwesomeNotifications().createNotification(
                     //   schedule: NotificationCalendar(
@@ -265,8 +267,7 @@ class SaveButton extends StatelessWidget {
                     //   ),
                     //   content: NotificationContent(
                     //     category: NotificationCategory.Reminder,
-                    //     wakeUpScreen: false,
-                    //     color: Get.find<UserInfoController>().buttonColor,
+                    //     wakeUpScreen: true,
                     //     id: 10,
                     //     channelKey: 'chanel',
                     //     title: 'Daily Tasks'.tr,
@@ -297,11 +298,6 @@ class SaveButton extends StatelessWidget {
                             year: Get.find<BirthdayController>().year.value,
                           ),
                         );
-                    Get.find<BirthdayController>().nameCon.text = '';
-                    Get.find<BirthdayController>().numberCon.text = '';
-                    Get.find<BirthdayController>().day.value = 0;
-                    Get.find<BirthdayController>().mounth.value = 0;
-                    Get.find<BirthdayController>().year.value = 0;
 
                     // await AwesomeNotifications().createNotification(
                     //   schedule: NotificationCalendar(
@@ -311,8 +307,7 @@ class SaveButton extends StatelessWidget {
                     //   ),
                     //   content: NotificationContent(
                     //     category: NotificationCategory.Reminder,
-                    //     wakeUpScreen: false,
-                    //     color: Get.find<UserInfoController>().buttonColor,
+                    //     wakeUpScreen: true,
                     //     id: 10,
                     //     channelKey: 'chanel',
                     //     title: 'Daily Tasks'.tr,
@@ -322,7 +317,7 @@ class SaveButton extends StatelessWidget {
                     // );
                     Get.snackbar(
                       'Good!'.tr,
-                      '${'We will let you know on'.tr}${Get.find<BirthdayController>().mounth.value}/${Get.find<BirthdayController>().day.value}',
+                      '${Get.find<BirthdayController>().mounth.value}.${Get.find<BirthdayController>().day.value} ${'We will let you know on'.tr}',
                       margin: const EdgeInsets.all(20),
                       snackPosition: SnackPosition.BOTTOM,
                       colorText: Colors.white,
@@ -331,6 +326,11 @@ class SaveButton extends StatelessWidget {
                         color: Colors.white,
                       ),
                     );
+                    Get.find<BirthdayController>().nameCon.text = '';
+                    Get.find<BirthdayController>().numberCon.text = '';
+                    Get.find<BirthdayController>().day.value = 0;
+                    Get.find<BirthdayController>().mounth.value = 0;
+                    Get.find<BirthdayController>().year.value = 0;
                   } else {
                     Get.snackbar(
                       'Error!'.tr,

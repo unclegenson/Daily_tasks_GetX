@@ -6,7 +6,6 @@ import 'package:daily_tasks_getx/screens/notifications_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -166,8 +165,6 @@ class SettingsScreen extends StatelessWidget {
                       Get.back();
                     },
                     onTapConfirm: () async {
-                      var box = GetStorage();
-                      await box.erase();
                       Get.find<TaskController>().tasks.clear();
                       Get.back();
                     },

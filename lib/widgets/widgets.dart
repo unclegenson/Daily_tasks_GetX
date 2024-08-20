@@ -133,6 +133,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
 
 bool showTime = false;
 DateTime time = DateTime.now();
+
 void openDateTimePicker(BuildContext context) {
   BottomPicker.dateTime(
     pickerTitle: Text(

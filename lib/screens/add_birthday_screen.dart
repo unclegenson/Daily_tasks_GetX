@@ -1,5 +1,4 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:bottom_picker/bottom_picker.dart';
 import 'package:daily_tasks_getx/controllers/birthday_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/models/general_models.dart';
@@ -9,36 +8,114 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
+import 'package:flutter_linear_datepicker/flutter_datepicker.dart';
 
-void openDateTimePicker2(BuildContext context) {
-  BottomPicker.date(
-    pickerTitle: Text(
-      'Add Birthday Date'.tr,
-      style: TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-        color: Get.find<UserInfoController>().buttonColor,
+void showCalender() {
+  String lang = Get.find<UserInfoController>().language.value;
+
+  Get.bottomSheet(
+    enableDrag: false,
+    isDismissible: false,
+    backgroundColor: Colors.black87,
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      child: SizedBox(
+        height: Get.height / 2.5,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Add Birthday Date'.tr,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Get.find<UserInfoController>().buttonColor,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: Icon(
+                      Icons.close,
+                      color: Get.find<UserInfoController>().buttonColor,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            LinearDatePicker(
+              yearText: lang == 'en' ? 'Year' : 'سال',
+              monthText: lang == 'en' ? 'Month' : 'ماه',
+              dayText: lang == 'en' ? 'Day' : 'روز',
+              labelStyle: TextStyle(
+                color: Get.find<UserInfoController>().buttonColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              selectedRowStyle: TextStyle(
+                color: Get.find<UserInfoController>().buttonColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+              unselectedRowStyle: const TextStyle(
+                fontFamily: 'iran',
+                fontSize: 16.0,
+                color: Colors.grey,
+              ),
+              startDate: lang == 'en' ? '1900/01/01' : "1300/01/01",
+              endDate: lang == 'en' ? '2024/12/29' : "1404/12/29",
+              initialDate: lang == 'en' ? '2023/02/02' : "1404/02/02",
+              dateChangeListener: (String selectedDate) {
+                List parts = selectedDate.split('/');
+                Get.find<BirthdayController>().year.value = int.parse(parts[0]);
+                Get.find<BirthdayController>().mounth.value =
+                    int.parse(parts[1]);
+                Get.find<BirthdayController>().day.value = int.parse(parts[2]);
+              },
+              showMonthName: true,
+              columnWidth: 100,
+              isJalaali: lang == 'en' ? false : true,
+              showLabels: true,
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            SizedBox(
+              width: Get.width - 80,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Get.find<UserInfoController>().buttonColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text(
+                  'Select'.tr,
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     ),
-    gradientColors: [Get.find<UserInfoController>().buttonColor!, Colors.blue],
-    backgroundColor: Colors.black87,
-    closeIconColor: Get.find<UserInfoController>().buttonColor!,
-    initialDateTime: DateTime(DateTime.now().year),
-    maxDateTime: DateTime(DateTime.now().year),
-    minDateTime: DateTime(1900),
-    pickerTextStyle: const TextStyle(
-      color: Colors.blue,
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    ),
-    onChange: (p0) {
-      time = p0;
-      Get.find<BirthdayController>().day.value = time.day;
-      Get.find<BirthdayController>().mounth.value = time.month;
-      Get.find<BirthdayController>().year.value = time.year;
-      print(time);
-    },
-  ).show(context);
+  );
 }
 
 class AddBirthdayScreen extends StatelessWidget {
@@ -147,7 +224,7 @@ class Inputs extends StatelessWidget {
           height: 55,
           child: InkWell(
             onTap: () {
-              return openDateTimePicker2(context);
+              return showCalender();
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

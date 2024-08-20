@@ -76,7 +76,6 @@ class DailyTasksApp extends StatelessWidget {
 //todo: notif icon
 //todo: notifications
 //todo: notif translate
-//todo: purchse check
 //todo: publish
 
 void firstEnter() async {

@@ -1,7 +1,9 @@
 import 'package:daily_tasks_getx/models/general_models.dart';
+import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hive/hive.dart';
 
 class NotifController extends GetxController {
   var notifs = <NotifModel>[].obs;
@@ -14,6 +16,10 @@ class NotifController extends GetxController {
 
   @override
   void onInit() {
+    Hive.box<UserInfo>('user').values.forEach((element) {
+      hour.value = element.dailyReminderHour!;
+      minute.value = element.dailyReminderMinute!;
+    });
     var box = GetStorage();
 
     if (box.read('notif') != null) {

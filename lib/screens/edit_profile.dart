@@ -201,6 +201,8 @@ class DoneButton extends StatelessWidget {
                 number: Get.find<UserInfoController>().number.value,
                 dailyReminderHour:
                     Get.find<UserInfoController>().dailyReminderHour.value,
+                dailyReminderMinute:
+                    Get.find<UserInfoController>().dailyReminderMIn.value,
                 image: Get.find<UserInfoController>().image.value,
                 language: Get.find<UserInfoController>().language.value,
                 selectedColorAlpha:
@@ -259,30 +261,33 @@ class NumberTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: TextFormField(
-        initialValue: Get.find<UserInfoController>().number.value == ''
-            ? ''
-            : Get.find<UserInfoController>().number.value,
-        keyboardType: TextInputType.phone,
-        inputFormatters: [LengthLimitingTextInputFormatter(11)],
-        decoration: const InputDecoration(
-          hintText: '09100000000',
-          hintStyle: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w300,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextFormField(
+          initialValue: Get.find<UserInfoController>().number.value == ''
+              ? ''
+              : Get.find<UserInfoController>().number.value,
+          keyboardType: TextInputType.phone,
+          inputFormatters: [LengthLimitingTextInputFormatter(11)],
+          decoration: const InputDecoration(
+            hintText: '09100000000',
+            hintStyle: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w300,
+            ),
           ),
-        ),
-        onChanged: (value) {
-          if (value.length > 10) {
-            String val1 = value.substring(1, 4);
-            String val2 = value.substring(4, 7);
-            String val3 = value.substring(7);
+          onChanged: (value) {
+            if (value.length > 10) {
+              String val1 = value.substring(1, 4);
+              String val2 = value.substring(4, 7);
+              String val3 = value.substring(7);
 
-            Get.find<UserInfoController>().number.value =
-                '+98 $val1 $val2 $val3';
-          }
-        },
-        style: const TextStyle(color: Colors.white),
+              Get.find<UserInfoController>().number.value =
+                  '+98 $val1 $val2 $val3';
+            }
+          },
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
     );
   }
@@ -297,14 +302,17 @@ class NameTextFiled extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
-      child: TextFormField(
-        initialValue: Get.find<UserInfoController>().name.value == ''
-            ? ''
-            : Get.find<UserInfoController>().name.value,
-        onChanged: (value) {
-          Get.find<UserInfoController>().name.value = value;
-        },
-        style: const TextStyle(color: Colors.white),
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextFormField(
+          initialValue: Get.find<UserInfoController>().name.value == ''
+              ? ''
+              : Get.find<UserInfoController>().name.value,
+          onChanged: (value) {
+            Get.find<UserInfoController>().name.value = value;
+          },
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
     );
   }

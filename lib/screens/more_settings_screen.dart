@@ -223,6 +223,7 @@ void _openColorPicker() async {
                 number: element.number,
                 image: element.image,
                 dailyReminderHour: element.dailyReminderHour,
+                dailyReminderMinute: element.dailyReminderMinute,
                 language: element.language,
                 selectedColorAlpha:
                     Get.find<UserInfoController>().selectedColorAlpha.value,

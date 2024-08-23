@@ -410,6 +410,7 @@ class CreateTaskWidget extends StatelessWidget {
                 ),
               );
         }
+        AwesomeNotifications().cancel(10);
         AwesomeNotifications().createNotification(
           schedule: NotificationCalendar(
             day: Get.find<TaskController>().day.value,
@@ -423,7 +424,7 @@ class CreateTaskWidget extends StatelessWidget {
             wakeUpScreen: true,
             id: 10,
             channelKey: 'chanel',
-            title: 'Daily Tasks',
+            title: 'Task Reminder',
             body:
                 'time of ${Get.find<TextFieldController>().taskTitle!.text} is now!',
           ),

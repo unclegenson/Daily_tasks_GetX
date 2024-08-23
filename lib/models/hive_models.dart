@@ -8,6 +8,7 @@ class UserInfo {
     required this.name,
     required this.number,
     required this.dailyReminderHour,
+    required this.dailyReminderMinute,
     required this.image,
     required this.language,
     required this.selectedColorAlpha,

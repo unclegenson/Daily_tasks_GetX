@@ -1,10 +1,13 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:daily_tasks_getx/controllers/notif_controller.dart';
+import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
+import 'package:daily_tasks_getx/models/hive_models.dart';
 import 'package:daily_tasks_getx/screens/settings_screen.dart';
 import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 void openDateTimePicker(BuildContext context) {
   BottomPicker.time(
@@ -103,6 +106,7 @@ class NotificationScreen extends StatelessWidget {
                       Obx(
                         () => Text(
                           '${Get.find<NotifController>().hour.value.toString().length > 1 ? '${Get.find<NotifController>().hour.value}' : '0${Get.find<NotifController>().hour.value}'} : ${Get.find<NotifController>().minute.value.toString().length > 1 ? '${Get.find<NotifController>().minute.value}' : '0${Get.find<NotifController>().minute.value}'}',
+                          textDirection: TextDirection.ltr,
                           style: const TextStyle(
                             fontSize: 24,
                             color: Colors.white,
@@ -132,24 +136,54 @@ class NotificationScreen extends StatelessWidget {
                           Get.find<NotifController>().minute.value;
                       Get.snackbar(
                         'Good!'.tr,
-                        '${'Daily reminder set at'.tr} ${reminderHour.toString().length > 1 ? '$reminderHour' : '0$reminderHour'} : ${reminderMin.toString().length > 1 ? '$reminderMin' : '0$reminderMin'}',
+                        '',
+                        messageText: Text(
+                          Get.find<UserInfoController>().language.value == 'en'
+                              ? '${'Daily reminder set at'.tr} ${reminderHour.toString().length > 1 ? '$reminderHour' : '0$reminderHour'} : ${reminderMin.toString().length > 1 ? '$reminderMin' : '0$reminderMin'}'
+                              : '${'Daily reminder set at'.tr} ${reminderMin.toString().length > 1 ? '$reminderMin' : '0$reminderMin'} : ${reminderHour.toString().length > 1 ? '$reminderHour' : '0$reminderHour'}',
+                          style: const TextStyle(color: Colors.white),
+                        ),
                         snackPosition: SnackPosition.BOTTOM,
                         colorText: Colors.white,
                         margin: const EdgeInsets.all(20),
                       );
+                      AwesomeNotifications().cancel(14);
                       AwesomeNotifications().createNotification(
                         content: NotificationContent(
-                          id: 13,
+                          id: 14,
                           wakeUpScreen: true,
                           category: NotificationCategory.Reminder,
                           channelKey: 'chanel',
                           title: 'Daily Tasks reminder'.tr,
-                          body: "Make your tomorrow's plan ready!",
+                          body: "Make your tomorrow's plan ready!".tr,
                         ),
                         schedule: NotificationCalendar(
                           hour: reminderHour,
                           minute: reminderMin,
-                          repeats: true,
+                        ),
+                      );
+                      Hive.box<UserInfo>('user').putAt(
+                        0,
+                        UserInfo(
+                          name: Get.find<UserInfoController>().name.value,
+                          number: Get.find<UserInfoController>().number.value,
+                          dailyReminderHour: reminderHour,
+                          dailyReminderMinute: reminderMin,
+                          image: Get.find<UserInfoController>().image.value,
+                          language:
+                              Get.find<UserInfoController>().language.value,
+                          selectedColorAlpha: Get.find<UserInfoController>()
+                              .selectedColorAlpha
+                              .value,
+                          selectedColorBlue: Get.find<UserInfoController>()
+                              .selectedColorBlue
+                              .value,
+                          selectedColorGreen: Get.find<UserInfoController>()
+                              .selectedColorGreen
+                              .value,
+                          selectedColorRed: Get.find<UserInfoController>()
+                              .selectedColorRed
+                              .value,
                         ),
                       );
                     },

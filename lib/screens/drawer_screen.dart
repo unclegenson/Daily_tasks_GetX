@@ -47,7 +47,7 @@ class DrawerWidget extends StatelessWidget {
                         Get.find<UserInfoController>().name.value,
                         style: const TextStyle(
                           fontSize: 28,
-                          fontFamily: 'title',
+                          fontFamily: 'farsi',
                           fontWeight: FontWeight.w600,
                         ),
                       ),

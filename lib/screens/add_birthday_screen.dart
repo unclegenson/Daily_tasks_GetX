@@ -7,6 +7,7 @@ import 'package:daily_tasks_getx/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:flutter_linear_datepicker/flutter_datepicker.dart';
 
@@ -335,23 +336,161 @@ class SaveButton extends StatelessWidget {
                     Get.find<BirthdayController>().day.value = 0;
                     Get.find<BirthdayController>().mounth.value = 0;
                     Get.find<BirthdayController>().year.value = 0;
-
-                    // await AwesomeNotifications().createNotification(
-                    //   schedule: NotificationCalendar(
-                    //     day: Get.find<BirthdayController>().day.value,
-                    //     month: Get.find<BirthdayController>().mounth.value,
-                    //     repeats: true,
-                    //   ),
-                    //   content: NotificationContent(
-                    //     category: NotificationCategory.Reminder,
-                    //     wakeUpScreen: true,
-                    //     id: 10,
-                    //     channelKey: 'chanel',
-                    //     title: 'Daily Tasks'.tr,
-                    //     body:
-                    //         '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
-                    //   ),
-                    // );
+                    if (DateTime(
+                          DateTime.now().year,
+                          Get.find<BirthdayController>().mounth.value,
+                          Get.find<BirthdayController>().day.value,
+                        ).compareTo(DateTime.now()) >
+                        0) {
+                      await AwesomeNotifications().createNotification(
+                        schedule: NotificationCalendar(
+                          year: DateTime.now().year,
+                          day: Get.find<BirthdayController>().day.value,
+                          month: Get.find<BirthdayController>().mounth.value,
+                          hour: 0,
+                          minute: 0,
+                        ),
+                        content: NotificationContent(
+                          category: NotificationCategory.Reminder,
+                          wakeUpScreen: true,
+                          id: int.parse(Get.find<BirthdayController>()
+                              .number
+                              .value
+                              .substring(3)),
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks'.tr,
+                          body:
+                              '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
+                        ),
+                      );
+                      await AwesomeNotifications().createNotification(
+                        schedule: NotificationCalendar(
+                          year: DateTime.now().year + 1,
+                          day: Get.find<BirthdayController>().day.value,
+                          month: Get.find<BirthdayController>().mounth.value,
+                          hour: 0,
+                          minute: 0,
+                        ),
+                        content: NotificationContent(
+                          category: NotificationCategory.Reminder,
+                          wakeUpScreen: true,
+                          id: int.parse(Get.find<BirthdayController>()
+                              .number
+                              .value
+                              .substring(3)),
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks'.tr,
+                          body:
+                              '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
+                        ),
+                      );
+                      await AwesomeNotifications().createNotification(
+                        schedule: NotificationCalendar(
+                          year: DateTime.now().year + 2,
+                          day: Get.find<BirthdayController>().day.value,
+                          month: Get.find<BirthdayController>().mounth.value,
+                          hour: 0,
+                          minute: 0,
+                        ),
+                        content: NotificationContent(
+                          category: NotificationCategory.Reminder,
+                          wakeUpScreen: true,
+                          id: int.parse(Get.find<BirthdayController>()
+                              .number
+                              .value
+                              .substring(3)),
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks'.tr,
+                          body:
+                              '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
+                        ),
+                      );
+                    } else {
+                      await AwesomeNotifications().createNotification(
+                        schedule: NotificationCalendar(
+                          year: DateTime.now().year + 1,
+                          day: Get.find<BirthdayController>().day.value,
+                          month: Get.find<BirthdayController>().mounth.value,
+                          hour: 0,
+                          minute: 0,
+                        ),
+                        content: NotificationContent(
+                          category: NotificationCategory.Reminder,
+                          wakeUpScreen: true,
+                          id: int.parse(Get.find<BirthdayController>()
+                              .number
+                              .value
+                              .substring(3)),
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks'.tr,
+                          body:
+                              '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
+                        ),
+                      );
+                      await AwesomeNotifications().createNotification(
+                        schedule: NotificationCalendar(
+                          year: DateTime.now().year + 2,
+                          day: Get.find<BirthdayController>().day.value,
+                          month: Get.find<BirthdayController>().mounth.value,
+                          hour: 0,
+                          minute: 0,
+                        ),
+                        content: NotificationContent(
+                          category: NotificationCategory.Reminder,
+                          wakeUpScreen: true,
+                          id: int.parse(Get.find<BirthdayController>()
+                              .number
+                              .value
+                              .substring(3)),
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks'.tr,
+                          body:
+                              '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
+                        ),
+                      );
+                      await AwesomeNotifications().createNotification(
+                        schedule: NotificationCalendar(
+                          year: DateTime.now().year + 3,
+                          day: Get.find<BirthdayController>().day.value,
+                          month: Get.find<BirthdayController>().mounth.value,
+                          hour: 0,
+                          minute: 0,
+                        ),
+                        content: NotificationContent(
+                          category: NotificationCategory.Reminder,
+                          wakeUpScreen: true,
+                          id: int.parse(Get.find<BirthdayController>()
+                              .number
+                              .value
+                              .substring(3)),
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks'.tr,
+                          body:
+                              '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
+                        ),
+                      );
+                      await AwesomeNotifications().createNotification(
+                        schedule: NotificationCalendar(
+                          year: DateTime.now().year + 4,
+                          day: Get.find<BirthdayController>().day.value,
+                          month: Get.find<BirthdayController>().mounth.value,
+                          hour: 0,
+                          minute: 0,
+                        ),
+                        content: NotificationContent(
+                          category: NotificationCategory.Reminder,
+                          wakeUpScreen: true,
+                          id: int.parse(Get.find<BirthdayController>()
+                              .number
+                              .value
+                              .substring(3)),
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks'.tr,
+                          body:
+                              '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
+                        ),
+                      );
+                    }
                   } else {
                     Get.snackbar(
                       'Error!'.tr,
@@ -375,23 +514,65 @@ class SaveButton extends StatelessWidget {
                             year: Get.find<BirthdayController>().year.value,
                           ),
                         );
+                    AwesomeNotifications().cancel(
+                      int.parse(
+                        Get.find<BirthdayController>()
+                            .number
+                            .value
+                            .substring(3),
+                      ),
+                    );
 
-                    // await AwesomeNotifications().createNotification(
-                    //   schedule: NotificationCalendar(
-                    //     day: Get.find<BirthdayController>().day.value,
-                    //     month: Get.find<BirthdayController>().mounth.value,
-                    //     repeats: true,
-                    //   ),
-                    //   content: NotificationContent(
-                    //     category: NotificationCategory.Reminder,
-                    //     wakeUpScreen: true,
-                    //     id: 10,
-                    //     channelKey: 'chanel',
-                    //     title: 'Daily Tasks'.tr,
-                    //     body:
-                    //         '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
-                    //   ),
-                    // );
+                    if (DateTime(
+                          DateTime.now().year,
+                          Get.find<BirthdayController>().mounth.value,
+                          Get.find<BirthdayController>().day.value,
+                        ).compareTo(DateTime.now()) >
+                        0) {
+                      await AwesomeNotifications().createNotification(
+                        schedule: NotificationCalendar(
+                          year: DateTime.now().year,
+                          day: Get.find<BirthdayController>().day.value,
+                          month: Get.find<BirthdayController>().mounth.value,
+                          hour: 0,
+                          minute: 0,
+                        ),
+                        content: NotificationContent(
+                          category: NotificationCategory.Reminder,
+                          wakeUpScreen: true,
+                          id: int.parse(Get.find<BirthdayController>()
+                              .number
+                              .value
+                              .substring(3)),
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks'.tr,
+                          body:
+                              '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
+                        ),
+                      );
+                    } else {
+                      await AwesomeNotifications().createNotification(
+                        schedule: NotificationCalendar(
+                          year: DateTime.now().year + 1,
+                          day: Get.find<BirthdayController>().day.value,
+                          month: Get.find<BirthdayController>().mounth.value,
+                          hour: 0,
+                          minute: 0,
+                        ),
+                        content: NotificationContent(
+                          category: NotificationCategory.Reminder,
+                          wakeUpScreen: true,
+                          id: int.parse(Get.find<BirthdayController>()
+                              .number
+                              .value
+                              .substring(3)),
+                          channelKey: 'chanel',
+                          title: 'Daily Tasks'.tr,
+                          body:
+                              '${Get.find<BirthdayController>().nameCon.text} ${'s birthday is today!'.tr}',
+                        ),
+                      );
+                    }
                     Get.snackbar(
                       'Good!'.tr,
                       '${Get.find<BirthdayController>().mounth.value}.${Get.find<BirthdayController>().day.value} ${'We will let you know on'.tr}',
@@ -458,6 +639,14 @@ class SaveButton extends StatelessWidget {
                         Get.find<BirthdayController>().numberCon.text = '';
                         Get.find<BirthdayController>().wantToChange.value =
                             false;
+                        AwesomeNotifications().cancel(
+                          int.parse(
+                            Get.find<BirthdayController>()
+                                .number
+                                .value
+                                .substring(3),
+                          ),
+                        );
 
                         Get.back();
                       },

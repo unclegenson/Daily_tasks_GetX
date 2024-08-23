@@ -20,13 +20,14 @@ class UserInfoAdapter extends TypeAdapter<UserInfo> {
       name: fields[0] as String?,
       number: fields[2] as String?,
       dailyReminderHour: fields[4] as int?,
+      dailyReminderMinute: fields[9] as int?,
       image: fields[3] as String?,
       language: fields[1] as String?,
       selectedColorAlpha: fields[5] as int?,
       selectedColorBlue: fields[7] as int?,
       selectedColorGreen: fields[6] as int?,
       selectedColorRed: fields[8] as int?,
-    )..dailyReminderMinute = fields[9] as int?;
+    );
   }
 
   @override

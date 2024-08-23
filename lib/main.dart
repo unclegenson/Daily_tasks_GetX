@@ -33,18 +33,17 @@ void main() async {
     ],
   );
 
-  bool isAllowToSendNotification =
-      await AwesomeNotifications().isNotificationAllowed();
-  if (isAllowToSendNotification) {
-    AwesomeNotifications().requestPermissionToSendNotifications();
-  }
-
-  //hive
+  AwesomeNotifications().isNotificationAllowed().then(
+    (isAllowed) {
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    },
+  );
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(UserInfoAdapter());
   await Hive.openBox<UserInfo>('user');
-  //
 
   runApp(const DailyTasksApp());
 }
@@ -74,7 +73,6 @@ class DailyTasksApp extends StatelessWidget {
 }
 
 //todo: notif icon
-//todo: notifications
 //todo: notif translate
 //todo: publish
 
@@ -84,6 +82,7 @@ void firstEnter() async {
       name: '',
       number: '',
       dailyReminderHour: 23,
+      dailyReminderMinute: 0,
       image: '',
       language: 'en',
       selectedColorAlpha: 255,

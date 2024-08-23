@@ -16,6 +16,7 @@ class TrasnlateController extends GetxController {
             name: element.name,
             number: element.number,
             dailyReminderHour: element.dailyReminderHour,
+            dailyReminderMinute: element.dailyReminderMinute,
             image: element.image,
             language: language,
             selectedColorAlpha: element.selectedColorAlpha,

@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:daily_tasks_getx/controllers/task_controller.dart';
 import 'package:daily_tasks_getx/controllers/user_info_controller.dart';
 import 'package:daily_tasks_getx/screens/edit_profile.dart';
@@ -166,6 +167,7 @@ class SettingsScreen extends StatelessWidget {
                     },
                     onTapConfirm: () async {
                       Get.find<TaskController>().tasks.clear();
+                      AwesomeNotifications().cancelAllSchedules();
                       Get.back();
                     },
                     panaraDialogType: PanaraDialogType.error,
